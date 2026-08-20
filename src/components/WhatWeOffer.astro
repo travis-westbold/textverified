@@ -33,7 +33,7 @@ const serviceIcons = [
         <div class="offer-demo">
           <div class="service-grid" data-service-grid>
             {serviceIcons.map((icon) => (
-              <span class:list={['service-tile', `service-${icon.name.toLowerCase()}`]} aria-label={icon.name}>
+              <span class:list={['service-tile', `service-${icon.name.toLowerCase()}`]} role="img" aria-label={icon.name}>
                 <svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd" aria-hidden="true">
                   {icon.paths.map((path) => <path d={path} />)}
                   {icon.name === 'Amazon' && <path class="amazon-smile" d="M3.7 18.2c4.5 3.1 11 3.35 16 .35m-2.7-.7 3 .25-.9 2.55" />}
