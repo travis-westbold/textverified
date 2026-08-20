@@ -57,9 +57,9 @@ const tiles = Array.from({ length: count }, (_, i) => {
     x,
     y,
     iconAt: `matrix(${round(ex.x * iconScale)} ${round(ex.y * iconScale)} ${round(ey.x * iconScale)} ${round(ey.y * iconScale)} ${round(iconOffset + x)} ${y})`,
-    /* stride coprime to the icon count: neighbours never match and the two
-       sides never mirror each other */
-    icon: brandIconKeys[(i * 3 + planeIndex * 5) % brandIconKeys.length],
+    /* each side takes a sequential half of the 50-icon list, so no logo
+       appears twice anywhere across the two fields */
+    icon: brandIconKeys[(planeIndex * count + i) % brandIconKeys.length],
     glow: (i * 5 + planeIndex * 3) % 7 === 0,
   };
 });
@@ -80,6 +80,10 @@ const height = round(maxY - minY);
 
 /* 7 intermediate wall slices: overlaps hide the 2.4px steps completely */
 const SLICES = Array.from({ length: 7 }, (_, k) => round((DROP * (k + 1)) / 8));
+
+/* only define the icons this side actually places — each side draws a
+   different half of the icon list */
+const usedKeys = [...new Set(tiles.map((tile) => tile.icon))];
 ---
 
 <div class:list={['iso', side]} aria-hidden="true">
@@ -99,7 +103,7 @@ const SLICES = Array.from({ length: 7 }, (_, k) => round((DROP * (k + 1)) / 8));
         <stop offset="0" stop-color="#11b1ea" stop-opacity=".5"></stop>
         <stop offset="1" stop-color="#11b1ea" stop-opacity="0"></stop>
       </radialGradient>
-      {brandIconKeys.map((key) => (
+      {usedKeys.map((key) => (
         <g id={`icon-${side}-${key}`} fill="#f2f8fd" fill-rule="evenodd" opacity=".94">
           {brandIconPaths[key].map((d) => <path d={d} />)}
         </g>

@@ -9,10 +9,12 @@ import { gzipSync } from 'node:zlib';
    Warn at 90%, fail at 100%. Ratchet them DOWN as pages get lighter — never
    up without a decision. */
 const BUDGETS = {
-  pageHtml: 20_000,
+  /* html/first-load raised 2026-08-20 for the 50-unique-logo hero fields
+     (was 20k/36k at the 8-icon baseline) */
+  pageHtml: 26_000,
   pageCss: 13_000, // sum of stylesheets a page links
   pageJs: 6_000, // sum of scripts a page links
-  pageFirstLoad: 36_000, // html + css + js
+  pageFirstLoad: 42_000, // html + css + js
   fontsTotal: 35_000, // raw bytes on disk (woff2 is pre-compressed)
 };
 
