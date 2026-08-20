@@ -25,7 +25,7 @@
   "buyCredits": "https://www.textverified.com/app/credits/card?open=true",
 
   "updates": "https://www.textverified.com/updates",
-  "announcements": "https://www.textverified.com/announcements",
+  "announcements": "/announcements",
   "terms": "https://www.textverified.com/terms",
   "privacy": "https://www.textverified.com/policy",
   "support": "https://www.textverified.com/support",
