@@ -1,0 +1,43 @@
+---
+/* Desktop monitor: thin black bezel on an aluminium shell, hairpin stand —
+   for the mocks that read best on a big screen (browser windows, tables).
+   The slot is the 16:10 panel, a container-query context like the laptop's. */
+interface Props {
+  /** CSS width, e.g. "min(38.75rem, 100%)" */
+  width?: string;
+}
+
+const { width = 'min(38.75rem, 100%)' } = Astro.props;
+---
+
+<div class="monitor" style={`--monitor-width:${width}`}>
+  <div class="monitor-frame">
+    <div class="monitor-bezel">
+      <div class="monitor-screen"><slot /></div>
+    </div>
+  </div>
+  <div class="monitor-neck" aria-hidden="true"></div>
+  <div class="monitor-foot" aria-hidden="true"></div>
+</div>
+
+<style>
+  .monitor { position: relative; width: var(--monitor-width); margin-inline: auto; }
+  .monitor::before { /* same screen bounce-light as the laptop */
+    content: ''; position: absolute; z-index: -1; right: 8%; bottom: -1.1rem; left: 8%; height: 5rem;
+    background: radial-gradient(60% 100% at 50% 0%, rgb(56 150 220 / 35%), transparent 72%); filter: blur(22px);
+  }
+  .monitor-frame {
+    position: relative; padding: 3px; border-radius: .88rem;
+    background: linear-gradient(172deg, #f2f4f7 0%, #d7dbe1 34%, #b8bec7 78%, #99a0aa 100%);
+    box-shadow: inset 0 1px rgb(255 255 255 / 95%), inset 0 -2px 4px rgb(0 0 0 / 22%), 0 2.5rem 4rem -1.9rem rgb(0 0 0 / 90%);
+  }
+  .monitor-bezel { position: relative; padding: .63rem .63rem 1.63rem; /* deeper chin below the panel */ background: linear-gradient(180deg, #15171b, #0a0b0d); border-radius: .75rem; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 7%); }
+  .monitor-bezel::after { /* brand dot on the chin */
+    content: ''; position: absolute; bottom: .56rem; left: 50%; width: 2.13rem; height: .38rem;
+    background: linear-gradient(90deg, #2a3038, #3a414b); border-radius: .19rem; transform: translateX(-50%);
+  }
+  .monitor-screen { position: relative; overflow: hidden; aspect-ratio: 16 / 10; background: white; border-radius: .25rem; container-type: inline-size; }
+  .monitor-screen::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(102deg, rgb(255 255 255 / 18%) 0 22%, rgb(255 255 255 / 5%) 34%, transparent 52%); }
+  .monitor-neck { width: 11%; height: 2.63rem; margin: 0 auto; background: linear-gradient(90deg, #8f96a0, #d4d8de 30%, #c2c7cd 60%, #868d97); clip-path: polygon(10% 0, 90% 0, 100% 100%, 0 100%); }
+  .monitor-foot { width: 38%; height: .69rem; margin: 0 auto; background: linear-gradient(180deg, #e0e3e8, #9aa1ab); border-radius: 999px; box-shadow: 0 .88rem 1.38rem -.5rem rgb(0 0 0 / 60%), inset 0 1px rgb(255 255 255 / 80%); }
+</style>

@@ -1,0 +1,183 @@
+meta:
+  title: Products | Textverified
+  description: >-
+    See our array of products, features, and how to use our temporary
+    numbers. Learn how to receive SMS, text messages, and voice calls for any
+    online service.
+  canonical: https://www.textverified.com/products
+hero:
+  kicker: Product overview
+  title: Every way to verify —
+  mark: { pre: on, em: one platform. }
+  lede: >-
+    Non-VoIP US phone numbers for account verification, multi-factor
+    authentication and one-time passcodes. Register your online accounts and
+    receive SMS codes, text messages and voice calls — however you work.
+  primaryCta: Sign up for Textverified
+  secondaryCta: What services can I verify?
+jumpLinks:
+  - { label: Text / SMS, anchor: sms }
+  - { label: Chrome Extension, anchor: extension }
+  - { label: Voice, anchor: voice }
+  - { label: Rentals, anchor: rentals }
+  - { label: API, anchor: api }
+  - { label: Credits, anchor: credits }
+sections:
+  - id: sms
+    kicker: Text / SMS
+    tone: dark
+    headingPre: SMS
+    markEm: verifications.
+    lede: >-
+      SMS Verifications are our most affordable option to receive a code with
+      a temporary number – starting at $0.25. Use our numbers for any
+      service, and if you don't get a code, no worries – you won't be
+      charged.
+    steps:
+      - { title: Select a service., text: Choose from a list of provided services and immediately access a temporary phone number. }
+      - { title: Sign up., text: Input the phone number that appears into the service and wait for your code. }
+      - { title: Verify!, text: Use your code to register for your account. }
+    primaryLabel: Learn more
+    primaryLink: sms
+  - id: extension
+    kicker: Text / SMS · in your browser
+    tone: light
+    flip: true
+    ink: true
+    headingPre: The Chrome
+    markEm: extension.
+    lede: >-
+      Use our Chrome Extension to verify services with Textverified on the
+      same page. Our browser extension simplifies and streamlines the
+      verification process for you. Works for all services listed.
+    steps:
+      - { title: Select a service., text: We will auto suggest services based on the website you are on. }
+      - { title: Verify!, text: Your verification will be completed in the same window. }
+    primaryLabel: Learn more
+    primaryLink: extension
+    secondaryLabel: Read the blog
+    secondaryLink: extensionBlog
+  - id: voice
+    kicker: Voice
+    tone: deep
+    headingPre: Voice
+    markEm: verifications.
+    lede: >-
+      Voice Verifications allow you to verify via phone call. Use our numbers
+      for any service listed, and you'll only get charged if your call
+      connects.
+    steps:
+      - { title: Select a voice service., text: Choose from a list of provided services and immediately access a temporary phone number. }
+      - { title: Wait for your call., text: Input the phone number that appears into the service and wait for your call. }
+      - { title: Verify!, text: Use our voice controls and follow the call's instructions to verify your account. }
+    primaryLabel: Learn more
+    primaryLink: sms
+  - id: rentals
+    kicker: Long-term phone numbers
+    tone: dark
+    flip: true
+    headingPre: Number
+    markEm: rentals.
+    lede: >-
+      Rentals allow you to own a number for a longer period of time. Own your
+      number from 1 day to forever.
+    steps:
+      - { title: Select a service., text: Choose from a list of provided services and immediately access a temporary phone number. We also provide private numbers that work for all services. }
+      - { title: Customize., text: Our rentals are highly personalized to fit your needs. Select the type of number that works best for you. }
+      - { title: Verify!, text: Visit the active rental page to receive SMS on demand, manage your numbers, and view your previous messages. }
+    primaryLabel: Learn more
+    primaryLink: rentals
+  - id: api
+    kicker: Automate
+    tone: light
+    ink: true
+    headingPre: The developer
+    markEm: API.
+    lede: >-
+      Use our API to interact with Textverified programatically. Whether you
+      need one verification or thousands, our API will solve your
+      verification problems. Visit our API reference to get started.
+    steps:
+      - { title: Get Your API Key., text: Find your API Key on your profile and review to our API documentation to get started. }
+      - { title: Generate a Token., text: Generate a Bearer Token using your account email and API key to interact with the rest of our endpoints. Use this Bearer token to authenticate yourself when using our API. The token will expire after a certain period of time. }
+      - { title: Verify!, text: Use our endpoints to automate your Textverified experience. }
+    primaryLabel: API reference
+    primaryLink: apiDocs
+    secondaryLabel: Contact support
+    secondaryLink: support
+  - id: credits
+    kicker: Payments
+    tone: deep
+    flip: true
+    headingPre: Fund with
+    markEm: credits.
+    lede: >-
+      Use credits to purchase your verifications and rentals. Deposit funds
+      using credit card or cryptocurrency. We support major cryptocurrencies
+      like Bitcoin, Litecoin, Ethereum, Monero, USD Coin, Tether ERC20, and
+      Tether TRC20.
+    steps:
+      - { title: Choose A Payment Method., text: Select the type of payment you wish to fund your account. }
+      - { title: Choose An Amount., text: "Select a dollar amount you wish to deposit. Note: Crypto has a higher amount that can be deposited in a single transaction." }
+      - { title: Get Credits!, text: Enter your credit card details or send your crypto to our generated address. Once confirmed, you will receive your credits in your account. }
+verificationExtras:
+  kicker: Verifications
+  heading: Additional features.
+  cards:
+    - icon: refresh
+      title: Reactivate
+      body: >-
+        If you want to use a phone number again after receiving a code, you
+        can click the "Reactivate" button inside of the verification modal or
+        on your verification page. Verifications can always be used again for
+        a few minutes after receiving an SMS, but may be used again hours
+        later if we still have access to the number (not guaranteed). If you
+        need guaranteed access to a number for a longer period of time —
+        whether throughout a single day, a whole year, or even greater —
+        <a href="#rentals">rentals</a> will better fit your needs.
+    - icon: globe
+      title: Area Codes
+      body: >-
+        Choose any area code listed in our dropdown. You will receive access
+        to a phone number with that area code. This filter can be found by
+        clicking the button when selecting the service you wish to verify.
+    - icon: refund
+      title: Automatic Refunds
+      body: >-
+        If you never receive your code, you will be refunded your credits
+        automatically. Feel free to try again if you missed your window or a
+        code did not go through.
+    - icon: list
+      title: Verification History
+      body: >-
+        View your previous SMS verifications or voice calls on Textverified
+        through the Verification History page.
+generalExtras:
+  kicker: General
+  heading: Here when you need more.
+  cards:
+    - icon: bulk
+      title: Bulk Discounts
+      body: >-
+        Need to purchase verifications in bulk? We offer discounts for larger
+        purchases and convenience. Contact us and we’ll work with you to
+        provide exactly what you’re looking for.
+    - icon: bolt
+      title: Higher Verification Limits
+      body: >-
+        Generally, you can only do a few verifications at a time. Ask us
+        about increasing your concurrent verification limits if you want more
+        verifications, faster. This is especially useful for API users.
+    - icon: chat
+      title: Tech Support
+      body: >-
+        Around the clock tech support—we'll answer your questions or assist
+        with any issues that may arise within 24 hours. If you need a service
+        that’s not listed in our database, contact us and we’ll try to add
+        it.
+signupCta:
+  heading: Use our numbers to verify anything.
+  body: >-
+    All our products use temporary non-VoIP US phone numbers — a solution for
+    every SMS and voice verification need. Try Textverified today!
+  buttonLabel: Create an account

@@ -1,0 +1,16 @@
+order: 1
+name: Verifications
+price: $0.25
+cadence: / verification
+featured: false
+description: >-
+  Receive an SMS one-time-code (OTP) or respond to a voice call to register
+  for ANY service, including popular services like Gmail, Tinder, and
+  WhatsApp.
+features:
+  - Get a Non-VoIP US phone number
+  - Register for any online service
+  - Short-term phone number reuse
+  - Receive SMS verification codes
+  - Respond to voice call verifications
+  - Choose a US area code

@@ -1,0 +1,158 @@
+---
+import { demoServices } from '../data/services';
+
+const rows = Array.from({ length: 7 }, (_, index) => ({
+  service: demoServices[index % demoServices.length],
+  time: `09:${String(34 - index).padStart(2, '0')}`,
+  type: index % 4 === 3 ? 'Voice' : 'SMS',
+}));
+---
+
+<div class="tv-dashboard" data-dashboard aria-label="Textverified dashboard with incoming verifications completing in real time">
+  <div class="tv-dashboard-top">
+    <img src="/tvlogo.png" alt="" loading="lazy" />
+    <span class="tv-dashboard-tools"><span class="tv-dashboard-credit"><i></i>12.50</span><span class="tv-dashboard-avatar"></span></span>
+  </div>
+  <div class="tv-dashboard-body">
+    <nav class="tv-dashboard-side" aria-label="Dashboard preview navigation">
+      {['Inbox', 'Verifications', 'Rentals', 'Support', 'Credits', 'API', 'Settings'].map((item) => (
+        <span class:list={{ active: item === 'Verifications' }}>{item}</span>
+      ))}
+    </nav>
+    <div class="tv-dashboard-main">
+      <header class="tv-dashboard-heading">
+        <strong>Verifications</strong>
+        <span><b>New SMS Verification</b><b>New Voice Verification</b></span>
+      </header>
+      <div class="tv-dashboard-tabs"><span class="active">Active</span><span>History</span></div>
+      <div class="tv-dashboard-table" data-dashboard-table>
+        <div class="tv-dashboard-row tv-dashboard-labels">
+          <span>Created</span><span>Service</span><span>Number</span><span>Type</span><span>Status</span>
+        </div>
+        {rows.map(({ service, time, type }) => (
+          <div class="tv-dashboard-row">
+            <span>{time}</span>
+            <span class="tv-dashboard-service"><i style={`background:${service.color}`}>{service.mark}</i>{service.name}</span>
+            <span class="tv-dashboard-number">{service.number.replace(/^\+\d+ /, '')}</span>
+            <span>{type}</span>
+            <span class="tv-dashboard-status complete"><i aria-hidden="true"></i><b>Completed</b></span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { demoServices } from '../data/services';
+
+  const createDashboardRow = (service: (typeof demoServices)[number], time: string, type: string) => {
+    const row = document.createElement('div');
+    row.className = 'tv-dashboard-row arriving';
+
+    const created = document.createElement('span');
+    created.textContent = time;
+
+    const serviceCell = document.createElement('span');
+    serviceCell.className = 'tv-dashboard-service';
+    const mark = document.createElement('i');
+    mark.style.background = service.color;
+    mark.textContent = service.mark;
+    serviceCell.append(mark, service.name);
+
+    const number = document.createElement('span');
+    number.className = 'tv-dashboard-number';
+    number.textContent = service.number.replace(/^\+\d+ /, '');
+
+    const kind = document.createElement('span');
+    kind.textContent = type;
+
+    const status = document.createElement('span');
+    status.className = 'tv-dashboard-status';
+    const tick = document.createElement('i');
+    tick.setAttribute('aria-hidden', 'true');
+    const label = document.createElement('b');
+    label.textContent = '0:18';
+    status.append(tick, label);
+
+    row.append(created, serviceCell, number, kind, status);
+    return { row, status, label };
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-dashboard]').forEach((dashboard) => {
+    const table = dashboard.querySelector<HTMLElement>('[data-dashboard-table]');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let active = false;
+    let running = false;
+    let index = 0;
+    let minute = 41;
+    const wait = (milliseconds: number) => new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+
+    const runFeed = async () => {
+      if (running || reducedMotion || !table) return;
+      running = true;
+      while (active && dashboard.isConnected) {
+        await wait(1800 + (index % 3) * 700);
+        if (!active || !dashboard.isConnected) break;
+
+        const service = demoServices[index % demoServices.length];
+        const time = `09:${String(minute++ % 60).padStart(2, '0')}`;
+        const { row, status, label } = createDashboardRow(service, time, index % 4 === 3 ? 'Voice' : 'SMS');
+        table.insertBefore(row, table.children[1] ?? null);
+        while (table.children.length > 8) table.lastElementChild?.remove();
+
+        const countdown = 15;
+        for (let remaining = countdown; remaining > 0 && row.isConnected; remaining--) {
+          label.textContent = `0:${String(remaining).padStart(2, '0')}`;
+          await wait(1000);
+        }
+        status.classList.add('complete');
+        label.textContent = 'Completed';
+      }
+      running = false;
+    };
+
+    new IntersectionObserver(([entry]) => {
+      active = entry.isIntersecting;
+      if (active) runFeed();
+    }, { threshold: .35 }).observe(dashboard);
+  });
+</script>
+
+<style is:global>
+  .tv-dashboard { position: absolute; inset: 0; display: flex; flex-direction: column; color: #16233b; background: white; font-size: 9px; font-size: 1.42cqw; line-height: 1.4; text-align: left; user-select: none; }
+  .tv-dashboard-top { display: flex; align-items: center; justify-content: space-between; flex: 0 0 auto; padding: .9em 1.5em; border-bottom: 1px solid #e9edf4; }
+  .tv-dashboard-top img { display: block; width: auto; height: 2em; }
+  .tv-dashboard-tools { display: flex; align-items: center; gap: 1.1em; }
+  .tv-dashboard-credit { display: flex; align-items: center; gap: .5em; color: #3c4c66; font-size: 1.05em; font-weight: 700; }
+  .tv-dashboard-credit i { width: 1.5em; height: 1.5em; background: radial-gradient(circle at 35% 30%, #ffd76a, #f0a92e); border-radius: 50%; box-shadow: inset 0 -2px 3px rgb(140 80 0 / 35%); }
+  .tv-dashboard-avatar { width: 2.3em; height: 2.3em; background: linear-gradient(140deg, #9db4d0, #5b7699); border-radius: 50%; }
+  .tv-dashboard-body { display: flex; flex: 1; min-height: 0; }
+  .tv-dashboard-side { display: flex; flex: 0 0 16em; flex-direction: column; gap: .25em; padding: 1.1em .9em; border-right: 1px solid #e9edf4; }
+  .tv-dashboard-side span { padding: .65em 1em; color: #54637a; border-radius: .6em; font-size: 1.05em; font-weight: 600; }
+  .tv-dashboard-side span.active { color: #0f2136; background: #eef3f9; font-weight: 700; }
+  .tv-dashboard-main { display: flex; flex: 1; flex-direction: column; min-width: 0; padding: 1.3em 1.8em; }
+  .tv-dashboard-heading { display: flex; align-items: center; justify-content: space-between; gap: 1em; }
+  .tv-dashboard-heading > strong { font-size: 1.85em; letter-spacing: -.02em; }
+  .tv-dashboard-heading > span { display: flex; gap: .7em; }
+  .tv-dashboard-heading b { padding: .62em 1.1em; color: white; background: #0069a8; border: 1px solid #0069a8; border-radius: .5em; font-weight: 700; white-space: nowrap; }
+  .tv-dashboard-heading b + b { color: #3c4c66; background: white; border-color: rgb(15 23 43 / 14%); }
+  .tv-dashboard-tabs { display: flex; gap: 1.7em; margin: 1em 0 .9em; color: #7d8ca2; border-bottom: 1px solid #e9edf4; font-weight: 700; }
+  .tv-dashboard-tabs span { padding: .4em .15em .55em; }
+  .tv-dashboard-tabs .active { color: #0069a8; box-shadow: 0 2px #0069a8; }
+  .tv-dashboard-table { flex: 1; min-height: 0; overflow: hidden; border: 1px solid #e9edf4; border-radius: .7em; }
+  .tv-dashboard-row { display: grid; grid-template-columns: 5.4em minmax(0, 1fr) 9em 4em 8.4em; align-items: center; gap: 0 1em; padding: .72em 1.2em; border-bottom: 1px solid #eef2f7; }
+  .tv-dashboard-labels { color: #67788f; background: #f7f9fc; font-size: .9em; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+  .tv-dashboard-row.arriving { animation: dashboard-row-in 450ms cubic-bezier(.22,1,.36,1); }
+  .tv-dashboard-service { display: flex; align-items: center; gap: .6em; min-width: 0; overflow: hidden; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+  .tv-dashboard-service i { display: grid; place-items: center; flex: 0 0 auto; width: 2.1em; height: 2.1em; color: white; border-radius: .5em; font-size: .85em; font-style: normal; font-weight: 800; }
+  .tv-dashboard-number { color: #3c4c66; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: .95em; }
+  .tv-dashboard-status { display: inline-flex; align-items: center; justify-self: start; gap: .45em; padding: .3em .8em; color: #a86f0d; background: #fff7e8; border: 1px solid rgb(214 146 15 / 35%); border-radius: 999px; font-size: .92em; font-variant-numeric: tabular-nums; font-weight: 700; }
+  .tv-dashboard-status i { display: none; place-items: center; width: 1.2em; height: 1.2em; color: white; background: #0f8a55; border-radius: 50%; font-size: .7em; font-style: normal; line-height: 1; }
+  .tv-dashboard-status i::before { content: ''; width: .5em; height: .28em; border-bottom: .16em solid currentColor; border-left: .16em solid currentColor; transform: translateY(-.08em) rotate(-45deg); }
+  .tv-dashboard-status.complete { color: #0f8a55; background: #eafaf1; border-color: rgb(22 163 101 / 40%); }
+  .tv-dashboard-status.complete i { display: grid; animation: dashboard-tick-in 350ms cubic-bezier(.22,1,.36,1); }
+  @keyframes dashboard-row-in { from { opacity: 0; transform: translateY(-70%); } }
+  @keyframes dashboard-tick-in { from { transform: scale(0); } }
+  @media (prefers-reduced-motion: reduce) { .tv-dashboard-row.arriving, .tv-dashboard-status.complete i { animation: none; } }
+</style>

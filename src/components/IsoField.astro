@@ -1,0 +1,140 @@
+---
+/* Isometric app-tile lattice behind the hero, rendered at build time as ONE
+   inline SVG per side. It used to be ~11 stacked divs per chip with
+   preserve-3d, borders and box-shadows — a real raster cost on ancient
+   hardware. With no `perspective` anywhere, the CSS transform
+   rotateX(56°)·rotateZ(−45°) is an orthographic (affine) projection: every
+   plane point maps through one constant 2×3 matrix, and translateZ projects
+   to a constant vertical screen offset. So each extruded chip collapses to a
+   short <use> stack of one transformed rounded rect, shadows and glows become
+   pre-blurred gradient ellipses (never SVG filters), and the whole field
+   rasterises once with zero 3D compositing. Deliberately static, as before. */
+import { brandIconKeys, brandIconPaths } from '../data/icons';
+
+interface Props {
+  side: 'left' | 'right';
+  /** tiles per plane — 25 fills a full-height hero, 16 a compact one */
+  count?: number;
+  columns?: number;
+}
+
+const { side, count = 25, columns = 5 } = Astro.props;
+const planeIndex = side === 'left' ? 0 : 1;
+
+/* geometry, matching the old DOM version exactly */
+const TILE = 142;
+const RADIUS = 25;
+const GAP = 54;
+const PITCH = TILE + GAP;
+const ICON = 58;
+const DEPTH_PX = 19; // 10 layers × 1.9px translateZ
+
+const RX = (56 * Math.PI) / 180; // rotateX
+const C = Math.SQRT1_2; // cos/sin of the 45° rotateZ
+const COS = Math.cos(RX);
+const SIN = Math.sin(RX);
+
+/* screen = M·plane, with M = [ex ey]; translateZ(−d) drops straight down */
+const ex = { x: C, y: -C * COS };
+const ey = { x: C, y: C * COS };
+const DROP = SIN * DEPTH_PX;
+const round = (value: number) => Number(value.toFixed(3));
+const planeMatrix = `matrix(${round(ex.x)} ${round(ex.y)} ${round(ey.x)} ${round(ey.y)} 0 0)`;
+/* the 58px icon centered in the tile, folded into one matrix */
+const iconScale = ICON / 24;
+const iconOffset = ((TILE - ICON) / 2) * (ex.x + ey.x); // y-parts cancel
+
+/* tile origins projected to screen space; the icon matrix composes with the
+   tile's translate by simple addition of the offsets */
+const tiles = Array.from({ length: count }, (_, i) => {
+  const col = i % columns;
+  const row = Math.floor(i / columns);
+  const px = col * PITCH;
+  const py = row * PITCH;
+  const x = round(ex.x * px + ey.x * py);
+  const y = round(ex.y * px + ey.y * py);
+  return {
+    x,
+    y,
+    iconAt: `matrix(${round(ex.x * iconScale)} ${round(ex.y * iconScale)} ${round(ey.x * iconScale)} ${round(ey.y * iconScale)} ${round(iconOffset + x)} ${y})`,
+    /* stride coprime to the icon count: neighbours never match and the two
+       sides never mirror each other */
+    icon: brandIconKeys[(i * 3 + planeIndex * 5) % brandIconKeys.length],
+    glow: (i * 5 + planeIndex * 3) % 7 === 0,
+  };
+});
+
+/* projected chip bounding box, for the shadow ellipse and the viewBox */
+const chipW = (ex.x + ey.x) * TILE; // ~200.8
+const chipHalfH = ey.y * TILE; // ~56.2
+const PAD = 60; // room for shadow/glow spill
+const minX = Math.min(...tiles.map((t) => t.x)) - PAD;
+const maxX = Math.max(...tiles.map((t) => t.x)) + chipW + PAD;
+const minY = Math.min(...tiles.map((t) => t.y)) - chipHalfH - PAD;
+const maxY = Math.max(...tiles.map((t) => t.y)) + chipHalfH + DROP + PAD;
+const width = round(maxX - minX);
+const height = round(maxY - minY);
+
+/* 7 intermediate wall slices: overlaps hide the 2.4px steps completely */
+const SLICES = Array.from({ length: 7 }, (_, k) => round((DROP * (k + 1)) / 8));
+---
+
+<div class:list={['iso', side]} aria-hidden="true">
+  <svg viewBox={`${round(minX)} ${round(minY)} ${width} ${height}`} style={`width:${width}px;height:${height}px`}>
+    <defs>
+      <rect id={`chip-${side}`} width={TILE} height={TILE} rx={RADIUS} transform={planeMatrix}></rect>
+      <linearGradient id={`face-${side}`} x1="0" y1="0" x2=".55" y2="1">
+        <stop offset="0" stop-color="#2384b4"></stop>
+        <stop offset=".48" stop-color="#1a6b95"></stop>
+        <stop offset="1" stop-color="#155f86"></stop>
+      </linearGradient>
+      <radialGradient id={`shade-${side}`}>
+        <stop offset="0" stop-color="#000" stop-opacity=".55"></stop>
+        <stop offset="1" stop-color="#000" stop-opacity="0"></stop>
+      </radialGradient>
+      <radialGradient id={`halo-${side}`}>
+        <stop offset="0" stop-color="#11b1ea" stop-opacity=".5"></stop>
+        <stop offset="1" stop-color="#11b1ea" stop-opacity="0"></stop>
+      </radialGradient>
+      {brandIconKeys.map((key) => (
+        <g id={`icon-${side}-${key}`} fill="#f2f8fd" fill-rule="evenodd" opacity=".94">
+          {brandIconPaths[key].map((d) => <path d={d} />)}
+        </g>
+      ))}
+      {/* every chip body is identical — define the whole stack once */}
+      <g id={`body-${side}`}>
+        <ellipse cx={round(chipW / 2)} cy={round(chipHalfH + DROP + 6)} rx={round(chipW * 0.46)} ry="20" fill={`url(#shade-${side})`}></ellipse>
+        <use href={`#chip-${side}`} y={round(DROP)} fill="#04202f"></use>
+        {SLICES.map((dy) => <use href={`#chip-${side}`} y={dy} fill="#08334d" />)}
+      </g>
+    </defs>
+
+    {/* pass 1: shadows, glows and extruded bodies — always behind every face */}
+    {tiles.map((tile) => (
+      <>
+        {tile.glow && <ellipse cx={round(tile.x + chipW / 2)} cy={tile.y} rx={round(chipW * 0.62)} ry={round(chipHalfH * 1.4)} fill={`url(#halo-${side})`} />}
+        <use href={`#body-${side}`} x={tile.x} y={tile.y}></use>
+      </>
+    ))}
+
+    {/* pass 2: faces and icons — coplanar, so they never overlap each other */}
+    {tiles.map((tile) => (
+      <>
+        <use href={`#chip-${side}`} x={tile.x} y={tile.y} fill={`url(#face-${side})`} stroke={tile.glow ? '#11b1ea' : 'rgba(56,211,255,.7)'} stroke-width="1.2"></use>
+        <use href={`#icon-${side}-${tile.icon}`} transform={tile.iconAt}></use>
+      </>
+    ))}
+  </svg>
+</div>
+
+<style>
+  /* the lattice runs well past the hero on every side so it reads as endless */
+  .iso { position: absolute; top: -45%; bottom: -45%; width: 52vw; z-index: -2; opacity: .8; overflow: hidden; pointer-events: none; }
+  .iso.left { left: -20vw; -webkit-mask-image: linear-gradient(96deg, #000 16%, rgb(0 0 0 / 32%) 56%, transparent 80%); mask-image: linear-gradient(96deg, #000 16%, rgb(0 0 0 / 32%) 56%, transparent 80%); }
+  .iso.right { right: -20vw; -webkit-mask-image: linear-gradient(264deg, #000 16%, rgb(0 0 0 / 32%) 56%, transparent 80%); mask-image: linear-gradient(264deg, #000 16%, rgb(0 0 0 / 32%) 56%, transparent 80%); }
+  svg { position: absolute; inset: 0; margin: auto; }
+  @media (max-width: 940px) { .iso { width: 62vw; opacity: .27; } .iso.left { left: -32vw; } .iso.right { right: -32vw; } }
+  /* lean tier: pure decoration — the legibility scrims already guarantee the
+     copy stands alone, so the smallest screens and data-savers skip it */
+  @media (max-width: 560px), (prefers-reduced-data: reduce) { .iso { display: none; } }
+</style>

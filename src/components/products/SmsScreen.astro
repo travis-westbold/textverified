@@ -1,0 +1,112 @@
+---
+/* SMS verification: the dashboard with the verification modal over it.
+   Rotates through services — countdown runs, the SMS lands as a bubble,
+   the banner goes green — the moment the old screenshot could only imply. */
+import './mock.css';
+import Loader from './Loader.astro';
+---
+
+<div class="tvm mock" data-sms-screen role="img" aria-label="SMS verification — a code arriving for a temporary number">
+  <div class="dtop"><span class="dbrand"><img src="/tvlogo.png" alt="" loading="lazy" /></span>
+    <span class="dtools"><span class="dcoin"><i></i>12.50</span><span class="dava"></span></span></div>
+  <div class="dbody">
+    <nav class="dside"><span>Inbox</span><span class="on">Verifications</span><span>Rentals</span><span>Support</span><span>Credits</span><span>API</span></nav>
+    <div class="dmain">
+      <div class="dhead"><b>Verifications</b><span class="dbtns"><span class="dbtn pri">New SMS Verification</span></span></div>
+      <div class="dtabs"><span class="on">Active</span><span>History</span></div>
+      <div class="dtable">
+        <div class="drow dhr"><span>Created</span><span>Service</span><span>Number</span><span>Status</span></div>
+        <div class="drow"><span>09:31</span><span class="dsvc"><i style="background:#026cdf">tm</i>Ticketmaster</span><span class="dnum">(938) 555-0182</span><span class="dst ok">Completed</span></div>
+        <div class="drow"><span>09:27</span><span class="dsvc"><i style="background:#000">U</i>Uber</span><span class="dnum">(206) 555-0163</span><span class="dst ok">Completed</span></div>
+        <div class="drow"><span>09:20</span><span class="dsvc"><i style="background:#003087">P</i>PayPal</span><span class="dnum">(415) 555-0142</span><span class="dst ok">Completed</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="scrim"></div>
+  <div class="modal">
+    <div class="mhead">SMS Verification <span class="x">✕</span></div>
+    <div class="msvc"><i data-sms-icon style="background:#026cdf">tm</i><span data-sms-service>Ticketmaster</span></div>
+    <div class="mban" data-sms-banner><Loader /><span data-sms-banner-text>Waiting to receive an SMS from Ticketmaster</span></div>
+    <div class="mlab" data-sms-number-label>Use this phone number for Ticketmaster</div>
+    <div class="mnum">+1 (938) 555-0182 <span>Copy</span></div>
+    <div class="mstats">
+      <div class="mstat"><b>Verification cost</b><span>0.25</span></div>
+      <div class="mstat"><b>Remaining time</b><span data-sms-timer>4:14</span></div>
+    </div>
+    <div class="mmsg" data-sms-message>Your message will appear here…</div>
+    <div class="mbtns"><span class="mbtn">Cancel</span><span class="mbtn danger">Report Number</span></div>
+  </div>
+</div>
+
+<script>
+  import { prefersReducedMotion, runWhileVisible, wait } from '../../scripts/demo';
+
+  const SERVICES = [
+    { name: 'Ticketmaster', mark: 'tm', color: '#026cdf' },
+    { name: 'Uber', mark: 'U', color: '#000' },
+    { name: 'PayPal', mark: 'P', color: '#003087' },
+    { name: 'DoorDash', mark: 'D', color: '#ff5a3c' },
+  ];
+  const minuteSecond = (total: number) => `${Math.floor(total / 60)}:${String(total % 60).padStart(2, '0')}`;
+
+  document.querySelectorAll<HTMLElement>('[data-sms-screen]').forEach((screen) => {
+    const icon = screen.querySelector<HTMLElement>('[data-sms-icon]');
+    const service = screen.querySelector<HTMLElement>('[data-sms-service]');
+    const banner = screen.querySelector<HTMLElement>('[data-sms-banner]');
+    const bannerText = screen.querySelector<HTMLElement>('[data-sms-banner-text]');
+    const numberLabel = screen.querySelector<HTMLElement>('[data-sms-number-label]');
+    const timer = screen.querySelector<HTMLElement>('[data-sms-timer]');
+    const message = screen.querySelector<HTMLElement>('[data-sms-message]');
+    const loader = banner?.querySelector<SVGElement>('.tvload');
+    let index = 0;
+
+    const showCode = (name: string, code: string) => {
+      if (!message) return;
+      message.classList.add('got');
+      const from = document.createElement('span');
+      from.className = 'who';
+      from.textContent = `${name} · just now`;
+      const body = document.createElement('span');
+      body.append(`Your ${name} code is `);
+      const strong = document.createElement('b');
+      strong.textContent = code;
+      body.append(strong, '. Do not share it.');
+      message.replaceChildren(from, body);
+    };
+
+    if (prefersReducedMotion()) { // settle on the delivered state
+      banner?.classList.add('ok');
+      if (loader) loader.style.display = 'none';
+      if (bannerText) bannerText.textContent = 'Code received — verification complete';
+      showCode('Ticketmaster', '383941');
+      return;
+    }
+
+    runWhileVisible(screen, async (stopped) => {
+      while (!stopped()) {
+        const current = SERVICES[index % SERVICES.length];
+        const code = String(100000 + ((383941 + index * 283941) % 900000));
+        index++;
+        if (icon) { icon.textContent = current.mark; icon.style.background = current.color; }
+        if (service) service.textContent = current.name;
+        if (numberLabel) numberLabel.textContent = `Use this phone number for ${current.name}`;
+        banner?.classList.remove('ok');
+        if (loader) loader.style.display = '';
+        if (bannerText) bannerText.textContent = `Waiting to receive an SMS from ${current.name}`;
+        message?.classList.remove('got');
+        if (message) message.textContent = 'Your message will appear here…';
+        let remaining = 254;
+        for (let tick = 0; tick < 4 && !stopped(); tick++) {
+          if (timer) timer.textContent = minuteSecond(remaining--);
+          await wait(1000);
+        }
+        if (stopped()) return;
+        showCode(current.name, code);
+        banner?.classList.add('ok');
+        if (loader) loader.style.display = 'none';
+        if (bannerText) bannerText.textContent = 'Code received — verification complete';
+        await wait(3600);
+      }
+    });
+  });
+</script>

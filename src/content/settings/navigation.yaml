@@ -1,0 +1,35 @@
+# Header navigation. Icons and layout are developer-owned; labels, details
+# and destinations (link names from links.json) are editable.
+productsMenu:
+  - name: Overview
+    detail: Every product on one page — SMS, voice, rentals, API and credits
+    icon: grid
+    link: productsPage
+    lead: true
+  - name: Text & SMS
+    detail: One-time codes from 900+ services
+    icon: message
+    link: sms
+  - name: Voice
+    detail: Verify by call when SMS isn't offered
+    icon: phone
+    link: sms
+  - name: Number Rentals
+    detail: Keep a US line for days or months
+    icon: mobile
+    link: rentals
+  - name: Developer API
+    detail: Automate verification at scale
+    icon: api
+    link: developerApi
+mainNav:
+  - label: Pricing
+    link: pricing
+  - label: FAQ
+    link: faq
+  - label: Blog
+    link: blog
+  - label: About
+    link: about
+  - label: Contact
+    link: contact

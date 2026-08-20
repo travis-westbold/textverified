@@ -1,0 +1,100 @@
+meta:
+  title: Temporary US Phone Numbers – SMS and Voice Verifications
+  description: >-
+    Verify any online account without revealing your phone number. Use our
+    temporary US non-VoIP numbers to receive SMS and voice calls online. Sign
+    up for free!
+  canonical: https://www.textverified.com/
+  keywords: >-
+    sms account verification, account verification, phone verification, text
+    verification, sms verification, voice verification, mobile phone numbers,
+    rental numbers, non-voip us numbers, non voip usa numbers, non virtual
+    usa number, textverified, text verification, non voip number for
+    verification, receive sms online non voip, non voip sms verification,
+    non voip phone number, non voip sms receiver, non voip phone number app,
+    non voip phone number for verification, verified text
+hero:
+  eyebrow: Receive SMS & OTP from 900+ services
+  title: Don’t want to give out your phone number?
+  strongPre: No problem.
+  mark: { pre: Use, em: ours. }
+  lede: >-
+    Real US mobile numbers backed by physical SIMs — not VoIP. Protect your
+    personal number from data breaches, spam and resale while you verify on
+    any platform.
+  primaryCta: Get started free
+  signInCta: Sign in
+  learnCta: Learn more
+  trustLabel: Works with the platforms you already use
+  platforms: [Google, craigslist, tinder, yahoo!, PayPal, Uber, Walmart, match.com, DoorDash, Airbnb, Discord, Steam, eBay, Telegram]
+showcase:
+  kicker: Your dashboard
+  headingPre: Real US mobile numbers backed by physical SIMs — compatible with
+  markEm: all platforms.
+  lede: >-
+    Pick a service, get a number, and read the code the moment it lands.
+    Every verification is logged with its service, number and status —
+    exportable, and available over the API.
+  features:
+    - icon: message
+      title: Text & SMS
+      description: Choose a service and get a US non-VoIP number to receive its verification code.
+    - icon: phone
+      title: Voice
+      description: For services that verify by call instead of text, with the code scraped from the transcript.
+    - icon: mobile
+      title: Number rentals
+      description: Hold a US line for days, months, or as long as you need and reuse it across repeat sign-ins.
+    - icon: card
+      title: Easy payments
+      description: Major credits cards and a range of cryptocurrencies — easily buy the credits you need.
+offer:
+  headingPre: What we
+  markEm: offer.
+  lede: >-
+    All our phone numbers are real US mobile lines — and you can buy and use
+    them from anywhere in the world.
+  cards:
+    - tag: Verify
+      title: Bypass any text or voice verification.
+      body: >-
+        We offer real non-VoIP US based phone numbers for all major online
+        platforms and mobile applications. Long and short-term number rentals
+        available.
+      link: sms
+    - tag: Secure
+      title: Give out our numbers instead of yours.
+      body: >-
+        We use strong encryption for all online sessions and accept
+        cryptocurrency payments to allow you to protect your data from being
+        shared by companies online.
+      link: products
+    - tag: Automate
+      title: Build apps using our powerful API.
+      body: >-
+        We offer a complete API reference for those who wish to integrate and
+        scale their own applications using our phone numbers. Bulk discount
+        pricing is available.
+      link: developerApi
+reviewsHead:
+  headingPre: Loved by users
+  markEm: worldwide.
+  lede: Get a US based non-VoIP phone number accessible from anywhere in the world.
+pricingHead:
+  headingPre: Great products,
+  markEm: simple pricing.
+  lede: >-
+    Purchase credits using our secure payment options and use the products
+    that fit your needs best.
+faqHead:
+  heading: Frequently asked questions
+  lede: >-
+    If you can’t find what you’re looking for, contact our support team and
+    someone will get back to you shortly.
+  moreLabel: See full FAQ
+signupCta:
+  heading: Get started today
+  body: >-
+    Sign-up is quick, free and easy. We respect your privacy. Your account
+    will be ready to use within minutes.
+  buttonLabel: Sign up now

@@ -1,0 +1,165 @@
+<div class="card-wrap" data-demo-card>
+  <span class="chip chip-sim">◆ Physical SIMs</span>
+  <span class="chip chip-fast">ϟ Instant delivery</span>
+  <span class="chip chip-live">◷ 24 / 7 uptime</span>
+
+  <article class="card" aria-label="Live SMS verification demonstration">
+    <header class="card-top">
+      <span class="service-mark" data-service-mark aria-hidden="true">T</span>
+      <span class="service-copy">
+        <strong data-service-name>Tinder</strong>
+        <small>Non-VoIP · United States</small>
+      </span>
+      <span class="live-pill">Live</span>
+    </header>
+
+    <div class="number-row">
+      <span class="flag" aria-hidden="true">🇺🇸</span>
+      <strong data-phone-number>+1 (415) 555-0142</strong>
+      <button class="copy-button" type="button" data-copy-number>Copy</button>
+    </div>
+    <p class="card-meta">Rented just now</p>
+
+    <div class="message-stream" data-message-stream aria-live="polite">
+      <div class="waiting-state">
+        <svg class="brand-loader" viewBox="0 16 74 56" aria-hidden="true">
+          <rect x="6.33" y="35.157" width="11.28" height="17.07" rx="1.83"></rect>
+          <rect x="22.95" y="44.328" width="11.28" height="17.07" rx="1.83"></rect>
+          <rect x="39.58" y="35.157" width="11.28" height="17.07" rx="1.83"></rect>
+          <rect x="56.2" y="25.977" width="11.28" height="17.07" rx="1.83"></rect>
+        </svg>
+        <span>Waiting for incoming SMS…</span>
+      </div>
+    </div>
+
+    <div class="otp" data-otp aria-label="Verification code">
+      <i></i><i></i><i></i><i></i><i></i><i></i>
+    </div>
+
+    <footer class="card-footer" data-card-footer>
+      <span class="check" aria-hidden="true">✓</span>
+      <span data-footer-text>Listening on your rented line</span>
+    </footer>
+  </article>
+</div>
+
+<script>
+  import { demoServices } from '../data/services';
+
+  document.querySelectorAll<HTMLElement>('[data-demo-card]').forEach((demo) => {
+    const mark = demo.querySelector<HTMLElement>('[data-service-mark]');
+    const name = demo.querySelector<HTMLElement>('[data-service-name]');
+    const phone = demo.querySelector<HTMLElement>('[data-phone-number]');
+    const stream = demo.querySelector<HTMLElement>('[data-message-stream]');
+    const otp = demo.querySelector<HTMLElement>('[data-otp]');
+    const footer = demo.querySelector<HTMLElement>('[data-card-footer]');
+    const footerText = demo.querySelector<HTMLElement>('[data-footer-text]');
+    const copy = demo.querySelector<HTMLButtonElement>('[data-copy-number]');
+    const boxes = [...(otp?.querySelectorAll<HTMLElement>('i') ?? [])];
+    const waitingTemplate = stream?.firstElementChild?.cloneNode(true);
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let active = false;
+    let running = false;
+    const wait = (milliseconds: number) => new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+    const makeCode = () => String(Math.floor(100000 + Math.random() * 900000));
+
+    copy?.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(phone?.textContent?.replace(/[^\d+]/g, '') ?? '');
+      copy.textContent = 'Copied!';
+      window.setTimeout(() => { copy.textContent = 'Copy'; }, 1400);
+    });
+
+    const run = async () => {
+      if (running) return;
+      running = true;
+      let index = 0;
+      while (active && demo.isConnected) {
+        const service = demoServices[index++ % demoServices.length];
+        const code = makeCode();
+
+        otp?.classList.remove('complete');
+        boxes.forEach((box) => { box.textContent = ''; box.classList.remove('filled'); });
+        footer?.classList.remove('complete');
+        if (footerText) footerText.textContent = 'Listening on your rented line';
+        if (stream && waitingTemplate) stream.replaceChildren(waitingTemplate.cloneNode(true));
+        if (mark) { mark.textContent = service.mark; mark.style.background = service.color; }
+        if (name) name.textContent = service.name;
+        if (phone) phone.textContent = service.number;
+
+        await wait(reducedMotion ? 450 : 3500);
+        if (!active || !demo.isConnected) break;
+
+        if (stream) {
+          const bubble = document.createElement('div');
+          bubble.className = 'message-bubble';
+          const from = document.createElement('span');
+          from.className = 'message-from';
+          from.textContent = `${service.name} · just now`;
+          const message = document.createElement('span');
+          message.append(`Your ${service.name} verification code is `);
+          const strong = document.createElement('strong');
+          strong.textContent = code;
+          message.append(strong, '. Do not share it with anyone.');
+          bubble.append(from, message);
+          stream.replaceChildren(bubble);
+        }
+        if (footerText) footerText.textContent = 'Code received — autofilling';
+
+        for (let digit = 0; digit < boxes.length && active; digit++) {
+          await wait(reducedMotion ? 0 : 220);
+          if (!active) break;
+          boxes[digit].textContent = code[digit];
+          boxes[digit].classList.add('filled');
+        }
+
+        await wait(reducedMotion ? 150 : 900);
+        if (!active) break;
+        otp?.classList.add('complete');
+        footer?.classList.add('complete');
+        if (footerText) footerText.textContent = `${service.name} verified — your number stayed private`;
+        /* Hold the successful state long enough to read it before resetting. */
+        await wait(reducedMotion ? 2500 : 6000);
+      }
+      running = false;
+    };
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([entry]) => {
+        active = entry.isIntersecting;
+        demo.dataset.animationState = active ? 'running' : 'paused';
+        if (active) run();
+      }, { threshold: .1 }).observe(demo);
+    } else {
+      active = true;
+      demo.dataset.animationState = 'running';
+      run();
+    }
+  });
+</script>
+
+<style>
+  /* Keep the large card and its shadows static; only the small status
+     details animate. */
+  .card-wrap { position: relative; width: min(23.5rem, 100%); }
+  .card { position: relative; padding: 1.4rem; color: white; text-align: left; background: linear-gradient(165deg, rgb(24 40 66 / 96%), rgb(11 20 36 / 98%)); border: 1px solid rgb(120 190 235 / 22%); border-radius: 1.65rem; box-shadow: 0 3.1rem 5.6rem -1.9rem rgb(0 0 0 / 90%), inset 0 1px rgb(255 255 255 / 10%); }
+  .card-top { display: flex; align-items: center; gap: .7rem; padding-bottom: 1rem; border-bottom: 1px solid rgb(255 255 255 / 8%); }
+  .service-mark { display: grid; place-items: center; flex: 0 0 2.5rem; height: 2.5rem; border-radius: .75rem; font-size: 1rem; font-weight: 800; transition: background 500ms ease; }
+  .service-copy { flex: 1; min-width: 0; }.service-copy strong, .service-copy small { display: block; }.service-copy strong { font-size: .94rem; }.service-copy small { margin-top: .12rem; color: #94a7c4; font-size: .78rem; }
+  .live-pill { padding: .32rem .62rem; color: #54e5b0; background: rgb(55 224 160 / 14%); border: 1px solid rgb(55 224 160 / 30%); border-radius: 999px; font-size: .68rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  .number-row { display: flex; align-items: center; gap: .62rem; margin: 1rem 0 .25rem; }.number-row strong { font-size: clamp(1.05rem, 2vw, 1.42rem); font-variant-numeric: tabular-nums; letter-spacing: .01em; }.flag { font-size: 1.05rem; }
+  .copy-button { min-width: 2.5rem; min-height: 2.5rem; margin-left: auto; padding: .44rem .75rem; color: #cddcf0; background: rgb(255 255 255 / 7%); border: 1px solid rgb(255 255 255 / 15%); border-radius: .62rem; font-size: .78rem; font-weight: 700; cursor: pointer; transition: color 200ms ease, background-color 200ms ease, border-color 200ms ease, transform 180ms ease; }.copy-button:hover { color: white; background: rgb(56 211 255 / 16%); border-color: rgb(56 211 255 / 50%); }.copy-button:active { transform: scale(.96); }
+  .card-meta { margin: 0; color: #94a7c4; font-size: .78rem; }
+  .message-stream { display: flex; flex-direction: column; justify-content: flex-end; gap: .55rem; height: 6.5rem; margin-top: 1rem; }
+  .waiting-state { display: flex; align-items: center; gap: .55rem; color: #94a7c4; font-size: .84rem; }
+  .brand-loader { flex: 0 0 auto; width: 2.5rem; height: 1.88rem; overflow: visible; }.brand-loader rect { fill: #11b1ea; opacity: .3; animation: loader-dance 1.25s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }.brand-loader rect:nth-of-type(2) { animation-delay: .14s; }.brand-loader rect:nth-of-type(3) { animation-delay: .28s; }.brand-loader rect:nth-of-type(4) { animation-delay: .42s; }
+  :global(.message-bubble) { align-self: flex-start; max-width: 88%; padding: .7rem .88rem; color: #dbe8f8; background: linear-gradient(140deg, #1d3554, #152943); border: 1px solid rgb(120 190 235 / 20%); border-radius: 1rem 1rem 1rem .3rem; font-size: .84rem; line-height: 1.45; animation: bubble-in 450ms cubic-bezier(.22,1,.36,1); }
+  :global(.message-from) { display: block; margin-bottom: .2rem; color: #38d3ff; font-size: .68rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  :global(.message-bubble strong) { color: white; font-weight: 800; letter-spacing: .06em; }
+  .otp { display: flex; gap: .5rem; margin-top: 1rem; }.otp i { display: grid; place-items: center; flex: 1; height: 2.88rem; color: white; background: rgb(255 255 255 / 4.5%); border: 1px solid rgb(255 255 255 / 12%); border-radius: .75rem; font-size: 1.18rem; font-style: normal; font-weight: 800; font-variant-numeric: tabular-nums; transition: 250ms cubic-bezier(.22,1,.36,1); }.otp i.filled { background: rgb(17 177 234 / 16%); border-color: #11b1ea; transform: translateY(-3px); }.otp.complete i { background: rgb(55 224 160 / 14%); border-color: rgb(55 224 160 / 60%); transform: none; }
+  .card-footer { display: flex; align-items: center; gap: .55rem; min-height: 2.35rem; margin-top: 1rem; color: #94a7c4; font-size: .84rem; font-weight: 600; line-height: 1.32; transition: color 300ms ease; }.card-footer.complete { color: #54e5b0; }.check { display: grid; place-items: center; flex: 0 0 1.25rem; height: 1.25rem; background: rgb(255 255 255 / 8%); border-radius: 50%; font-size: .7rem; transition: background 300ms ease; }.card-footer.complete .check { background: rgb(55 224 160 / 22%); }
+  .chip { position: absolute; z-index: 3; display: flex; align-items: center; gap: .5rem; padding: .56rem .88rem; color: #e8f7ff; background: rgb(14 25 44 / 90%); border: 1px solid rgb(120 190 235 / 25%); border-radius: 999px; box-shadow: 0 1.1rem 2.4rem -1rem rgb(0 0 0 / 85%); font-size: .78rem; font-weight: 700; white-space: nowrap; }.chip-sim { top: -6%; left: -11%; }.chip-fast { top: 44%; right: -14%; }.chip-live { bottom: -7%; left: -17%; }
+  @keyframes loader-dance { 0%, 100% { opacity: .3; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-.38rem); } }
+  @keyframes bubble-in { from { opacity: 0; transform: translateY(.6rem) scale(.96); } }
+  @media (max-width: 520px) { .card-wrap { width: min(21.5rem, calc(100vw - 2rem)); }.card { padding: 1.05rem; }.chip-sim { left: -1%; }.chip-fast { right: -1%; }.chip-live { display: none; }.number-row strong { font-size: 1rem; }.message-stream { height: 6.8rem; }:global(.message-bubble) { max-width: 100%; font-size: .77rem; } }
+  @media (prefers-reduced-motion: reduce) { .brand-loader rect { animation: none; opacity: .9; } }
+</style>

@@ -1,0 +1,61 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import { links } from '../config/links';
+
+const page = await getEntry('home', 'home');
+if (!page) throw new Error('src/content/pages/home.yaml is missing');
+const head = page.data.faqHead;
+
+const faqs = (await getCollection('faqs'))
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((entry) => entry.data);
+const halfway = Math.ceil(faqs.length / 2);
+const columns = [faqs.slice(0, halfway), faqs.slice(halfway)];
+---
+
+<section class="faq" id="faq" aria-labelledby="faq-heading">
+  <div class="shell">
+    <header class="faq-head">
+      <h2 id="faq-heading">{head.heading}</h2>
+      <p>{head.lede}</p>
+    </header>
+    <div class="faq-columns">
+      {columns.map((column) => (
+        <div>{column.map((faq) => (
+          <div class="faq-item" data-faq-item>
+            <button type="button" aria-expanded="false"><span aria-hidden="true"></span>{faq.question}</button>
+            {/* answers are trusted first-party copy and may embed links */}
+            <div class="answer"><div><p set:html={faq.answer}></p></div></div>
+          </div>
+        ))}</div>
+      ))}
+    </div>
+    <div class="faq-more"><a class="button" href={links.faq}>{head.moreLabel}</a></div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-faq-item]').forEach((item) => {
+    const button = item.querySelector<HTMLButtonElement>('button');
+    button?.addEventListener('click', () => {
+      const open = item.toggleAttribute('data-open');
+      button.setAttribute('aria-expanded', String(open));
+    });
+  });
+</script>
+
+<style>
+  .faq { padding: clamp(4rem, 8vw, 6.5rem) 0 clamp(4.4rem, 8vw, 6.75rem); color: #0f172b; background: white; scroll-margin-top: var(--header-height); }
+  .faq-head { max-width: 39rem; margin-bottom: clamp(2rem, 4vw, 3rem); }
+  h2 { margin: 0; font-size: clamp(1.75rem, 3.4vw, 2.75rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.15; }
+  .faq-head p { margin: .88rem 0 0; color: #54637a; font-size: clamp(.94rem, 1.15vw, 1.06rem); line-height: 1.6; }
+  .faq-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 0 clamp(1.75rem, 4vw, 3.5rem); }
+  .faq-item { border-bottom: 1px solid rgb(15 23 43 / 10%); }
+  .faq-item button { display: flex; align-items: flex-start; gap: .88rem; width: 100%; padding: 1.2rem 0; color: #0f172b; background: none; border: 0; font: inherit; font-size: 1rem; font-weight: 700; line-height: 1.4; text-align: left; cursor: pointer; transition: color 200ms ease; }.faq-item button:hover { color: #0069a8; }
+  .faq-item button span { position: relative; flex: 0 0 1.38rem; height: 1.38rem; margin-top: .06rem; background: rgb(0 105 168 / 10%); border-radius: 50%; transition: 300ms cubic-bezier(.22,1,.36,1); }.faq-item button span::before, .faq-item button span::after { content: ''; position: absolute; top: 50%; left: 50%; width: .63rem; height: 2px; background: #0069a8; border-radius: 2px; transform: translate(-50%, -50%); transition: 300ms cubic-bezier(.22,1,.36,1); }.faq-item button span::after { transform: translate(-50%, -50%) rotate(90deg); }.faq-item[data-open] button span { background: #0069a8; }.faq-item[data-open] button span::before, .faq-item[data-open] button span::after { background: white; }.faq-item[data-open] button span::after { transform: translate(-50%, -50%); }
+  .answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 400ms cubic-bezier(.22,1,.36,1); }.faq-item[data-open] .answer { grid-template-rows: 1fr; }.answer > div { overflow: hidden; }.answer p { margin: 0 0 1.25rem; padding-left: 2.25rem; color: #54637a; font-size: .91rem; line-height: 1.65; }
+  .answer p :global(a) { color: #0069a8; text-decoration: underline; text-underline-offset: 2px; }
+  .faq-more { display: flex; justify-content: center; margin-top: clamp(2.25rem, 4.5vw, 3.4rem); }.faq-more .button { padding: .88rem 1.88rem; color: white; background: #0f172b; }
+  @media (max-width: 940px) { .faq-columns { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: reduce) { .answer { transition: none; } }
+</style>

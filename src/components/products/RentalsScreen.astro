@@ -1,0 +1,70 @@
+---
+/* The rentals page: long-term numbers with live renewal clocks. */
+import './mock.css';
+
+const rentals = [
+  { number: '(938) 555-0182', services: 'Unlimited services', seconds: 29 * 86400 + 6 * 3600 + 12 * 60 + 44 },
+  { number: '(415) 555-0142', services: 'Instagram', seconds: 12 * 86400 + 18 * 3600 + 3 * 60 + 19 },
+  { number: '(206) 555-0163', services: 'Unlimited services', seconds: 3 * 86400 + 2 * 3600 + 41 * 60 + 56 },
+];
+
+const clock = (total: number) => {
+  const days = Math.floor(total / 86400);
+  const rest = total % 86400;
+  const hours = String(Math.floor(rest / 3600)).padStart(2, '0');
+  const minutes = String(Math.floor((rest % 3600) / 60)).padStart(2, '0');
+  const seconds = String(rest % 60).padStart(2, '0');
+  return `${days}d ${hours}:${minutes}:${seconds}`;
+};
+---
+
+<div class="tvm mock" data-rentals-screen role="img" aria-label="The rentals page — long-term numbers with renewal dates">
+  <div class="dtop"><span class="dbrand"><img src="/tvlogo.png" alt="" loading="lazy" /></span>
+    <span class="dtools"><span class="dcoin"><i></i>62.50</span><span class="dava"></span></span></div>
+  <div class="dbody">
+    <nav class="dside"><span>Inbox</span><span>Verifications</span><span class="on">Rentals</span><span>Lines</span><span>Support</span><span>Credits</span></nav>
+    <div class="dmain">
+      <div class="dhead"><b>Active Rentals</b><span class="dbtns"><span class="dbtn pri">New Rental</span><span class="dbtn">Backorders</span></span></div>
+      <div class="dtabs"><span class="on">Active</span><span>Expired</span></div>
+      <div class="dtable">
+        <div class="drow dhr r4"><span>Number</span><span>Services</span><span>Renews in</span><span>Status</span></div>
+        {rentals.map((rental) => (
+          <div class="drow r4">
+            <span class="dnum">{rental.number}</span>
+            <span>{rental.services}</span>
+            <span data-renewal={rental.seconds}>{clock(rental.seconds)}</span>
+            <span class="dst ok"><span class="live"></span>Active</span>
+          </div>
+        ))}
+        <div class="drow r4"><span class="dnum">(713) 555-0129</span><span>Telegram</span><span>Backorder</span><span class="dst">Activating</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { prefersReducedMotion, runWhileVisible, wait } from '../../scripts/demo';
+
+  const clock = (total: number) => {
+    const days = Math.floor(total / 86400);
+    const rest = total % 86400;
+    const hours = String(Math.floor(rest / 3600)).padStart(2, '0');
+    const minutes = String(Math.floor((rest % 3600) / 60)).padStart(2, '0');
+    const seconds = String(rest % 60).padStart(2, '0');
+    return `${days}d ${hours}:${minutes}:${seconds}`;
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-rentals-screen]').forEach((screen) => {
+    if (prefersReducedMotion()) return; // the static clocks stand
+    const cells = [...screen.querySelectorAll<HTMLElement>('[data-renewal]')].map((cell) => ({
+      cell,
+      seconds: Number(cell.dataset.renewal ?? 0),
+    }));
+    runWhileVisible(screen, async (stopped) => {
+      while (!stopped()) {
+        cells.forEach((entry) => { entry.cell.textContent = clock(entry.seconds--); });
+        await wait(1000);
+      }
+    });
+  });
+</script>

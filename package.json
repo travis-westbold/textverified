@@ -1,0 +1,28 @@
+{
+  "name": "textverified-astro-prototype",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "npm run check:links && astro check && astro build && npm run check:budget",
+    "preview": "astro preview",
+    "check": "npm run check:links && astro check",
+    "check:links": "node scripts/check-links.mjs",
+    "check:budget": "node scripts/check-budget.mjs"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/react": "^4.4.2",
+    "@astrojs/vercel": "^8.2.11",
+    "@keystatic/astro": "^5.2.0",
+    "@keystatic/core": "^0.6.8",
+    "astro": "^5.13.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.9.2"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0"
+  }
+}

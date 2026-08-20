@@ -1,0 +1,106 @@
+---
+/* One product block: kicker + heading + lede + numbered steps on one side,
+   a device mock (slot) on the other. Sections alternate ground and flip
+   sides, matching the landing-page rhythm. */
+interface Step {
+  title: string;
+  text: string;
+}
+
+interface Props {
+  id: string;
+  kicker: string;
+  lede: string;
+  steps: Step[];
+  tone?: 'dark' | 'deep' | 'light';
+  flip?: boolean;
+  primaryLabel?: string;
+  primaryHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+}
+
+const {
+  id, kicker, lede, steps,
+  tone = 'dark', flip = false,
+  primaryLabel, primaryHref = '#',
+  secondaryLabel, secondaryHref = '#',
+} = Astro.props;
+---
+
+<section class:list={['product', tone, { flip }]} id={id} aria-labelledby={`${id}-heading`} data-reveal>
+  <div class="product-inner shell">
+    <div class="product-copy up">
+      <span class="kicker">{kicker}</span>
+      <h2 id={`${id}-heading`}><slot name="heading" /></h2>
+      <p class="lede">{lede}</p>
+      <ol class="steps">
+        {steps.map((step) => (
+          <li><div><strong>{step.title}</strong> {step.text}</div></li>
+        ))}
+      </ol>
+      {primaryLabel && (
+        <div class="actions">
+          <a class="button button-primary" href={primaryHref}>{primaryLabel} <span aria-hidden="true">→</span></a>
+          {secondaryLabel && <a class:list={['button', tone === 'light' ? 'button-outline' : 'button-inverse']} href={secondaryHref}>{secondaryLabel}</a>}
+        </div>
+      )}
+    </div>
+    <div class="product-visual up">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<script>
+  /* sections choreograph in as they arrive; reveal once and stop watching */
+  const targets = document.querySelectorAll('[data-reveal]');
+  if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    targets.forEach((target) => target.classList.add('revealed'));
+  } else {
+    const observer = new IntersectionObserver((entries, obs) => entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('revealed');
+      obs.unobserve(entry.target);
+    }), { threshold: 0.18 });
+    targets.forEach((target) => observer.observe(target));
+  }
+</script>
+
+<style>
+  .product { position: relative; isolation: isolate; overflow: hidden; padding: clamp(3.75rem, 7.5vw, 6.5rem) 0; scroll-margin-top: var(--header-height); }
+  .product.dark { color: white; background: linear-gradient(180deg, #070d1a 0%, #0a1424 55%, #0f172b 100%); }
+  .product.deep { color: white; background: linear-gradient(180deg, #0f172b 0%, #070d1a 100%); }
+  .product.light { color: var(--text); background: linear-gradient(180deg, white 0%, #f2f5f9 100%); }
+  .product-inner { display: grid; grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); gap: clamp(2.1rem, 5vw, 4.75rem); align-items: center; }
+  .product.flip .product-copy { order: 2; }
+  .kicker { display: inline-flex; align-items: center; gap: .5rem; padding: .38rem .88rem; color: #8fd8f5; background: rgb(17 177 234 / 10%); border: 1px solid rgb(17 177 234 / 30%); border-radius: 999px; font-size: .72rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+  .product.light .kicker { color: var(--brand); background: rgb(0 105 168 / 8%); border-color: rgb(0 105 168 / 25%); }
+  h2 { margin: 1rem 0 0; font-size: clamp(1.63rem, 3vw, 2.5rem); font-weight: 800; letter-spacing: -.028em; line-height: 1.14; }
+  h2 :global(em) { font-style: normal; color: var(--cyan); }
+  .product.light h2 :global(em) { color: var(--brand); }
+  .lede { margin: 1rem 0 0; color: #a9bcd8; font-size: clamp(.94rem, 1.15vw, 1.06rem); line-height: 1.65; }
+  .product.light .lede { color: #54637a; }
+  /* numbered how-it-works steps, lifted from the old page's bullet flow */
+  .steps { list-style: none; counter-reset: step; margin: 1.63rem 0 0; padding: 0; display: grid; gap: 1rem; }
+  .steps li { display: flex; gap: .88rem; color: #a9bcd8; font-size: .91rem; line-height: 1.6; }
+  .product.light .steps li { color: #54637a; }
+  .steps li::before { counter-increment: step; content: counter(step); flex: 0 0 1.88rem; height: 1.88rem; margin-top: 1px; border-radius: .63rem; display: grid; place-items: center; font-size: .81rem; font-weight: 800; background: rgb(17 177 234 / 12%); border: 1px solid rgb(17 177 234 / 32%); color: var(--cyan); }
+  .product.light .steps li::before { background: rgb(0 105 168 / 8%); border-color: rgb(0 105 168 / 25%); color: var(--brand); }
+  .steps strong { color: white; }
+  .product.light .steps strong { color: var(--text); }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; margin-top: 1.88rem; }
+  .product-visual { position: relative; min-width: 0; }
+
+  /* entrance choreography: copy first, the device follows */
+  .up { opacity: 0; transform: translateY(1.5rem); transition: opacity 800ms cubic-bezier(.22,1,.36,1), transform 800ms cubic-bezier(.22,1,.36,1); }
+  .product.revealed .up { opacity: 1; transform: none; }
+  .product-copy.up { transition-delay: 50ms; }
+  .product-visual.up { transition-delay: 220ms; }
+
+  @media (max-width: 940px) {
+    .product-inner { grid-template-columns: 1fr; gap: 2.4rem; }
+    .product.flip .product-copy { order: 0; } /* copy always first when stacked */
+  }
+  @media (prefers-reduced-motion: reduce) { .up { opacity: 1; transform: none; transition: none; } }
+</style>

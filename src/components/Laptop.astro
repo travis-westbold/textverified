@@ -1,0 +1,55 @@
+---
+/* Laptop shell: anodised silver lid, thin machined edge, black bezel.
+   Renders OPEN — the scroll-driven hinge from earlier iterations repainted
+   the whole layered lid every frame and lagged low-end GPUs. The slot is the
+   panel; it sits in a container-query context so mocks size themselves in
+   cq units off the lid width. */
+interface Props {
+  /** CSS width, e.g. "min(57.5rem, 100%)" */
+  width?: string;
+}
+
+const { width = 'min(57.5rem, 100%)' } = Astro.props;
+---
+
+<div class="laptop" style={`--laptop-width:${width}`}>
+  <div class="laptop-lid">
+    <div class="bezel">
+      <span class="camera" aria-hidden="true"></span>
+      <div class="screen"><slot /></div>
+    </div>
+  </div>
+  <div class="laptop-deck" aria-hidden="true"></div>
+</div>
+
+<style>
+  .laptop { position: relative; width: var(--laptop-width); margin-inline: auto; }
+  .laptop::before { /* screen bounce-light on the surface below */
+    content: ''; position: absolute; z-index: -1; right: 6%; bottom: -1.6rem; left: 6%; height: 5.6rem;
+    background: radial-gradient(60% 100% at 50% 0%, rgb(56 150 220 / 40%), transparent 72%); filter: blur(22px);
+  }
+  .laptop-lid {
+    position: relative; padding: 3px;
+    background: linear-gradient(172deg, #f4f6f8 0%, #dfe3e8 10%, #cbd0d8 48%, #b3b9c2 82%, #9ba2ac 100%);
+    border-radius: .94rem .94rem .25rem .25rem;
+    box-shadow: inset 0 1px white, inset 1px 0 rgb(255 255 255 / 50%), inset -1px 0 rgb(255 255 255 / 50%),
+      inset 0 -2px 4px rgb(0 0 0 / 20%), 0 2.9rem 4.6rem -2.1rem rgb(0 0 0 / 95%);
+  }
+  .bezel { position: relative; padding: .8rem .8rem 1.1rem; background: linear-gradient(180deg, #15171b, #0a0b0d); border-radius: .8rem .8rem .13rem .13rem; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 7%); }
+  .camera { position: absolute; top: .25rem; left: 50%; width: .32rem; height: .32rem; background: radial-gradient(circle at 34% 32%, #414c59, #080a0d 72%); border-radius: 50%; box-shadow: 0 0 0 1px rgb(255 255 255 / 8%); transform: translateX(-50%); }
+  .screen { position: relative; overflow: hidden; aspect-ratio: 1919 / 1079; background: white; border-radius: .2rem; container-type: inline-size; }
+  .screen::after { /* raking glass reflection */
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(102deg, rgb(255 255 255 / 18%) 0 22%, rgb(255 255 255 / 5%) 34%, transparent 52%);
+  }
+  .laptop-deck { position: relative; left: -2.25%; width: 104.5%; height: 1.15rem; background: linear-gradient(180deg, #aeb4bd 0%, #e4e7ec 14%, #cdd2d9 46%, #a8aeb8 78%, #848b95 100%); border-radius: .13rem .13rem .8rem .8rem; box-shadow: inset 0 1px white, inset 0 -1px rgb(0 0 0 / 25%), 0 1.75rem 2.75rem -1.1rem rgb(0 0 0 / 90%); }
+  .laptop-deck::before { /* hinge sits in shadow under the lid */
+    content: ''; position: absolute; top: 0; right: 7%; left: 7%; height: 3px;
+    background: linear-gradient(90deg, transparent, rgb(0 0 0 / 45%) 12%, rgb(0 0 0 / 45%) 88%, transparent);
+  }
+  .laptop-deck::after { /* thumb cutout on the front edge */
+    content: ''; position: absolute; bottom: 0; left: 50%; width: 10%; height: .4rem;
+    background: linear-gradient(180deg, rgb(0 0 0 / 30%), rgb(0 0 0 / 14%)); border-radius: .56rem .56rem 0 0; transform: translateX(-50%);
+  }
+  @media (max-width: 560px) { .bezel { padding: .45rem .45rem .65rem; } .laptop-deck { height: .85rem; } }
+</style>

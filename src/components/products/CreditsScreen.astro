@@ -1,0 +1,86 @@
+---
+/* Buying credits with Bitcoin: waiting → payment detected → credits landed.
+   The QR is a deterministic decorative pattern generated at build time —
+   deliberately not a real address, same rule as the dashboard rebuild:
+   nothing real on screen. */
+import './mock.css';
+import Loader from './Loader.astro';
+
+const GRID = 21;
+let seed = 73;
+const random = () => (seed = (seed * 137 + 71) % 251) / 251;
+const inFinder = (x: number, y: number) =>
+  (x < 7 && y < 7) || (x >= GRID - 7 && y < 7) || (x < 7 && y >= GRID - 7);
+
+let cells = '';
+for (let y = 0; y < GRID; y++)
+  for (let x = 0; x < GRID; x++)
+    if (!inFinder(x, y) && random() > 0.52) cells += `<rect x="${x}" y="${y}" width="1" height="1"/>`;
+
+const finder = (x: number, y: number) =>
+  `<path fill-rule="evenodd" d="M${x} ${y}h7v7h-7v-7zm1 1v5h5v-5h-5z"/>` +
+  `<rect x="${x + 2}" y="${y + 2}" width="3" height="3"/>`;
+
+const qrMarkup =
+  `<svg viewBox="0 0 ${GRID} ${GRID}" fill="#16233b" aria-hidden="true">` +
+  cells + finder(0, 0) + finder(GRID - 7, 0) + finder(0, GRID - 7) + '</svg>';
+---
+
+<div class="tvm mock" data-credits-screen role="img" aria-label="Buying credits with Bitcoin — payment confirming and credits landing">
+  <div class="paysplit">
+    <div class="payleft">
+      <h4>Buy Credits</h4>
+      <div class="amounts"><span>$25</span><span class="on">$50</span><span>$100</span><span>$250</span></div>
+      <div class="methods">
+        <span>Card</span><span class="on">₿ Bitcoin</span><span>Ξ Ethereum</span>
+        <span>Ł Litecoin</span><span>₮ Tether</span><span>ɱ Monero</span>
+      </div>
+      <div class="osum">
+        <div>Credit sale amount <b>+ 50.00</b></div>
+        <div>Estimated transaction fee <b>− 0.00</b></div>
+        <div>Estimated net credit <b>+ 50.00</b></div>
+      </div>
+    </div>
+    <div class="payright">
+      <h4><i>₿</i>Bitcoin (BTC) Payment</h4>
+      <div class="qr" set:html={qrMarkup}></div>
+      <div class="addr">bc1qexampleonlyx8f3k2v9w7t4m6n0p5r2s8u3y6zq4</div>
+      <div class="mban" data-credits-banner><Loader /><span data-credits-banner-text>Waiting for your payment to be sent and confirmed…</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { prefersReducedMotion, runWhileVisible, wait } from '../../scripts/demo';
+
+  document.querySelectorAll<HTMLElement>('[data-credits-screen]').forEach((screen) => {
+    const banner = screen.querySelector<HTMLElement>('[data-credits-banner]');
+    const bannerText = screen.querySelector<HTMLElement>('[data-credits-banner-text]');
+    const loader = banner?.querySelector<SVGElement>('.tvload');
+
+    if (prefersReducedMotion()) {
+      banner?.classList.add('ok');
+      if (loader) loader.style.display = 'none';
+      if (bannerText) bannerText.textContent = '+50.00 credits added to your account';
+      return;
+    }
+
+    runWhileVisible(screen, async (stopped) => {
+      while (!stopped()) {
+        if (banner) banner.className = 'mban';
+        if (loader) loader.style.display = '';
+        if (bannerText) bannerText.textContent = 'Waiting for your payment to be sent and confirmed…';
+        await wait(3000);
+        if (stopped()) return;
+        if (banner) banner.className = 'mban warn';
+        if (bannerText) bannerText.textContent = 'Payment detected — 1 of 2 confirmations';
+        await wait(2600);
+        if (stopped()) return;
+        if (banner) banner.className = 'mban ok';
+        if (loader) loader.style.display = 'none';
+        if (bannerText) bannerText.textContent = '+50.00 credits added to your account';
+        await wait(3600);
+      }
+    });
+  });
+</script>

@@ -1,0 +1,36 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  keywords?: string;
+}
+
+const { title, description, canonical, keywords } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    {keywords && <meta name="keywords" content={keywords} />}
+    <link rel="canonical" href={canonical} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preload" href="/fonts/plus-jakarta-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <title>{title}</title>
+    <noscript>
+      <style>
+        /* entrance choreography is JS-driven; without JS everything shows */
+        .up { opacity: 1 !important; transform: none !important; }
+        .swoosh path { stroke-dashoffset: 0 !important; }
+      </style>
+    </noscript>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

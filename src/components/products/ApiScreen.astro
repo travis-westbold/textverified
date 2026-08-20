@@ -1,0 +1,91 @@
+---
+/* Full-screen terminal that types a request against the API and prints the
+   response with syntax colouring, on loop. */
+import './mock.css';
+---
+
+<div class="tvm term" data-api-screen role="img" aria-label="A terminal creating a verification over the Textverified API">
+  <div class="tbar"><i></i><i></i><i></i><span>textverified — api</span></div>
+  <pre class="tbody" data-api-body></pre>
+</div>
+
+<script>
+  import { prefersReducedMotion, runWhileVisible, wait } from '../../scripts/demo';
+
+  /* [html, chars-per-tick] — the response "prints" faster than typing */
+  const LINES: Array<[string, number]> = [
+    ['<span class="cmd">$ curl</span> https://www.textverified.com/api/pub/v2/verifications \\', 1],
+    ['    -H <span class="str">"Authorization: Bearer $TV_TOKEN"</span> \\', 1],
+    ['    -d <span class="str">\'{"serviceName":"yahoo","capability":"sms"}\'</span>', 1],
+    ['', 9],
+    ['{', 9],
+    ['  <span class="key">"id"</span>: <span class="str">"vf_k29d81"</span>,', 9],
+    ['  <span class="key">"number"</span>: <span class="str">"+12065550163"</span>,', 9],
+    ['  <span class="key">"state"</span>: <span class="str">"verificationPending"</span>,', 9],
+    ['  <span class="key">"cost"</span>: 0.25', 9],
+    ['}', 9],
+    ['', 9],
+    ['<span class="cmd">$ curl</span> …/verifications/vf_k29d81/sms', 1],
+    ['{ <span class="key">"code"</span>: <span class="str">"771204"</span>, <span class="key">"state"</span>: <span class="dim">"verified ✓"</span> }', 9],
+  ];
+
+  /* cut an HTML string after n visible characters, keeping tags intact */
+  const sliceHtml = (html: string, count: number) => {
+    let output = '';
+    let visible = 0;
+    let index = 0;
+    while (index < html.length && visible < count) {
+      if (html[index] === '<' || html[index] === '&') {
+        const close = html[index] === '<' ? '>' : ';';
+        const end = html.indexOf(close, index);
+        if (end === -1) { output += html.slice(index); break; } // malformed: never spin
+        output += html.slice(index, end + 1);
+        index = end + 1;
+        if (close === ';') visible++;
+      } else {
+        output += html[index++];
+        visible++;
+      }
+    }
+    const opens = (output.match(/<span/g) ?? []).length;
+    const closes = (output.match(/<\/span>/g) ?? []).length;
+    return output + '</span>'.repeat(Math.max(0, opens - closes));
+  };
+
+  const textLength = (html: string) => {
+    const probe = document.createElement('div');
+    probe.innerHTML = html;
+    return probe.textContent?.length ?? 0;
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-api-screen]').forEach((screen) => {
+    const body = screen.querySelector<HTMLElement>('[data-api-body]');
+    if (!body) return;
+
+    if (prefersReducedMotion()) {
+      body.innerHTML = LINES.map(([html]) => html).join('\n');
+      return;
+    }
+
+    runWhileVisible(screen, async (stopped) => {
+      while (!stopped()) {
+        body.innerHTML = '<span class="caret"></span>';
+        await wait(700);
+        let done = '';
+        for (const [html, step] of LINES) {
+          const length = textLength(html);
+          /* two visible chars per tick: readable speed, half the innerHTML
+             rebuilds — this loop is pure main-thread work */
+          for (let index = 0; index <= length; index += step * 2) {
+            if (stopped()) return;
+            body.innerHTML = `${done}${sliceHtml(html, index)}<span class="caret"></span>`;
+            await wait(step === 1 ? 48 : 30);
+          }
+          done += `${html}\n`;
+          body.innerHTML = `${done}<span class="caret"></span>`;
+        }
+        await wait(3800);
+      }
+    });
+  });
+</script>

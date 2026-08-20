@@ -1,0 +1,169 @@
+/* ============================================================
+   Shared styles for the product mock screens — the old marketing
+   screenshots rebuilt as live DOM inside Laptop/Monitor frames.
+   Everything is sized in em from one container-query font-size
+   (with a px fallback), so a screen scales with its device.
+   All selectors are scoped under .tvm because this file is global.
+   ============================================================ */
+
+/* ---- app chrome (dashboard behind the modals, rentals, credits) ---- */
+.tvm.mock { position: absolute; inset: 0; display: flex; flex-direction: column; background: #fff; color: #16233b;
+  font-size: 9px; font-size: 1.45cqw; line-height: 1.4; text-align: left; user-select: none; }
+.tvm .dtop { display: flex; align-items: center; justify-content: space-between; flex: 0 0 auto; padding: .9em 1.5em; border-bottom: 1px solid #e9edf4; }
+.tvm .dbrand img { display: block; height: 2em; width: auto; }
+.tvm .dtools { display: flex; align-items: center; gap: 1.1em; }
+.tvm .dcoin { display: flex; align-items: center; gap: .5em; font-weight: 700; font-size: 1.05em; color: #3c4c66; }
+.tvm .dcoin i { width: 1.5em; height: 1.5em; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ffd76a, #f0a92e); box-shadow: inset 0 -2px 3px rgb(140 80 0 / 35%); }
+.tvm .dava { width: 2.3em; height: 2.3em; border-radius: 50%; background: linear-gradient(140deg, #9db4d0, #5b7699); }
+.tvm .dbody { display: flex; flex: 1; min-height: 0; }
+.tvm .dside { flex: 0 0 15em; padding: 1.1em .9em; border-right: 1px solid #e9edf4; display: flex; flex-direction: column; gap: .25em; }
+.tvm .dside span { padding: .65em 1em; border-radius: .6em; font-size: 1.05em; font-weight: 600; color: #54637a; }
+.tvm .dside span.on { background: #eef3f9; color: #0f2136; font-weight: 700; }
+.tvm .dmain { flex: 1; min-width: 0; padding: 1.3em 1.8em; display: flex; flex-direction: column; }
+.tvm .dhead { display: flex; align-items: center; justify-content: space-between; gap: 1em; }
+.tvm .dhead b { font-size: 1.85em; letter-spacing: -.02em; }
+.tvm .dbtns { display: flex; gap: .7em; }
+.tvm .dbtn { padding: .62em 1.1em; border-radius: .5em; font-weight: 700; white-space: nowrap; border: 1px solid rgb(15 23 43 / 14%); color: #3c4c66; background: #fff; }
+.tvm .dbtn.pri { background: #0069a8; border-color: #0069a8; color: #fff; }
+.tvm .dtabs { display: flex; gap: 1.7em; margin: 1em 0 .9em; border-bottom: 1px solid #e9edf4; font-weight: 700; color: #7d8ca2; }
+.tvm .dtabs span { padding: .4em .15em .55em; }
+.tvm .dtabs .on { color: #0069a8; box-shadow: 0 2px 0 #0069a8; }
+.tvm .dtable { flex: 1; min-height: 0; overflow: hidden; border: 1px solid #e9edf4; border-radius: .7em; }
+.tvm .drow { display: grid; grid-template-columns: 5.4em minmax(0, 1fr) 9em 8.4em; gap: 0 1em; align-items: center; padding: .72em 1.2em; border-bottom: 1px solid #eef2f7; }
+.tvm .drow.dhr { background: #f7f9fc; font-weight: 800; font-size: .9em; letter-spacing: .05em; text-transform: uppercase; color: #67788f; }
+.tvm .drow.r4 { grid-template-columns: 9.5em minmax(0, 1fr) 8.6em 7.6em; }
+.tvm .dsvc { display: flex; align-items: center; gap: .6em; font-weight: 700; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tvm .dsvc i { flex: 0 0 auto; width: 2.1em; height: 2.1em; border-radius: .5em; display: grid; place-items: center; color: #fff; font-style: normal; font-weight: 800; font-size: .85em; }
+.tvm .dnum { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: .95em; color: #3c4c66; white-space: nowrap; }
+.tvm .dst { display: inline-flex; justify-self: start; align-items: center; gap: .45em; padding: .3em .8em; border-radius: 999px; font-size: .92em; font-weight: 700; font-variant-numeric: tabular-nums; background: #fff7e8; border: 1px solid rgb(214 146 15 / 35%); color: #a86f0d; }
+.tvm .dst.ok { background: #eafaf1; border-color: rgb(22 163 101 / 40%); color: #0f8a55; }
+.tvm .dst .live { width: .7em; height: .7em; border-radius: 50%; background: #16a365; position: relative; }
+.tvm .dst .live::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: #16a365; animation: tvm-ping 2s ease-out infinite; }
+
+/* ---- modal over the app (SMS / Voice verifications) ---- */
+.tvm .scrim { position: absolute; inset: 0; background: rgb(11 20 36 / 42%); }
+.tvm .modal { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 64%; max-height: 94%; border-radius: .9em; background: #fff; box-shadow: 0 2.4em 5em rgb(4 10 20 / 50%); padding: 1.4em 1.5em; font-size: 8px; font-size: 1.6cqw; line-height: 1.4; }
+.tvm .modal.dense { font-size: 1.45cqw; } /* voice packs in a waveform + dialpad */
+.tvm .mhead { display: flex; align-items: center; justify-content: space-between; font-weight: 800; font-size: 1.2em; letter-spacing: -.01em; }
+.tvm .mhead .x { color: #9aa7ba; font-weight: 600; }
+.tvm .msvc { display: flex; align-items: center; gap: .7em; margin-top: .9em; font-weight: 800; font-size: 1.1em; }
+.tvm .msvc i { width: 2.2em; height: 2.2em; border-radius: .55em; display: grid; place-items: center; color: #fff; font-style: normal; font-weight: 800; font-size: .9em; }
+.tvm .mban { display: flex; align-items: center; gap: .7em; margin-top: .95em; padding: .7em .9em; border-radius: .6em; font-size: .95em; font-weight: 600; background: #eaf4fd; border: 1px solid rgb(30 143 214 / 30%); color: #1d6fa8; transition: background 400ms, border-color 400ms, color 400ms; }
+.tvm .mban.warn { background: #fff7e8; border-color: rgb(214 146 15 / 35%); color: #a86f0d; }
+.tvm .mban.ok { background: #eafaf1; border-color: rgb(22 163 101 / 40%); color: #0f8a55; }
+.tvm .mban .tvload { width: 2.6em; height: 2em; }
+.tvm .mlab { margin-top: 1em; font-size: .85em; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #67788f; }
+.tvm .mnum { display: flex; align-items: center; gap: .8em; margin-top: .45em; padding: .65em .9em; border-radius: .6em; background: #f4f7fb; border: 1px solid #e2e8f1; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-weight: 700; }
+.tvm .mnum span { margin-left: auto; font-family: inherit; font-size: .85em; font-weight: 700; color: #0069a8; }
+.tvm .mstats { display: grid; grid-template-columns: 1fr 1fr; gap: .8em; margin-top: .9em; }
+.tvm .mstat { padding: .6em .9em; border-radius: .6em; background: #f4f7fb; border: 1px solid #e2e8f1; }
+.tvm .mstat b { display: block; font-size: .8em; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #67788f; }
+.tvm .mstat span { display: block; margin-top: .15em; font-weight: 800; font-variant-numeric: tabular-nums; }
+.tvm .mmsg { margin-top: .95em; min-height: 4.4em; border-radius: .7em; padding: .75em .95em; border: 1.5px dashed #d4dce8; color: #8a97ab; font-size: .95em; display: flex; align-items: center; }
+.tvm .mmsg.got { display: block; border-style: solid; border-color: rgb(120 190 235 / 55%); background: #f2f9ff; color: #233c58; animation: tvm-pop 450ms cubic-bezier(.22,1,.36,1); }
+.tvm .mmsg.got b { color: #0069a8; }
+.tvm .mmsg .who { display: block; margin-bottom: .2em; font-size: .8em; font-weight: 700; color: #67788f; }
+.tvm .mbtns { display: flex; justify-content: space-between; gap: .8em; margin-top: 1.1em; }
+.tvm .mbtn { padding: .6em 1.2em; border-radius: .55em; font-weight: 700; font-size: .95em; border: 1px solid rgb(15 23 43 / 16%); color: #3c4c66; background: #fff; }
+.tvm .mbtn.danger { background: #c93a3a; border-color: #c93a3a; color: #fff; }
+
+/* brand loader (the four bars of the mark) — used in the banners */
+.tvm .tvload { width: 40px; height: 30px; overflow: visible; flex: 0 0 auto; }
+.tvm .tvload rect { fill: #11b1ea; opacity: .3; animation: tvm-tvdance 1.25s ease-in-out infinite; }
+.tvm .tvload rect:nth-of-type(2) { animation-delay: .14s; }
+.tvm .tvload rect:nth-of-type(3) { animation-delay: .28s; }
+.tvm .tvload rect:nth-of-type(4) { animation-delay: .42s; }
+
+/* ---- voice extras: waveform + dialpad ---- */
+.tvm .vsplit { display: grid; grid-template-columns: 1fr auto; gap: 1em; align-items: stretch; margin-top: .95em; }
+.tvm .wavebox { border-radius: .7em; background: #0d1726; display: flex; align-items: center; justify-content: center; gap: .35em; padding: 1em; min-height: 6em; }
+.tvm .wavebox i { width: .45em; height: 1.2em; border-radius: .3em; background: #38d3ff; animation: tvm-wv 1s ease-in-out infinite; animation-delay: calc(var(--d) * .09s); }
+.tvm.oncall .wavebox i { background: #37e0a0; }
+.tvm .dialpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: .4em; }
+.tvm .dialpad span { width: 2.4em; height: 2.4em; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: .95em; background: #f4f7fb; border: 1px solid #e2e8f1; color: #3c4c66; }
+
+/* ---- browser window (Chrome extension) ---- */
+.tvm.bwin { position: absolute; inset: 0; display: flex; flex-direction: column; background: #dfe3ea; color: #16233b; font-size: 9px; font-size: 1.6cqw; line-height: 1.4; text-align: left; user-select: none; }
+.tvm .btabs { display: flex; align-items: flex-end; gap: .6em; padding: .55em .9em 0; }
+.tvm .btabs .dots { display: flex; gap: .45em; align-self: center; margin-right: .4em; }
+.tvm .btabs .dots i { width: .8em; height: .8em; border-radius: 50%; background: #b9bfc9; }
+.tvm .btabs .dots i:nth-child(1) { background: #e0605c; }
+.tvm .btabs .dots i:nth-child(2) { background: #e2b34a; }
+.tvm .btabs .dots i:nth-child(3) { background: #4fbf6e; }
+.tvm .btab { display: flex; align-items: center; gap: .5em; background: #fff; border-radius: .7em .7em 0 0; padding: .5em 1.4em; font-weight: 600; font-size: .95em; color: #3c4c66; }
+.tvm .btab i { width: 1.1em; height: 1.1em; border-radius: .3em; background: #000; flex: 0 0 auto; }
+.tvm .burl { display: flex; align-items: center; gap: .8em; padding: .55em 1em; background: #fff; border-bottom: 1px solid #e5e9f0; }
+.tvm .burl .nav-ic { color: #9aa7ba; font-weight: 800; letter-spacing: .2em; }
+.tvm .burl .ubox { flex: 1; display: flex; align-items: center; gap: .6em; background: #eef1f6; border-radius: 999px; padding: .45em 1.1em; color: #54637a; font-size: .95em; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
+.tvm .burl .lock { color: #16a365; }
+.tvm .burl .puzzle { width: 1.9em; height: 1.9em; border-radius: .5em; display: grid; place-items: center; background: rgb(0 105 168 / 10%); color: #0069a8; font-weight: 800; font-size: .9em; }
+.tvm .bbody { position: relative; flex: 1; background: #fff; overflow: hidden; }
+/* pinned left of centre so the extension popup never covers the headline */
+.tvm .bform { position: absolute; left: 7%; top: 50%; transform: translateY(-52%); width: 44%; }
+.tvm .bform h3 { margin: 0; font-size: 1.5em; font-weight: 800; letter-spacing: -.02em; color: #000; }
+.tvm .bform .fld { margin-top: 1em; padding: .8em 1em; border-radius: .6em; border: 1.5px solid #d4dce8; color: #233c58; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; min-height: 2.9em; display: flex; align-items: center; }
+.tvm .bform .fld .tcaret { display: inline-block; width: 2px; height: 1.2em; background: #233c58; margin-left: 1px; animation: tvm-blink 1s steps(1) infinite; }
+.tvm .bform .go { margin-top: .9em; padding: .8em 1em; border-radius: .6em; background: #000; color: #fff; font-weight: 700; text-align: center; }
+/* the extension popup, docked under the toolbar's puzzle icon */
+.tvm .ext { position: absolute; right: 3%; top: 4%; width: 38%; border-radius: .8em; background: #fff; border: 1px solid #e2e8f1; box-shadow: 0 1.8em 3.6em rgb(4 10 20 / 35%); padding: 1em 1.1em; font-size: .95em; }
+.tvm .ext::before { content: ''; position: absolute; top: -.5em; right: 2.2em; width: 1em; height: 1em; transform: rotate(45deg); background: #fff; border-left: 1px solid #e2e8f1; border-top: 1px solid #e2e8f1; }
+.tvm .ext-top { display: flex; align-items: center; justify-content: space-between; gap: .6em; padding-bottom: .7em; border-bottom: 1px solid #eef2f7; }
+.tvm .ext-top img { height: 1.6em; width: auto; }
+.tvm .ext-top span { font-size: .85em; font-weight: 700; color: #3c4c66; }
+.tvm .ext .hint { margin-top: .7em; font-size: .82em; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #67788f; }
+.tvm .ext .esvc { display: flex; align-items: center; gap: .6em; margin-top: .5em; padding: .6em .7em; border-radius: .6em; background: #f4f7fb; border: 1px solid #e2e8f1; font-weight: 700; }
+.tvm .ext .esvc i { width: 1.9em; height: 1.9em; border-radius: .5em; display: grid; place-items: center; background: #000; color: #fff; font-style: normal; font-weight: 800; font-size: .85em; }
+.tvm .ext .esvc .tag { margin-left: auto; font-size: .78em; font-weight: 700; color: #0f8a55; background: #eafaf1; border: 1px solid rgb(22 163 101 / 40%); border-radius: 999px; padding: .2em .6em; }
+.tvm .ext .enum { display: flex; align-items: center; gap: .6em; margin-top: .6em; padding: .6em .7em; border-radius: .6em; border: 1.5px solid rgb(0 105 168 / 35%); background: #f2f9ff; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-weight: 700; }
+.tvm .ext .enum span { margin-left: auto; font-family: inherit; font-size: .8em; font-weight: 700; color: #fff; background: #0069a8; border-radius: .4em; padding: .35em .7em; transition: opacity 200ms; }
+.tvm .ext .est { display: flex; align-items: center; gap: .55em; margin-top: .7em; font-size: .88em; font-weight: 600; color: #67788f; }
+.tvm .ext .est .tvload { width: 2.2em; height: 1.7em; }
+.tvm .ext .est.ok { color: #0f8a55; font-weight: 700; }
+
+/* ---- API terminal, full screen ---- */
+.tvm.term { position: absolute; inset: 0; display: flex; flex-direction: column; background: #0d1726; font-size: 9px; font-size: 1.62cqw; text-align: left; user-select: none; }
+.tvm .tbar { display: flex; align-items: center; gap: .55em; padding: .8em 1em; border-bottom: 1px solid rgb(255 255 255 / 8%); }
+.tvm .tbar i { width: .8em; height: .8em; border-radius: 50%; background: #33465f; }
+.tvm .tbar i:nth-child(1) { background: #e0605c; }
+.tvm .tbar i:nth-child(2) { background: #e2b34a; }
+.tvm .tbar i:nth-child(3) { background: #4fbf6e; }
+.tvm .tbar span { margin-left: .6em; font-size: .85em; font-weight: 600; color: #5f7492; }
+.tvm .tbody { margin: 0; padding: 1em 1.2em; flex: 1; overflow: hidden; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 1em; line-height: 1.66; color: #cfe0f2; white-space: pre-wrap; word-break: break-word; }
+.tvm .tbody .cmd { color: #7fe0b0; }
+.tvm .tbody .key { color: #68c2f5; }
+.tvm .tbody .str { color: #f5c97a; }
+.tvm .tbody .dim { color: #5f7492; }
+.tvm .caret { display: inline-block; width: .55em; height: 1.1em; background: #7fe0b0; vertical-align: -.15em; animation: tvm-blink 1s steps(1) infinite; }
+
+/* ---- credits / payment screen ---- */
+.tvm .paysplit { display: flex; flex: 1; min-height: 0; }
+.tvm .payleft { flex: 1.15; padding: 1.3em 1.6em; border-right: 1px solid #e9edf4; min-width: 0; }
+.tvm .payleft h4 { margin: 0; font-size: 1.5em; font-weight: 800; letter-spacing: -.02em; }
+.tvm .amounts { display: flex; gap: .6em; margin-top: 1em; }
+.tvm .amounts span { flex: 1; text-align: center; padding: .7em 0; border-radius: .6em; font-weight: 800; border: 1.5px solid #e2e8f1; color: #54637a; }
+.tvm .amounts span.on { border-color: #0069a8; background: rgb(0 105 168 / 7%); color: #0069a8; }
+.tvm .methods { display: flex; flex-wrap: wrap; gap: .5em; margin-top: 1em; }
+.tvm .methods span { padding: .45em .9em; border-radius: .5em; font-weight: 800; font-size: .85em; background: #f4f7fb; border: 1px solid #e2e8f1; color: #3c4c66; }
+.tvm .methods span.on { background: #fdf3e3; border-color: rgb(247 147 26 / 50%); color: #b06a08; }
+.tvm .osum { margin-top: 1.2em; border: 1px solid #e9edf4; border-radius: .7em; overflow: hidden; }
+.tvm .osum div { display: flex; justify-content: space-between; padding: .65em 1em; font-size: .95em; color: #54637a; border-bottom: 1px solid #eef2f7; }
+.tvm .osum div:last-child { border-bottom: 0; background: #f7f9fc; font-weight: 800; color: #16233b; }
+.tvm .osum b { font-variant-numeric: tabular-nums; }
+.tvm .payright { flex: 1; padding: 1.3em 1.6em; background: #fbfcfe; display: flex; flex-direction: column; min-width: 0; }
+.tvm .payright h4 { margin: 0; display: flex; align-items: center; gap: .6em; font-size: 1.15em; font-weight: 800; }
+.tvm .payright h4 i { width: 1.7em; height: 1.7em; border-radius: 50%; display: grid; place-items: center; background: #f7931a; color: #fff; font-style: normal; font-weight: 800; font-size: .9em; }
+.tvm .qr { width: 9.5em; height: 9.5em; margin: 1em auto .8em; padding: .55em; border-radius: .6em; background: #fff; border: 1px solid #e2e8f1; }
+.tvm .qr svg { display: block; width: 100%; height: 100%; shape-rendering: crispEdges; }
+.tvm .addr { padding: .55em .8em; border-radius: .55em; background: #f4f7fb; border: 1px solid #e2e8f1; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: .78em; color: #3c4c66; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tvm .payright .mban { margin-top: auto; }
+
+@keyframes tvm-ping { 0% { transform: scale(1); opacity: .8; } 100% { transform: scale(3.2); opacity: 0; } }
+@keyframes tvm-pop { from { opacity: 0; transform: translateY(8px) scale(.97); } }
+@keyframes tvm-tvdance { 0%, 100% { opacity: .3; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-10px); } }
+@keyframes tvm-blink { 50% { opacity: 0; } }
+@keyframes tvm-wv { 50% { transform: scaleY(2.6); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .tvm .tvload rect, .tvm .wavebox i, .tvm .caret, .tvm .dst .live::after, .tvm .bform .fld .tcaret { animation: none; }
+  .tvm .tvload rect { opacity: .9; }
+}

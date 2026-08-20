@@ -1,0 +1,30 @@
+groups:
+  - title: Links
+    items:
+      - { label: Service List, link: pricing }
+      - { label: FAQ, link: faq }
+      - { label: Announcements, link: announcements }
+      - { label: Terms, link: terms }
+      - { label: Policy, link: privacy }
+      - { label: About, link: about }
+      - { label: Help, link: contact }
+  - title: Services
+    items:
+      - { label: Products, link: productsPage }
+      - { label: Free Numbers, link: freeNumbers }
+      - { label: Buy Credits, link: buyCredits }
+      - { label: API, link: apiDocs }
+  - title: Contact
+    items:
+      - { label: Contact Us, link: contact }
+      - { label: Blog, link: blog }
+      - { label: Updates, link: updates }
+      - { label: Support, link: support }
+aboutBlurb: >-
+  We are the premier one-stop shop for your SMS, text and voice verification
+  needs. Exceptional service and competitive pricing set us apart.
+copyright: © 2026 Textverified. All rights reserved.
+legal:
+  - { label: Terms, link: terms }
+  - { label: Privacy Policy, link: privacy }
+  - { label: Support, link: support }

@@ -1,0 +1,36 @@
+---
+import { getEntry } from 'astro:content';
+import { links } from '../config/links';
+
+const entry = await getEntry('footer', 'footer');
+if (!entry) throw new Error('src/content/settings/footer.yaml is missing');
+const { groups, aboutBlurb, copyright, legal } = entry.data;
+---
+
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      {groups.map((group) => (
+        <div><h2>{group.title}</h2><ul>{group.items.map((item) => <li><a href={links[item.link]}>{item.label}</a></li>)}</ul></div>
+      ))}
+      <div><h2>Social</h2><a class="social" href={links.linkedin} aria-label="Textverified on LinkedIn">in</a></div>
+      <div class="about">
+        <img src="/logo-transparent.png" alt="Textverified" width="254" height="72" loading="lazy" />
+        <p>{aboutBlurb}</p>
+      </div>
+    </div>
+    <div class="footer-bar"><span>{copyright}</span><nav aria-label="Legal">{legal.map((item) => <a href={links[item.link]}>{item.label}</a>)}</nav></div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { padding: clamp(3.25rem, 6vw, 4.75rem) 0 1.88rem; color: #0f172b; background: #f4f6f9; border-top: 1px solid rgb(15 23 43 / 8%); }
+  .footer-grid { display: grid; grid-template-columns: repeat(4, minmax(0, .7fr)) minmax(0, 1.6fr); gap: clamp(1.4rem, 3vw, 2.5rem); }
+  h2 { margin: 0 0 .88rem; font-size: .97rem; font-weight: 800; }
+  ul { display: grid; gap: .69rem; margin: 0; padding: 0; list-style: none; } a { color: #5b6b82; font-size: .91rem; transition: color 200ms ease; } a:hover { color: #0069a8; }
+  .about img { width: 11.63rem; height: auto; margin-bottom: .88rem; }.about p { max-width: 42ch; margin: 0; color: #5b6b82; font-size: .91rem; line-height: 1.6; }
+  .social { display: grid; place-items: center; width: 2.38rem; height: 2.38rem; color: #41506a; background: white; border: 1px solid rgb(15 23 43 / 10%); border-radius: .7rem; font-weight: 800; }
+  .footer-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .63rem 1.38rem; margin-top: clamp(2.1rem, 4vw, 3.25rem); padding-top: 1.38rem; color: #7a8ba3; border-top: 1px solid rgb(15 23 43 / 10%); font-size: .84rem; }.footer-bar nav { display: flex; flex-wrap: wrap; gap: 1.1rem; }.footer-bar a { color: #7a8ba3; font-size: inherit; }
+  @media (max-width: 940px) { .footer-grid { grid-template-columns: repeat(2, 1fr); }.about { grid-column: 1 / -1; order: -1; } }
+  @media (max-width: 560px) { .footer-grid { grid-template-columns: 1fr; }.footer-bar { align-items: flex-start; flex-direction: column; } }
+</style>

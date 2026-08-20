@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import DashboardShowcase from '../components/DashboardShowcase.astro';
+import WhatWeOffer from '../components/WhatWeOffer.astro';
+import SignupCta from '../components/SignupCta.astro';
+import Reviews from '../components/Reviews.astro';
+import Pricing from '../components/Pricing.astro';
+import Faq from '../components/Faq.astro';
+import Footer from '../components/Footer.astro';
+import { getEntry } from 'astro:content';
+
+const page = await getEntry('home', 'home');
+if (!page) throw new Error('src/content/pages/home.yaml is missing');
+const { meta, signupCta } = page.data;
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  canonical={meta.canonical}
+  keywords={meta.keywords}
+>
+  <Header />
+  <main>
+    <Hero />
+    <DashboardShowcase />
+    <WhatWeOffer />
+    <SignupCta {...signupCta} />
+    <Reviews />
+    <Pricing />
+    <Faq />
+  </main>
+  <Footer />
+</BaseLayout>

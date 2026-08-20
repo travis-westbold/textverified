@@ -1,0 +1,59 @@
+---
+import { getEntry } from 'astro:content';
+import DashboardScreen from './DashboardScreen.astro';
+import Laptop from './Laptop.astro';
+import Swoosh from './Swoosh.astro';
+
+const page = await getEntry('home', 'home');
+if (!page) throw new Error('src/content/pages/home.yaml is missing');
+const { showcase } = page.data;
+const features = showcase.features;
+---
+
+<section class="showcase" id="dashboard" aria-labelledby="dashboard-heading">
+  <div class="showcase-inner shell">
+    <header class="showcase-head">
+      <span class="kicker">{showcase.kicker}</span>
+      <h2 id="dashboard-heading">{showcase.headingPre} <span class="mark"><em>{showcase.markEm}</em><Swoosh /></span></h2>
+      <p>{showcase.lede}</p>
+    </header>
+
+    <Laptop>
+      <DashboardScreen />
+    </Laptop>
+
+    <div class="features">
+      {features.map((feature) => (
+        <article class="feature">
+          <span class="feature-icon" aria-hidden="true">
+            {feature.icon === 'message' && <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>}
+            {feature.icon === 'phone' && <svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.7 2z" /></svg>}
+            {feature.icon === 'mobile' && <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="3" /><path d="M11 18h2" /></svg>}
+            {feature.icon === 'card' && <svg viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2.5" /><path d="M2.5 10h19" /></svg>}
+          </span>
+          <strong>{feature.title}</strong>
+          <p>{feature.description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .showcase { position: relative; isolation: isolate; overflow: hidden; padding: clamp(4rem, 8vw, 6.9rem) 0 clamp(4.75rem, 9vw, 7.9rem); color: white; background: radial-gradient(85% 55% at 50% 0%, #16294a 0%, transparent 62%), linear-gradient(180deg, #070d1a 0%, #0a1424 55%, #0f172b 100%); scroll-margin-top: var(--header-height); }
+  .showcase-head { max-width: 55rem; margin: 0 auto clamp(2.5rem, 5.5vw, 4.25rem); text-align: center; }
+  .kicker { display: inline-flex; align-items: center; gap: .5rem; padding: .38rem .88rem; color: #8fd8f5; background: rgb(17 177 234 / 10%); border: 1px solid rgb(17 177 234 / 30%); border-radius: 999px; font-size: .72rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+  h2 { margin: 1.1rem 0 0; font-size: clamp(1.7rem, 3.2vw, 2.63rem); font-weight: 800; letter-spacing: -.028em; line-height: 1.12; text-wrap: balance; }
+  h2 em { color: #38d3ff; font-style: normal; white-space: nowrap; }
+  .showcase-head p { max-width: 58ch; margin: 1rem auto 0; color: #a9bcd8; font-size: clamp(.94rem, 1.15vw, 1.06rem); line-height: 1.62; }
+  .features { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(.88rem, 1.8vw, 1.38rem); margin-top: clamp(2.9rem, 6vw, 4.63rem); }
+  .feature { padding: 1.25rem; background: rgb(255 255 255 / 3.5%); border: 1px solid rgb(255 255 255 / 9%); border-radius: 1rem; transition: 300ms cubic-bezier(.22,1,.36,1); }
+  .feature:hover { background: rgb(255 255 255 / 6%); border-color: rgb(56 211 255 / 35%); transform: translateY(-3px); }
+  .feature-icon { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; margin-bottom: .75rem; color: #38d3ff; background: rgb(17 177 234 / 13%); border: 1px solid rgb(17 177 234 / 30%); border-radius: .7rem; }
+  .feature-icon svg { width: 1.1rem; height: 1.1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .feature strong { display: block; font-size: .97rem; }
+  .feature p { margin: .38rem 0 0; color: #9db2cf; font-size: .84rem; line-height: 1.5; }
+  @media (max-width: 940px) { .features { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .showcase { padding-top: 3.7rem; }.showcase-head { margin-bottom: 2.7rem; }.features { grid-template-columns: 1fr; }.feature { padding: 1.05rem; } }
+  @media (prefers-reduced-motion: reduce) { .feature { transition: none; } }
+</style>

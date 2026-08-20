@@ -1,0 +1,85 @@
+---
+/* Chrome extension: a browser window on a sign-up form with the extension
+   popup docked to the toolbar. The number types itself into the host page's
+   field, then the code comes back inside the popup — verification without
+   leaving the tab. */
+import './mock.css';
+import Loader from './Loader.astro';
+---
+
+<div class="tvm bwin" data-extension-screen role="img" aria-label="The Textverified Chrome extension filling a verification number into a sign-up form">
+  <div class="btabs">
+    <span class="dots"><i></i><i></i><i></i></span>
+    <span class="btab"><i></i>Uber — Sign up</span>
+  </div>
+  <div class="burl">
+    <span class="nav-ic">‹ ›</span>
+    <span class="ubox"><span class="lock">🔒</span>auth.uber.com/v2/?breeze_local_zone=phx8</span>
+    <span class="puzzle">tv</span>
+  </div>
+  <div class="bbody">
+    <div class="bform">
+      <h3>What's your phone number or email?</h3>
+      <div class="fld"><span data-extension-field></span><span class="tcaret" data-extension-caret></span></div>
+      <div class="go">Continue</div>
+    </div>
+    <div class="ext">
+      <div class="ext-top"><img src="/tvlogo.png" alt="Textverified" loading="lazy" /><span>994.75 credits</span></div>
+      <div class="hint">Recommended for this site</div>
+      <div class="esvc"><i>U</i>Uber<span class="tag">Detected</span></div>
+      <div class="enum">+1 (415) 555-0142 <span data-extension-fill>Fill</span></div>
+      <div class="est" data-extension-status><Loader /><span data-extension-status-text>Ready to fill</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { prefersReducedMotion, runWhileVisible, wait } from '../../scripts/demo';
+
+  const NUMBER = '+1 (415) 555-0142';
+
+  document.querySelectorAll<HTMLElement>('[data-extension-screen]').forEach((screen) => {
+    const field = screen.querySelector<HTMLElement>('[data-extension-field]');
+    const caret = screen.querySelector<HTMLElement>('[data-extension-caret]');
+    const fill = screen.querySelector<HTMLElement>('[data-extension-fill]');
+    const status = screen.querySelector<HTMLElement>('[data-extension-status]');
+    const statusText = screen.querySelector<HTMLElement>('[data-extension-status-text]');
+    const loader = status?.querySelector<SVGElement>('.tvload');
+
+    if (prefersReducedMotion()) {
+      if (field) field.textContent = NUMBER;
+      if (caret) caret.style.display = 'none';
+      status?.classList.add('ok');
+      if (loader) loader.style.display = 'none';
+      if (statusText) statusText.textContent = 'Code received: 771 204 — filled';
+      return;
+    }
+
+    runWhileVisible(screen, async (stopped) => {
+      while (!stopped()) {
+        if (field) field.textContent = '';
+        if (caret) caret.style.display = '';
+        status?.classList.remove('ok');
+        if (loader) loader.style.display = 'none';
+        if (statusText) statusText.textContent = 'Ready to fill';
+        if (fill) fill.style.opacity = '1';
+        await wait(1400);
+        if (stopped()) return;
+        if (fill) fill.style.opacity = '.55'; // "clicked"
+        for (const character of NUMBER) {
+          if (stopped()) return;
+          if (field) field.textContent += character;
+          await wait(46);
+        }
+        if (loader) loader.style.display = '';
+        if (statusText) statusText.textContent = 'Waiting for the SMS…';
+        await wait(2300);
+        if (stopped()) return;
+        status?.classList.add('ok');
+        if (loader) loader.style.display = 'none';
+        if (statusText) statusText.textContent = 'Code received: 771 204 — filled';
+        await wait(3200);
+      }
+    });
+  });
+</script>

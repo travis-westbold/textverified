@@ -1,0 +1,33 @@
+{
+  "home": "/",
+  "productsPage": "/products",
+
+  "faq": "https://www.textverified.com/faq",
+  "blog": "https://www.textverified.com/blog",
+  "about": "https://www.textverified.com/about",
+  "contact": "https://www.textverified.com/contact-us",
+
+  "signIn": "https://www.textverified.com/login",
+  "register": "https://www.textverified.com/register",
+  "account": "https://www.textverified.com/app/account",
+
+  "pricing": "https://www.textverified.com/services",
+
+  "products": "https://www.textverified.com/products",
+  "sms": "https://www.textverified.com/verifications",
+  "extension": "https://www.textverified.com/extension",
+  "extensionBlog": "https://www.textverified.com/support/chrome-extension-walkthrough/",
+  "rentals": "https://www.textverified.com/rentals",
+  "developerApi": "https://www.textverified.com/automate",
+  "apiDocs": "https://www.textverified.com/docs/api/v2",
+  "freeNumbers": "https://www.textverified.com/free",
+  "creditsInfo": "https://www.textverified.com/products/credits",
+  "buyCredits": "https://www.textverified.com/app/credits/card?open=true",
+
+  "updates": "https://www.textverified.com/updates",
+  "announcements": "https://www.textverified.com/announcements",
+  "terms": "https://www.textverified.com/terms",
+  "privacy": "https://www.textverified.com/policy",
+  "support": "https://www.textverified.com/support",
+  "linkedin": "https://www.linkedin.com/company/56417471/"
+}

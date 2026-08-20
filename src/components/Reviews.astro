@@ -1,0 +1,96 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Swoosh from './Swoosh.astro';
+
+const page = await getEntry('home', 'home');
+if (!page) throw new Error('src/content/pages/home.yaml is missing');
+const head = page.data.reviewsHead;
+
+const reviews = (await getCollection('reviews'))
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((entry) => entry.data);
+const columns = [reviews, [...reviews.slice(2), ...reviews.slice(0, 2)], [...reviews.slice(4), ...reviews.slice(0, 4)]];
+---
+
+<section class="reviews" id="reviews" aria-labelledby="reviews-heading">
+  <div class="shell">
+    <header class="reviews-head">
+      <h2 id="reviews-heading">{head.headingPre} <span class="mark"><em>{head.markEm}</em><Swoosh /></span></h2>
+      <p>{head.lede}</p>
+    </header>
+    <div class="review-wall" data-review-wall>
+      {columns.map((column, columnIndex) => (
+        <div class="review-column" data-review-column data-speed={[-.55, .38, -.72][columnIndex]}>
+          {column.map((review) => (
+            <figure class="review-card">
+              <div class="rating" role="img" aria-label={`${review.rating} out of 5 stars`}>
+                <span class="stars"><i class="stars-base" aria-hidden="true">★★★★★</i><i class="stars-fill" aria-hidden="true" style={`width:${(review.rating / 5) * 100}%`}>★★★★★</i></span>
+                <b>{review.rating.toFixed(1)}</b>
+              </div>
+              <blockquote>{review.quote}</blockquote>
+              <figcaption><strong>{review.role}</strong><span>{review.location}</span></figcaption>
+            </figure>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-review-wall]').forEach((wall) => {
+    const columns = [...wall.querySelectorAll<HTMLElement>('[data-review-column]')];
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let frameRequested = false;
+    let active = false;
+    const positionColumns = () => {
+      frameRequested = false;
+      if (!active || reducedMotion || window.innerWidth <= 640) return;
+      const bounds = wall.getBoundingClientRect();
+      const progress = (window.innerHeight - bounds.top) / (window.innerHeight + bounds.height) - .5;
+      const wallHeight = wall.clientHeight;
+      const positions = columns.map((column) => {
+        const base = (wallHeight - column.scrollHeight) / 2;
+        const drift = progress * Number(column.dataset.speed ?? 0) * bounds.height;
+        return Math.round(base + drift);
+      });
+      columns.forEach((column, index) => {
+        column.style.transform = `translate3d(0, ${positions[index]}px, 0)`;
+      });
+    };
+    const requestPosition = () => {
+      if (!active || frameRequested) return;
+      frameRequested = true;
+      window.requestAnimationFrame(positionColumns);
+    };
+    window.addEventListener('scroll', requestPosition, { passive: true });
+    window.addEventListener('resize', requestPosition);
+    new IntersectionObserver(([entry]) => {
+      active = entry.isIntersecting;
+      if (active) requestPosition();
+    }, { rootMargin: '25% 0px' }).observe(wall);
+  });
+</script>
+
+<style>
+  .reviews { position: relative; isolation: isolate; overflow: hidden; padding: clamp(4rem, 8vw, 6.5rem) 0 clamp(4.4rem, 8vw, 6.9rem); color: white; background: radial-gradient(80% 50% at 50% 0%, #17294a, transparent 62%), linear-gradient(180deg, #070d1a, #0a1423 60%, #0f172b); scroll-margin-top: var(--header-height); }
+  .reviews-head { max-width: 44rem; margin: 0 auto clamp(2.1rem, 4.5vw, 3.4rem); text-align: center; }
+  h2 { margin: 0; font-size: clamp(1.75rem, 3.4vw, 2.75rem); font-weight: 800; letter-spacing: -.03em; }.reviews-head em { color: #38d3ff; font-style: normal; }
+  .reviews-head p { margin: .9rem auto 0; color: #a9bcd8; font-size: clamp(.94rem, 1.15vw, 1.1rem); line-height: 1.6; }
+  .review-wall { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(.88rem, 1.6vw, 1.25rem); height: clamp(31rem, 70vh, 46rem); overflow: hidden; }
+  .review-wall::before, .review-wall::after { content: ''; position: absolute; z-index: 2; left: 0; right: 0; height: 13%; pointer-events: none; }
+  .review-wall::before { top: 0; background: linear-gradient(#0a1423, transparent); }
+  .review-wall::after { bottom: 0; background: linear-gradient(transparent, #0d1829); }
+  .review-column { display: flex; flex-direction: column; gap: clamp(.88rem, 1.6vw, 1.25rem); }
+  .review-card { margin: 0; padding: 1.25rem; background: linear-gradient(165deg, rgb(30 46 74 / 85%), rgb(14 24 42 / 90%)); border: 1px solid rgb(120 190 235 / 16%); border-radius: 1.1rem; box-shadow: 0 1.4rem 2.75rem -1.6rem rgb(0 0 0 / 90%); }
+  .rating { display: flex; align-items: center; gap: .6rem; color: #ffc043; }.rating b { font-size: .78rem; }
+  /* fractional fill: the amber layer is clipped to rating/5 of its width */
+  .stars { position: relative; display: inline-block; line-height: 1; letter-spacing: .08em; }
+  .stars i { font-style: normal; white-space: nowrap; }
+  .stars-base { color: rgb(255 255 255 / 16%); }
+  .stars-fill { position: absolute; left: 0; top: 0; overflow: hidden; color: #ffc043; }
+  blockquote { margin: .8rem 0 0; color: #dbe8f8; font-size: .91rem; line-height: 1.62; }
+  figcaption { margin-top: .95rem; padding-top: .88rem; border-top: 1px solid rgb(255 255 255 / 9%); } figcaption strong, figcaption span { display: block; } figcaption strong { font-size: .88rem; } figcaption span { margin-top: .12rem; color: #8ea6c6; font-size: .78rem; }
+  @media (max-width: 940px) { .review-wall { grid-template-columns: repeat(2, 1fr); height: clamp(29rem, 64vh, 39rem); }.review-column:nth-child(3) { display: none; } }
+  @media (max-width: 640px) { .review-wall { display: block; height: auto; max-width: 30rem; margin-inline: auto; overflow: visible; }.review-wall::before, .review-wall::after { display: none; }.review-column { transform: none !important; }.review-column:nth-child(n+2) { display: none; }.review-column .review-card:nth-child(n+4) { display: none; } }
+</style>
