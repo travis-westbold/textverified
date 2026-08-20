@@ -70,7 +70,10 @@ const chipHalfH = ey.y * TILE; // ~56.2
 const PAD = 60; // room for shadow/glow spill
 const minX = Math.min(...tiles.map((t) => t.x)) - PAD;
 const maxX = Math.max(...tiles.map((t) => t.x)) + chipW + PAD;
-const minY = Math.min(...tiles.map((t) => t.y)) - chipHalfH - PAD;
+/* the extrusion drop and shadow spill below the faces only, so pad the top by
+   the same DROP — otherwise centering this box floats the face lattice above
+   the container center the DOM original centered it on */
+const minY = Math.min(...tiles.map((t) => t.y)) - chipHalfH - PAD - DROP;
 const maxY = Math.max(...tiles.map((t) => t.y)) + chipHalfH + DROP + PAD;
 const width = round(maxX - minX);
 const height = round(maxY - minY);
@@ -132,7 +135,10 @@ const SLICES = Array.from({ length: 7 }, (_, k) => round((DROP * (k + 1)) / 8));
   .iso { position: absolute; top: -45%; bottom: -45%; width: 52vw; z-index: -2; opacity: .8; overflow: hidden; pointer-events: none; }
   .iso.left { left: -20vw; -webkit-mask-image: linear-gradient(96deg, #000 16%, rgb(0 0 0 / 32%) 56%, transparent 80%); mask-image: linear-gradient(96deg, #000 16%, rgb(0 0 0 / 32%) 56%, transparent 80%); }
   .iso.right { right: -20vw; -webkit-mask-image: linear-gradient(264deg, #000 16%, rgb(0 0 0 / 32%) 56%, transparent 80%); mask-image: linear-gradient(264deg, #000 16%, rgb(0 0 0 / 32%) 56%, transparent 80%); }
-  svg { position: absolute; inset: 0; margin: auto; }
+  /* not inset:0 + margin:auto — auto margins LEFT-align an abs-positioned
+     child wider than its box, which shoved both fields ~a half-SVG toward
+     the page middle; translate centers regardless of overflow */
+  svg { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
   @media (max-width: 940px) { .iso { width: 62vw; opacity: .27; } .iso.left { left: -32vw; } .iso.right { right: -32vw; } }
   /* lean tier: pure decoration — the legibility scrims already guarantee the
      copy stands alone, so the smallest screens and data-savers skip it */
