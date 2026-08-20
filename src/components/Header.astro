@@ -76,18 +76,24 @@ const { productsMenu: products, mainNav: navigation } = nav.data;
 
   /* stuck shadow + scroll progress hairline */
   let frameRequested = false;
+  let maxScroll = 0;
   const paint = () => {
     frameRequested = false;
     header?.classList.toggle('is-stuck', window.scrollY > 24);
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    if (progress) progress.style.transform = `scaleX(${max > 0 ? window.scrollY / max : 0})`;
+    if (progress) progress.style.transform = `scaleX(${maxScroll > 0 ? window.scrollY / maxScroll : 0})`;
   };
   window.addEventListener('scroll', () => {
     if (frameRequested) return;
     frameRequested = true;
     window.requestAnimationFrame(paint);
   }, { passive: true });
-  paint();
+  const measurePage = () => {
+    maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    paint();
+  };
+  window.addEventListener('resize', measurePage);
+  new ResizeObserver(measurePage).observe(document.documentElement);
+  measurePage();
 
   const closeProducts = () => {
     products?.removeAttribute('data-open');
