@@ -39,7 +39,7 @@ const { hero } = page.data;
     <div class="trust-inner shell">
       <p>{hero.trustLabel}</p>
       <div class="marquee">
-        <div class="platforms" aria-label="Supported platforms">
+        <div class="platforms" aria-label="Supported platforms" data-platforms>
           {hero.platforms.map((platform) => <span>{platform}</span>)}
           {hero.platforms.map((platform) => <span aria-hidden="true">{platform}</span>)}
         </div>
@@ -49,7 +49,7 @@ const { hero } = page.data;
 </section>
 
 <script>
-  /* ambient animations (marquee, eyebrow dot) sleep while the hero is
+  /* ambient animations (eyebrow dot) sleep while the hero is
      off-screen — [data-animation-state='paused'] is defined globally */
   document.querySelectorAll<HTMLElement>('[data-animated-section]').forEach((section) => {
     if (!('IntersectionObserver' in window)) return;
@@ -63,6 +63,33 @@ const { hero } = page.data;
   const reveal = () => document.querySelectorAll('[data-reveal]').forEach((el) => el.classList.add('revealed'));
   window.requestAnimationFrame(reveal);
   window.setTimeout(reveal, 60);
+
+  /* the platforms strip rides the page scroll instead of an infinite ticker.
+     Its content is rendered twice, so wrapping the offset at half the strip
+     width loops seamlessly no matter how far the page scrolls */
+  const strip = document.querySelector<HTMLElement>('[data-platforms]');
+  if (strip && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    let half = 0;
+    const measure = () => { half = strip.scrollWidth / 2; };
+    measure();
+    window.addEventListener('resize', measure);
+
+    let onScreen = true;
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; }).observe(strip);
+    }
+
+    let queued = false;
+    const slide = () => {
+      queued = false;
+      if (half > 0) strip.style.transform = `translateX(${-((window.scrollY * 0.4) % half)}px)`;
+    };
+    window.addEventListener('scroll', () => {
+      if (queued || !onScreen) return;
+      queued = true;
+      window.requestAnimationFrame(slide);
+    }, { passive: true });
+  }
 </script>
 
 <style>
@@ -92,7 +119,7 @@ const { hero } = page.data;
   .trust { position: relative; z-index: 2; padding: 1.9rem 0 2rem; background: #eef0f3; }
   .trust p { margin: 0 0 .9rem; color: #6b7482; font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-align: center; text-transform: uppercase; }
   .marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
-  .platforms { display: flex; align-items: center; gap: clamp(2.1rem, 5vw, 4rem); width: max-content; color: #39424f; animation: marquee-slide 34s linear infinite; }
+  .platforms { display: flex; align-items: center; gap: clamp(2.1rem, 5vw, 4rem); width: max-content; color: #39424f; }
   .platforms span { font-size: clamp(1.05rem, 1.65vw, 1.38rem); font-weight: 700; letter-spacing: -.01em; opacity: .82; white-space: nowrap; }
 
   /* entrance choreography */
@@ -105,7 +132,6 @@ const { hero } = page.data;
   .hero-visual.up { transition-delay: 300ms; }
 
   @keyframes hero-ping { 0% { transform: scale(1); opacity: .8; } 100% { transform: scale(3.2); opacity: 0; } }
-  @keyframes marquee-slide { to { transform: translateX(-50%); } }
 
   @media (max-width: 940px) {
     .hero-grid { grid-template-columns: 1fr; justify-items: center; text-align: center; }
@@ -113,7 +139,5 @@ const { hero } = page.data;
     .lede { max-width: 58ch; }
     .hero-actions { justify-content: center; }
   }
-  @media (prefers-reduced-motion: reduce) { .up { opacity: 1; transform: none; } .platforms, .eyebrow span::after { animation: none; } }
-  /* data-saver tier: the marquee stands still (its brands remain readable) */
-  @media (prefers-reduced-data: reduce) { .platforms { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { .up { opacity: 1; transform: none; } .eyebrow span::after { animation: none; } }
 </style>
