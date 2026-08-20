@@ -42,16 +42,19 @@ const columns = [reviews, [...reviews.slice(2), ...reviews.slice(0, 2)], [...rev
     const columns = [...wall.querySelectorAll<HTMLElement>('[data-review-column]')];
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let frameRequested = false;
+    let measureRequested = false;
     let active = false;
+    let wallTop = 0;
+    let wallHeight = 0;
+    let columnHeights: number[] = [];
     const positionColumns = () => {
       frameRequested = false;
       if (!active || reducedMotion || window.innerWidth <= 640) return;
-      const bounds = wall.getBoundingClientRect();
-      const progress = (window.innerHeight - bounds.top) / (window.innerHeight + bounds.height) - .5;
-      const wallHeight = wall.clientHeight;
-      const positions = columns.map((column) => {
-        const base = (wallHeight - column.scrollHeight) / 2;
-        const drift = progress * Number(column.dataset.speed ?? 0) * bounds.height;
+      const wallViewportTop = wallTop - window.scrollY;
+      const progress = (window.innerHeight - wallViewportTop) / (window.innerHeight + wallHeight) - .5;
+      const positions = columns.map((column, index) => {
+        const base = (wallHeight - columnHeights[index]) / 2;
+        const drift = progress * Number(column.dataset.speed ?? 0) * wallHeight;
         return Math.round(base + drift);
       });
       columns.forEach((column, index) => {
@@ -63,11 +66,24 @@ const columns = [reviews, [...reviews.slice(2), ...reviews.slice(0, 2)], [...rev
       frameRequested = true;
       window.requestAnimationFrame(positionColumns);
     };
+    const measure = () => {
+      measureRequested = false;
+      const bounds = wall.getBoundingClientRect();
+      wallTop = bounds.top + window.scrollY;
+      wallHeight = bounds.height;
+      columnHeights = columns.map((column) => column.scrollHeight);
+      requestPosition();
+    };
+    const requestMeasure = () => {
+      if (measureRequested) return;
+      measureRequested = true;
+      window.requestAnimationFrame(measure);
+    };
     window.addEventListener('scroll', requestPosition, { passive: true });
-    window.addEventListener('resize', requestPosition);
+    window.addEventListener('resize', requestMeasure);
     new IntersectionObserver(([entry]) => {
       active = entry.isIntersecting;
-      if (active) requestPosition();
+      if (active) requestMeasure();
     }, { rootMargin: '25% 0px' }).observe(wall);
   });
 </script>
