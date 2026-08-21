@@ -85,10 +85,3 @@ After each handoff, expect a short summary containing:
 If the AI discovers unexpected changes, conflicts, failed checks, or work on
 `main` that has not been pushed, it should preserve the work and explain the
 situation rather than silently cleaning it up.
-
-## Hosting note
-
-Vercel can provide a separate preview deployment for each pushed branch. If
-production moves to AWS, keep a branch-preview provider (for example Vercel or
-AWS Amplify) so the designer retains the same branch-to-preview workflow.
-
