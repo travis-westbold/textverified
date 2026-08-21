@@ -25,7 +25,8 @@ jumpLinks:
 sections:
   - id: sms
     kicker: Text / SMS
-    tone: dark
+    tone: light
+    ink: true
     headingPre: SMS
     markEm: Verifications.
     lede: >-
@@ -41,9 +42,8 @@ sections:
     primaryLink: sms
   - id: extension
     kicker: Text / SMS · in your browser
-    tone: light
+    tone: dark
     flip: true
-    ink: true
     headingPre: The Chrome
     markEm: extension.
     lede: >-
@@ -59,7 +59,8 @@ sections:
     secondaryLink: extensionBlog
   - id: voice
     kicker: Voice
-    tone: deep
+    tone: light
+    ink: true
     headingPre: Voice
     markEm: Verifications.
     lede: >-
@@ -74,7 +75,8 @@ sections:
     primaryLink: sms
   - id: rentals
     kicker: Long-term phone numbers
-    tone: dark
+    tone: light
+    ink: true
     flip: true
     headingPre: Phone
     markEm: rentals.
@@ -89,8 +91,7 @@ sections:
     primaryLink: rentals
   - id: api
     kicker: Automate
-    tone: light
-    ink: true
+    tone: deep
     headingPre: Developer
     markEm: API.
     lede: >-
@@ -107,7 +108,8 @@ sections:
     secondaryLink: support
   - id: credits
     kicker: Payments
-    tone: deep
+    tone: light
+    ink: true
     flip: true
     headingPre: Buy with
     markEm: credits.
@@ -127,14 +129,10 @@ verificationExtras:
     - icon: refresh
       title: Reactivate
       body: >-
-        If you want to use a phone number again after receiving a code, you
-        can click the "Reactivate" button inside of the verification modal or
-        on your verification page. Verifications can always be used again for
-        a few minutes after receiving an SMS, but may be used again hours
-        later if we still have access to the number (not guaranteed). If you
-        need guaranteed access to a number for a longer period of time —
-        whether throughout a single day, a whole year, or even greater —
-        <a href="#rentals">rentals</a> will better fit your needs.
+        Click "Reactivate" in the verification modal or on your verification
+        page to use a number again. Reuse works for a few minutes after an SMS
+        arrives, and sometimes hours later, but is never guaranteed — for
+        that, use <a href="#rentals">rentals</a>.
     - icon: globe
       title: Area Codes
       body: >-
