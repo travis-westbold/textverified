@@ -221,6 +221,33 @@ const verifications = defineCollection({
         body: safeHtml,
       })).min(1),
     }),
+    /* icon names are keys of brandIconPaths; UseCases.astro fails the build
+       on an unknown one, which keeps this list free-text for editors */
+    useCases: z.object({
+      kicker: z.string().min(1),
+      heading: z.string().min(1),
+      lede: z.string().min(1),
+      cards: z.array(z.object({
+        title: z.string().min(1),
+        body: z.string().min(1),
+        icons: z.array(z.string().min(1)).min(1),
+      })).length(3),
+    }),
+    planCompare: z.object({
+      kicker: z.string().min(1),
+      heading: z.string().min(1),
+      lede: z.string().min(1),
+      plans: z.array(z.object({
+        name: z.string().min(1),
+        price: z.string().min(1),
+        unit: z.string().min(1),
+        description: z.string().min(1),
+        features: z.array(z.string().min(1)).min(1),
+        ctaLabel: z.string().min(1),
+        ctaLink: linkKey,
+        featured: z.boolean().default(false),
+      })).length(2),
+    }),
     signupCta: ctaBand,
   }),
 });

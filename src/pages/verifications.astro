@@ -9,13 +9,15 @@ import Swoosh from '../components/Swoosh.astro';
 import Laptop from '../components/Laptop.astro';
 import ProductSection from '../components/products/ProductSection.astro';
 import ExtrasGrid from '../components/products/ExtrasGrid.astro';
+import UseCases from '../components/products/UseCases.astro';
+import PlanCompare from '../components/products/PlanCompare.astro';
 import SmsScreen from '../components/products/SmsScreen.astro';
 import VoiceScreen from '../components/products/VoiceScreen.astro';
 import { links } from '../config/links';
 
 const page = await getEntry('verifications', 'verifications');
 if (!page) throw new Error('src/content/pages/verifications.yaml is missing');
-const { meta, hero, sections, extras, signupCta } = page.data;
+const { meta, hero, sections, extras, useCases, planCompare, signupCta } = page.data;
 
 const section = (id: (typeof sections)[number]['id']) => {
   const found = sections.find((candidate) => candidate.id === id);
@@ -72,6 +74,10 @@ const sectionProps = (id: (typeof sections)[number]['id']) => {
     </ProductSection>
 
     <ExtrasGrid kicker={extras.kicker} heading={extras.heading} cards={[...extras.cards]} />
+
+    <UseCases tone="dark" kicker={useCases.kicker} heading={useCases.heading} lede={useCases.lede} cards={[...useCases.cards]} />
+
+    <PlanCompare kicker={planCompare.kicker} heading={planCompare.heading} lede={planCompare.lede} plans={[...planCompare.plans]} />
 
     <SignupCta {...signupCta} />
   </main>
