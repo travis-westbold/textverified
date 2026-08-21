@@ -21,7 +21,7 @@ sections:
     tone: dark
     flip: false
     headingPre: SMS
-    markEm: verifications.
+    markEm: Verifications.
     lede: >-
       Use temporary numbers to receive one-time SMS verification codes for the
       services you use most. Fast delivery, clear status updates, and only pay
@@ -38,7 +38,7 @@ sections:
     flip: true
     ink: false
     headingPre: Voice
-    markEm: verifications.
+    markEm: Verifications.
     lede: >-
       Need call-based verification? Receive voice calls on temporary non-VoIP
       numbers and verify accounts with the same fast, reliable flow.

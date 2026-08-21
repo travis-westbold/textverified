@@ -76,19 +76,19 @@ const sectionProps = (id: (typeof sections)[number]['id']) => {
 
     <!-- ============ SMS verifications ============ -->
     <ProductSection {...sectionProps('sms')}>
-      <Fragment slot="heading">{section('sms').headingPre} <span class="mark"><em>{section('sms').markEm}</em><Swoosh ink={section('sms').ink} /></span></Fragment>
+      <Fragment slot="heading"><span>{section('sms').headingPre} </span><span class="mark"><em>{section('sms').markEm}</em><Swoosh ink={section('sms').ink} /></span></Fragment>
       <Laptop width="min(40rem, 100%)"><SmsScreen /></Laptop>
     </ProductSection>
 
     <!-- ============ Chrome extension ============ -->
     <ProductSection {...sectionProps('extension')}>
-      <Fragment slot="heading">{section('extension').headingPre} <span class="mark"><em>{section('extension').markEm}</em><Swoosh ink={section('extension').ink} /></span></Fragment>
+      <Fragment slot="heading"><span>{section('extension').headingPre} </span><span class="mark"><em>{section('extension').markEm}</em><Swoosh ink={section('extension').ink} /></span></Fragment>
       <Monitor><ExtensionScreen /></Monitor>
     </ProductSection>
 
     <!-- ============ Voice verifications ============ -->
     <ProductSection {...sectionProps('voice')}>
-      <Fragment slot="heading">{section('voice').headingPre} <span class="mark"><em>{section('voice').markEm}</em><Swoosh ink={section('voice').ink} /></span></Fragment>
+      <Fragment slot="heading"><span>{section('voice').headingPre} </span><span class="mark"><em>{section('voice').markEm}</em><Swoosh ink={section('voice').ink} /></span></Fragment>
       <Laptop width="min(40rem, 100%)"><VoiceScreen /></Laptop>
     </ProductSection>
 
@@ -96,19 +96,19 @@ const sectionProps = (id: (typeof sections)[number]['id']) => {
 
     <!-- ============ Rentals ============ -->
     <ProductSection {...sectionProps('rentals')}>
-      <Fragment slot="heading">{section('rentals').headingPre} <span class="mark"><em>{section('rentals').markEm}</em><Swoosh ink={section('rentals').ink} /></span></Fragment>
+      <Fragment slot="heading"><span>{section('rentals').headingPre} </span><span class="mark"><em>{section('rentals').markEm}</em><Swoosh ink={section('rentals').ink} /></span></Fragment>
       <Monitor><RentalsScreen /></Monitor>
     </ProductSection>
 
     <!-- ============ API ============ -->
     <ProductSection {...sectionProps('api')}>
-      <Fragment slot="heading">{section('api').headingPre} <span class="mark"><em>{section('api').markEm}</em><Swoosh ink={section('api').ink} /></span></Fragment>
+      <Fragment slot="heading"><span>{section('api').headingPre} </span><span class="mark"><em>{section('api').markEm}</em><Swoosh ink={section('api').ink} /></span></Fragment>
       <Laptop width="min(40rem, 100%)"><ApiScreen /></Laptop>
     </ProductSection>
 
     <!-- ============ Credits ============ -->
     <ProductSection {...sectionProps('credits')}>
-      <Fragment slot="heading">{section('credits').headingPre} <span class="mark"><em>{section('credits').markEm}</em><Swoosh ink={section('credits').ink} /></span></Fragment>
+      <Fragment slot="heading"><span>{section('credits').headingPre} </span><span class="mark"><em>{section('credits').markEm}</em><Swoosh ink={section('credits').ink} /></span></Fragment>
       <Monitor><CreditsScreen /></Monitor>
     </ProductSection>
 

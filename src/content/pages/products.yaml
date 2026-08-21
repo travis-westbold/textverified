@@ -27,7 +27,7 @@ sections:
     kicker: Text / SMS
     tone: dark
     headingPre: SMS
-    markEm: verifications.
+    markEm: Verifications.
     lede: >-
       SMS Verifications are our most affordable option to receive a code with
       a temporary number – starting at $0.25. Use our numbers for any
@@ -61,7 +61,7 @@ sections:
     kicker: Voice
     tone: deep
     headingPre: Voice
-    markEm: verifications.
+    markEm: Verifications.
     lede: >-
       Voice Verifications allow you to verify via phone call. Use our numbers
       for any service listed, and you'll only get charged if your call
