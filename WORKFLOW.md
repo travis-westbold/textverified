@@ -45,6 +45,14 @@ Suggested prompt:
 Feedback stays on that same branch while it remains part of the same coherent
 change. A separate page or unrelated feature should start on a new branch.
 
+## Tuning timings on the staging site
+
+Animation timing and other feel-level changes are iterated on
+`https://textverified-preview.vercel.app` — a separate Vercel project deployed
+straight from the working tree, with no branch or commit involved. Once a
+timing is settled it is committed and pushed as one reviewable chunk, rather
+than a commit per adjustment.
+
 ## Shipping approved work
 
 When the preview is approved, say so explicitly. The AI then fetches the latest
