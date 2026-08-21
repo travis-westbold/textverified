@@ -19,9 +19,8 @@ hero:
   strongPre: No problem.
   mark: { pre: Use, em: ours. }
   lede: >-
-    Real US mobile numbers backed by physical SIMs — not VoIP. Protect your
-    personal number from data breaches, spam and resale while you verify on
-    any platform.
+    Real US mobile numbers backed by physical SIMs — not VoIP. Verify on
+    any platform anywhere, anytime. Protect your personal number from data breaches, spam, and resale.
   primaryCta: Get started free
   signInCta: Sign in
   learnCta: Learn more
@@ -32,9 +31,9 @@ showcase:
   headingPre: Real US mobile numbers backed by physical SIMs — compatible with
   markEm: all platforms.
   lede: >-
-    Pick a service, get a number, and read the code the moment it lands.
+    Pick any service, get a number, and get the code the moment it arrives.
     Every verification is logged with its service, number and status —
-    exportable, and available over the API.
+    easily available through our website and API.
   features:
     - icon: message
       title: Text & SMS

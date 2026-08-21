@@ -76,7 +76,7 @@ sections:
     kicker: Long-term phone numbers
     tone: dark
     flip: true
-    headingPre: Number
+    headingPre: Phone
     markEm: rentals.
     lede: >-
       Rentals allow you to own a number for a longer period of time. Own your
@@ -91,7 +91,7 @@ sections:
     kicker: Automate
     tone: light
     ink: true
-    headingPre: The developer
+    headingPre: Developer
     markEm: API.
     lede: >-
       Use our API to interact with Textverified programatically. Whether you
@@ -109,7 +109,7 @@ sections:
     kicker: Payments
     tone: deep
     flip: true
-    headingPre: Fund with
+    headingPre: Buy with
     markEm: credits.
     lede: >-
       Use credits to purchase your verifications and rentals. Deposit funds
