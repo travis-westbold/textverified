@@ -187,4 +187,42 @@ const products = defineCollection({
   }),
 });
 
-export const collections = { reviews, pricing, faqs, navigation, footer, home, products };
+const verifications = defineCollection({
+  loader: glob({ pattern: 'verifications.yaml', base: './src/content/pages' }),
+  schema: z.object({
+    meta,
+    hero: z.object({
+      kicker: z.string().min(1),
+      title: z.string().min(1),
+      mark,
+      lede: z.string().min(1),
+      primaryCta: z.string().min(1),
+      secondaryCta: z.string().min(1),
+    }),
+    sections: z.array(z.object({
+      id: z.enum(['sms', 'voice']),
+      kicker: z.string().min(1),
+      tone: z.enum(['dark', 'deep', 'light']),
+      flip: z.boolean().default(false),
+      ink: z.boolean().default(false),
+      headingPre: z.string().min(1),
+      markEm: z.string().min(1),
+      lede: z.string().min(1),
+      steps: z.array(z.object({ title: z.string().min(1), text: z.string().min(1) })).min(1),
+      primaryLabel: z.string().optional(),
+      primaryLink: linkKey.optional(),
+    })).length(2),
+    extras: z.object({
+      kicker: z.string().min(1),
+      heading: z.string().min(1),
+      cards: z.array(z.object({
+        icon: z.enum(['refresh', 'globe', 'refund', 'list', 'bulk', 'bolt', 'chat']),
+        title: z.string().min(1),
+        body: safeHtml,
+      })).min(1),
+    }),
+    signupCta: ctaBand,
+  }),
+});
+
+export const collections = { reviews, pricing, faqs, navigation, footer, home, products, verifications };

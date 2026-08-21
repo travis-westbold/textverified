@@ -17,6 +17,7 @@ export const LINK_KEYS = [
   'pricing',
 
   'products',
+  'verifications',
   'sms',
   'extension',
   'extensionBlog',
