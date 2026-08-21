@@ -11,12 +11,14 @@ interface Props {
   kicker: string;
   heading: string;
   cards: Card[];
+  /** ground this grid sits on, so it can take its turn in the page rhythm */
+  tone?: 'light' | 'dark';
 }
 
-const { kicker, heading, cards } = Astro.props;
+const { kicker, heading, cards, tone = 'light' } = Astro.props;
 ---
 
-<section class="extras" data-reveal>
+<section class:list={['extras', tone]} data-reveal>
   <div class="shell">
     <header class="extras-head up">
       <span class="kicker">{kicker}</span>
@@ -44,6 +46,13 @@ const { kicker, heading, cards } = Astro.props;
 
 <style>
   .extras { padding: clamp(3.75rem, 7.5vw, 6.25rem) 0; color: var(--text); background: linear-gradient(180deg, white 0%, #f2f5f9 100%); }
+  /* dark turn in the page rhythm — the white cards carry the copy, so only
+     the ground and the head above it change */
+  .extras.dark { color: white; background: linear-gradient(180deg, #0f172b 0%, #070d1a 100%); }
+  .extras.dark .kicker { color: #8fd8f5; background: rgb(17 177 234 / 10%); border-color: rgb(17 177 234 / 30%); }
+  /* the cards stay white, so their copy must not inherit the section's
+     white text — that would leave the titles invisible */
+  .extras.dark .extra-card { color: var(--text); }
   .extras-head { max-width: 44rem; margin: 0 auto clamp(2.1rem, 4.5vw, 3.25rem); text-align: center; }
   .kicker { display: inline-flex; align-items: center; padding: .38rem .88rem; color: var(--brand); background: rgb(0 105 168 / 8%); border: 1px solid rgb(0 105 168 / 25%); border-radius: 999px; font-size: .72rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
   h2 { margin: 1rem 0 0; font-size: clamp(1.63rem, 3vw, 2.5rem); font-weight: 800; letter-spacing: -.028em; line-height: 1.14; }
