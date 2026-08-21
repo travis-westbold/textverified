@@ -62,7 +62,7 @@ const sectionProps = (id: (typeof sections)[number]['id']) => {
 
       <div class="hero-inner">
         <span class="kicker up">{hero.kicker}</span>
-        <h1 id="products-title" class="up">{hero.title}<br /><span class="mark">{hero.mark.pre} <em>{hero.mark.em}</em><Swoosh /></span></h1>
+        <h1 id="products-title" class="up">{hero.title}<br />{hero.mark.pre} <span class="mark"><em>{hero.mark.em}</em><Swoosh /></span></h1>
         <p class="lede up">{hero.lede}</p>
         <div class="actions up">
           <a class="button button-primary button-large" href={links.register}>{hero.primaryCta} <span aria-hidden="true">→</span></a>
