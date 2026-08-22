@@ -16,6 +16,16 @@ const { kicker, heading, lede, cards } = Astro.props;
 const rows = [{ code: '481 209' }, { code: '730 664' }, { code: '155 902' }];
 const label = (key: string) => key.charAt(0).toUpperCase() + key.slice(1);
 
+/* Arrival delays across all nine rows, deliberately unordered so codes land
+   scattered rather than as a top-to-bottom wave. Fixed rather than randomised
+   at build time, so every build and every visitor sees the same thing. */
+const DELAYS = [0, 1.72, 0.84, 2.36, 0.31, 1.28, 2.05, 0.62, 1.49];
+
+/* Each card shows all three accents, in a different order, so no column or
+   row reads as a pattern. */
+const ACCENTS = ['#3ba9ff', '#37e0a0', '#a877ff'];
+const ACCENT_ORDER = [0, 1, 2, 2, 0, 1, 1, 2, 0];
+
 /* the mark's bars, with the vertical offset that flattens each to one line */
 const BARS = [
   { x: 6.33, y: 35.157, line: 0 },
@@ -38,7 +48,7 @@ const BARS = [
         <article class="card up">
           <div class="log" aria-hidden="true">
             {card.icons.slice(0, 3).map((key, i) => (
-              <div class="row" style={`--row: ${cardIndex * 3 + i}`}>
+              <div class="row" style={`--delay: ${DELAYS[cardIndex * 3 + i]}s; --accent: ${ACCENTS[ACCENT_ORDER[cardIndex * 3 + i]]}`}>
                 <span class="svc"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd">{brandIconPaths[key].map((d) => <path d={d} />)}</svg>{label(key)}</span>
                 <span class="code">{rows[i].code}</span>
                 <span class="status">
@@ -96,14 +106,14 @@ const BARS = [
 
   /* fixed width, reserved for the finished "✓ Verified" state from frame one */
   .status { display: flex; align-items: center; justify-content: flex-start; gap: .42rem; flex: 0 0 4.9rem; }
-  .badge { display: grid; place-items: center; flex: 0 0 auto; width: 1.4rem; height: 1.08rem; animation: st-slide 6s ease-in-out infinite; animation-delay: calc(var(--row) * .55s); }
+  .badge { display: grid; place-items: center; flex: 0 0 auto; width: 1.4rem; height: 1.08rem; animation: st-slide 6s ease-in-out infinite; animation-delay: var(--delay); }
   .tvmark { width: 100%; height: 100%; overflow: visible; }
-  .bar { transform: translateY(calc(var(--line) * 1px)); animation: st-form 6s ease-in-out infinite; animation-delay: calc(var(--row) * .55s); }
-  .bar rect { fill: #94a3b8; animation: st-bar 6s ease-in-out infinite; animation-delay: calc(var(--row) * .55s); }
-  .bar:nth-of-type(2) rect { animation-delay: calc(var(--row) * .55s + .07s); }
-  .bar:nth-of-type(3) rect { animation-delay: calc(var(--row) * .55s + .14s); }
-  .bar:nth-of-type(4) rect { animation-delay: calc(var(--row) * .55s + .21s); }
-  .word { color: #37e0a0; font-size: .7rem; font-weight: 800; letter-spacing: .02em; white-space: nowrap; opacity: 0; animation: st-word 6s ease-in-out infinite; animation-delay: calc(var(--row) * .55s); }
+  .bar { transform: translateY(calc(var(--line) * 1px)); animation: st-form 6s ease-in-out infinite; animation-delay: var(--delay); }
+  .bar rect { fill: #94a3b8; animation: st-bar 6s ease-in-out infinite; animation-delay: var(--delay); }
+  .bar:nth-of-type(2) rect { animation-delay: calc(var(--delay) + .07s); }
+  .bar:nth-of-type(3) rect { animation-delay: calc(var(--delay) + .14s); }
+  .bar:nth-of-type(4) rect { animation-delay: calc(var(--delay) + .21s); }
+  .word { color: var(--accent); font-size: .7rem; font-weight: 800; letter-spacing: .02em; white-space: nowrap; opacity: 0; animation: st-word 6s ease-in-out infinite; animation-delay: var(--delay); }
 
   /* phase 1 flat + dancing, phase 2 into the checkmark, phase 3 to green */
   @keyframes st-form {
@@ -117,7 +127,7 @@ const BARS = [
     21% { opacity: 1; transform: translateY(-3px); }
     26% { opacity: .6; transform: translateY(0); fill: #94a3b8; }
     38% { opacity: 1; fill: #94a3b8; }
-    46%, 100% { opacity: 1; transform: translateY(0); fill: #37e0a0; }
+    46%, 100% { opacity: 1; transform: translateY(0); fill: var(--accent); }
   }
   /* the mark starts centred in the reserved space, then slides left */
   @keyframes st-slide {
@@ -142,7 +152,7 @@ const BARS = [
   @media (prefers-reduced-motion: reduce), (prefers-reduced-data: reduce) {
     .badge, .bar, .bar rect, .word { animation: none; }
     .bar { transform: translateY(0); }
-    .bar rect { fill: #37e0a0; opacity: 1; }
+    .bar rect { fill: var(--accent); opacity: 1; }
     .word { opacity: 1; }
     .up { opacity: 1; transform: none; transition: none; }
   }
