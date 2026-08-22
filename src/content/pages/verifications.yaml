@@ -8,7 +8,7 @@ meta:
 hero:
   kicker: Verification products
   title: Verifications
-  mark: { pre: SMS and, em: Voice }
+  mark: { pre: SMS, em: and, post: Voice }
   lede: >-
     Textverified provides temporary non-VoIP US phone numbers to receive SMS
     codes and voice calls for online account verification. Choose your service,

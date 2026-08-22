@@ -87,7 +87,8 @@ const meta = z.object({
   canonical: z.string().url(),
   keywords: z.string().optional(),
 });
-const mark = z.object({ pre: z.string().optional(), em: z.string().min(1) });
+/* `post` lets the emphasised word sit mid-phrase, e.g. SMS *and* Voice */
+const mark = z.object({ pre: z.string().optional(), em: z.string().min(1), post: z.string().optional() });
 const ctaBand = z.object({ heading: z.string().min(1), body: z.string().min(1), buttonLabel: z.string().min(1) });
 
 const home = defineCollection({
