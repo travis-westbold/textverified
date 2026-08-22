@@ -10,11 +10,6 @@ import Laptop from '../components/Laptop.astro';
 import ProductSection from '../components/products/ProductSection.astro';
 import ExtrasGrid from '../components/products/ExtrasGrid.astro';
 import UseCases from '../components/products/UseCases.astro';
-/* --- use-case options under review: delete this block and the two unchosen
-   files in components/products/usecases/ once one is picked --- */
-import UseCasesFlyover from '../components/products/usecases/UseCasesFlyover.astro';
-import UseCasesStream from '../components/products/usecases/UseCasesStream.astro';
-import UseCasesEditorial from '../components/products/usecases/UseCasesEditorial.astro';
 import PlanCompare from '../components/products/PlanCompare.astro';
 import SmsScreen from '../components/products/SmsScreen.astro';
 import VoiceScreen from '../components/products/VoiceScreen.astro';
@@ -80,19 +75,7 @@ const sectionProps = (id: (typeof sections)[number]['id']) => {
 
     <ExtrasGrid kicker={extras.kicker} heading={extras.heading} cards={[...extras.cards]} />
 
-    {/* --- use-case options under review --- */}
-    <div class="option-label"><span>Option A — Flyover</span></div>
-    <UseCasesFlyover kicker={useCases.kicker} heading={useCases.heading} lede={useCases.lede} cards={[...useCases.cards]} />
-
-    <div class="option-label"><span>Option B — Verified stream</span></div>
-    <UseCasesStream kicker={useCases.kicker} heading={useCases.heading} lede={useCases.lede} cards={[...useCases.cards]} />
-
-    <div class="option-label"><span>Option C — Editorial</span></div>
-    <UseCasesEditorial kicker={useCases.kicker} heading={useCases.heading} lede={useCases.lede} cards={[...useCases.cards]} />
-
-    <div class="option-label"><span>Current (v1, for comparison)</span></div>
-    <UseCases tone="dark" kicker={useCases.kicker} heading={useCases.heading} lede={useCases.lede} cards={[...useCases.cards]} />
-    {/* --- end options --- */}
+    <UseCases kicker={useCases.kicker} heading={useCases.heading} lede={useCases.lede} cards={[...useCases.cards]} />
 
     <PlanCompare kicker={planCompare.kicker} heading={planCompare.heading} lede={planCompare.lede} plans={[...planCompare.plans]} />
 
@@ -118,10 +101,6 @@ const sectionProps = (id: (typeof sections)[number]['id']) => {
 </script>
 
 <style>
-  /* --- review labels for the use-case options; goes with the block above --- */
-  .option-label { display: flex; justify-content: center; padding: .9rem 0; background: #111827; }
-  .option-label span { padding: .35rem .9rem; color: #ffd8a8; background: rgb(255 216 168 / 12%); border: 1px solid rgb(255 216 168 / 35%); border-radius: 999px; font-size: .72rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
-
   .products-hero { position: relative; isolation: isolate; overflow: hidden; text-align: center; color: white; padding: calc(var(--header-height) + clamp(2.75rem, 5.5vw, 5.25rem)) 0 clamp(3.5rem, 6.5vw, 5.75rem); background: radial-gradient(120% 80% at 50% -10%, #1a2c4d 0%, transparent 55%), linear-gradient(180deg, #0f172b 0%, #070d1a 100%); }
   .hero-inner { position: relative; width: min(55rem, 92vw); margin-inline: auto; }
   .hero-inner::before { content: ''; position: absolute; z-index: -1; inset: -16% -26%; background: radial-gradient(55% 58% at 50% 45%, rgb(7 13 26 / 92%) 0%, rgb(7 13 26 / 60%) 55%, transparent 80%); pointer-events: none; }
