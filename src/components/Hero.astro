@@ -49,9 +49,8 @@ const { hero } = page.data;
 </section>
 
 <script>
-  /* ambient animation (the eyebrow dot) sleeps while the hero is off-screen —
-     [data-animation-state='paused'] is defined globally. The platform strip is
-     scroll-linked and needs no pausing: it only advances while on screen. */
+  /* Ambient animations sleep while the hero is off-screen —
+     [data-animation-state='paused'] is defined globally. */
   document.querySelectorAll<HTMLElement>('[data-animated-section]').forEach((section) => {
     if (!('IntersectionObserver' in window)) return;
     new IntersectionObserver(([entry]) => {
@@ -93,16 +92,7 @@ const { hero } = page.data;
   .trust { position: relative; z-index: 2; padding: 1.9rem 0 2rem; background: #eef0f3; }
   .trust p { margin: 0 0 .9rem; color: #6b7482; font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-align: center; text-transform: uppercase; }
   .marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
-  .platforms { display: flex; align-items: center; gap: clamp(2.1rem, 5vw, 4rem); width: max-content; color: #39424f; }
-  /* the strip advances with the page scroll instead of on a timer. The view
-     timeline is named on .trust because .marquee is overflow:hidden, which
-     makes it a scroll container and would capture a bare view(). Where
-     scroll-driven animations are unsupported the strip simply stands still —
-     never falling back to ambient motion. */
-  @supports (animation-timeline: view()) {
-    .trust { view-timeline: --platform-strip block; }
-    .platforms { animation: marquee-slide linear both; animation-timeline: --platform-strip; animation-range: entry 0% exit 100%; }
-  }
+  .platforms { display: flex; align-items: center; gap: clamp(2.1rem, 5vw, 4rem); width: max-content; color: #39424f; animation: marquee-slide 34s linear infinite; }
   .platforms span { font-size: clamp(1.05rem, 1.65vw, 1.38rem); font-weight: 700; letter-spacing: -.01em; opacity: .82; white-space: nowrap; }
 
   /* entrance choreography */
