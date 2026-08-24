@@ -31,10 +31,9 @@ const RUN = [
       </div>
 
       <div class="dtable">
-        <div class="drow dhr r4"><span>ID</span><span>Service</span><span>Number</span><span>Status</span></div>
+        <div class="drow dhr r4"><span>Service</span><span>Number</span><span>Status</span></div>
         {RUN.map((row) => (
           <div class="drow r4">
-            <span class="dnum">{row.id}</span>
             <span class="dsvc"><i style={`background:${row.fill}`}>{row.mark}</i>{row.name}</span>
             <span class="dnum">{row.number}</span>
             <span class="dst ok" data-bulk-state>Verified</span>
