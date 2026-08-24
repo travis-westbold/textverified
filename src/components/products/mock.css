@@ -52,7 +52,7 @@
 .tvm .mhead .x { color: #9aa7ba; font-weight: 600; }
 .tvm .msvc { display: flex; align-items: center; gap: .7em; margin-top: .9em; font-weight: 800; font-size: 1.1em; }
 .tvm .msvc i { width: 2.2em; height: 2.2em; border-radius: .55em; display: grid; place-items: center; color: #fff; font-style: normal; font-weight: 800; font-size: .9em; }
-.tvm .mban { display: flex; align-items: center; gap: .7em; margin-top: .95em; padding: .7em .9em; min-height: calc(4.2em + 2px); border-radius: .6em; font-size: .95em; font-weight: 600; background: #eaf4fd; border: 1px solid rgb(30 143 214 / 30%); color: #1d6fa8; transition: background 400ms, border-color 400ms, color 400ms; }
+.tvm .mban { display: flex; align-items: center; gap: .7em; margin-top: .95em; padding: .7em .9em; min-height: 4.4em; border-radius: .6em; font-size: .95em; font-weight: 600; background: #eaf4fd; border: 1px solid rgb(30 143 214 / 30%); color: #1d6fa8; transition: background 400ms, border-color 400ms, color 400ms; }
 .tvm .mban.warn { background: #fff7e8; border-color: rgb(214 146 15 / 35%); color: #a86f0d; }
 .tvm .mban.ok { background: #eafaf1; border-color: rgb(22 163 101 / 40%); color: #0f8a55; }
 .tvm .mban .tvload { width: 2.6em; height: 2em; }
