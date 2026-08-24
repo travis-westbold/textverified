@@ -80,6 +80,9 @@ For example, an API-backed announcements feed can use a custom element and
 
 ### Design and motion
 
+`DESIGN.md` documents the visual system — tokens, the ground rhythm, section
+and card anatomy, and the motion mechanisms. Read it before building a page.
+
 - Reuse tokens when possible, such as from `src/styles/global.css`: `--brand`, `--brand-light`,
   `--cyan`, `--text`, `--text-muted`, `--surface-subtle`, `--surface-blue`,
   `--border`, `--border-blue`, `--header-height`, `--shell`, and `--font`.
