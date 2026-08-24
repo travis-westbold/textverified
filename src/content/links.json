@@ -19,7 +19,7 @@
   "extension": "https://www.textverified.com/extension",
   "extensionBlog": "https://www.textverified.com/support/chrome-extension-walkthrough/",
   "rentals": "https://www.textverified.com/rentals",
-  "developerApi": "https://www.textverified.com/automate",
+  "developerApi": "/automate",
   "apiDocs": "https://www.textverified.com/docs/api/v2",
   "freeNumbers": "https://www.textverified.com/free",
   "creditsInfo": "https://www.textverified.com/products/credits",
