@@ -1,0 +1,13 @@
+/* Split out of mock.css so a page only ships the chrome its screens use.
+   Everything here is scoped under .tvm and assumes mock.css is imported
+   alongside it — the shared keyframes and loader live there. */
+
+/* ---- voice extras: waveform + dialpad ---- */
+.tvm .vsplit { display: grid; grid-template-columns: 1fr auto; gap: 1em; align-items: stretch; margin-top: .95em; }
+.tvm .wavebox { border-radius: .7em; background: #0d1726; display: flex; align-items: center; justify-content: center; gap: .35em; padding: 1em; min-height: 6em; }
+.tvm .wavebox i { width: .45em; height: 1.2em; border-radius: .3em; background: #38d3ff; animation: tvm-wv 1s ease-in-out infinite; animation-delay: calc(var(--d) * .09s); }
+.tvm.oncall .wavebox i { background: #37e0a0; }
+.tvm .dialpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: .4em; }
+.tvm .dialpad span { width: 2.4em; height: 2.4em; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: .95em; background: #f4f7fb; border: 1px solid #e2e8f1; color: #3c4c66; }
+
+@media (prefers-reduced-motion: reduce) { .tvm .wavebox i { animation: none; } }

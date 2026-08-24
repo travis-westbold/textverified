@@ -2,7 +2,7 @@
 /* The old products page's "Additional Features" lists, as card grids.
    Card bodies are trusted first-party copy and may embed links. */
 interface Card {
-  icon: 'refresh' | 'globe' | 'refund' | 'list' | 'bulk' | 'bolt' | 'chat' | 'code' | 'key';
+  icon: 'refresh' | 'globe' | 'refund' | 'list' | 'bulk' | 'bolt' | 'chat' | 'code' | 'key' | 'clock';
   title: string;
   body: string;
 }
@@ -24,7 +24,7 @@ const { kicker, heading, cards, tone = 'light' } = Astro.props;
       <span class="kicker">{kicker}</span>
       <h2>{heading}</h2>
     </header>
-    <div class:list={['extras-grid', { three: cards.length === 3 }]}>
+    <div class:list={['extras-grid', { three: cards.length === 3, six: cards.length === 6 }]}>
       {cards.map((card) => (
         <article class="extra-card up">
           <span class="extra-icon" aria-hidden="true">
@@ -36,6 +36,7 @@ const { kicker, heading, cards, tone = 'light' } = Astro.props;
             {card.icon === 'bolt' && <svg viewBox="0 0 24 24"><path d="M13 2 3 14h8l-1 8 10-12h-8z" /></svg>}
             {card.icon === 'code' && <svg viewBox="0 0 24 24"><path d="m8 6-6 6 6 6" /><path d="m16 6 6 6-6 6" /></svg>}
             {card.icon === 'key' && <svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="5" /><path d="M11.5 11.5 21 2" /><path d="m18 5 2.5 2.5" /><path d="m15 8 2.5 2.5" /></svg>}
+            {card.icon === 'clock' && <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3.5 2" /></svg>}
             {card.icon === 'chat' && <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z" /></svg>}
           </span>
           <strong>{card.title}</strong>
@@ -60,6 +61,9 @@ const { kicker, heading, cards, tone = 'light' } = Astro.props;
   h2 { margin: 1rem 0 0; font-size: clamp(1.63rem, 3vw, 2.5rem); font-weight: 800; letter-spacing: -.028em; line-height: 1.14; }
   .extras-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(.88rem, 1.8vw, 1.38rem); }
   .extras-grid.three { grid-template-columns: repeat(3, 1fr); max-width: 63.75rem; margin-inline: auto; }
+  /* six cards in four columns leaves two orphans and a hole; three columns
+     fills both rows */
+  .extras-grid.six { grid-template-columns: repeat(3, 1fr); max-width: 63.75rem; margin-inline: auto; }
   .extra-card { padding: 1.38rem; background: white; border: 1px solid rgb(15 23 43 / 9%); border-radius: 1.13rem; box-shadow: 0 1px 2px rgb(15 23 43 / 5%), 0 1.13rem 2.5rem -1.88rem rgb(15 23 43 / 50%); transition: border-color 300ms, transform 300ms cubic-bezier(.22,1,.36,1), box-shadow 300ms cubic-bezier(.22,1,.36,1); }
   .extra-card:hover { border-color: rgb(0 105 168 / 35%); transform: translateY(-3px); box-shadow: 0 1px 2px rgb(15 23 43 / 5%), 0 1.5rem 2.9rem -1.75rem rgb(15 23 43 / 55%); }
   .extra-icon { display: grid; place-items: center; width: 2.38rem; height: 2.38rem; margin-bottom: .88rem; border-radius: .75rem; background: rgb(0 105 168 / 9%); border: 1px solid rgb(0 105 168 / 22%); color: var(--brand); }
@@ -73,8 +77,10 @@ const { kicker, heading, cards, tone = 'light' } = Astro.props;
   .extra-card.up:nth-child(2) { transition-delay: 90ms; }
   .extra-card.up:nth-child(3) { transition-delay: 180ms; }
   .extra-card.up:nth-child(4) { transition-delay: 270ms; }
+  .extra-card.up:nth-child(5) { transition-delay: 360ms; }
+  .extra-card.up:nth-child(6) { transition-delay: 450ms; }
 
-  @media (max-width: 940px) { .extras-grid, .extras-grid.three { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 640px) { .extras-grid, .extras-grid.three { grid-template-columns: 1fr; } }
+  @media (max-width: 940px) { .extras-grid, .extras-grid.three, .extras-grid.six { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .extras-grid, .extras-grid.three, .extras-grid.six { grid-template-columns: 1fr; } }
   @media (prefers-reduced-motion: reduce) { .up { opacity: 1; transform: none; transition: none; } .extra-card { transition: none; } }
 </style>

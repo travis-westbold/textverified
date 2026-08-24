@@ -18,7 +18,7 @@
   "verifications": "/verifications",
   "extension": "https://www.textverified.com/extension",
   "extensionBlog": "https://www.textverified.com/support/chrome-extension-walkthrough/",
-  "rentals": "https://www.textverified.com/rentals",
+  "rentals": "/rentals",
   "developerApi": "/automate",
   "apiDocs": "https://www.textverified.com/docs/api/v2",
   "freeNumbers": "https://www.textverified.com/free",

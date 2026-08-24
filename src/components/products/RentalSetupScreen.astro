@@ -1,0 +1,123 @@
+---
+/* Renting a line: the New Rental dialog over the dashboard, cycling through
+   the customisation options — duration, renewal, area code — and issuing a
+   number each time. Every control keeps its size in both states, and the
+   summary values are laid out from the first frame. */
+import './mock.css';
+import Loader from './Loader.astro';
+---
+
+<div class="tvm mock" data-rental-setup role="img" aria-label="Renting a number — choosing its duration, renewal and area code">
+  <div class="dtop"><span class="dbrand"><img src="/tvlogo.svg" alt="" width="375" height="93" loading="lazy" decoding="async" /></span>
+    <span class="dtools"><span class="dcoin"><i></i>48.00</span><span class="dava"></span></span></div>
+  <div class="dbody">
+    <nav class="dside"><span>Inbox</span><span>Verifications</span><span class="on">Rentals</span><span>Lines</span><span>Support</span><span>Credits</span></nav>
+    <div class="dmain">
+      <div class="dhead"><b>Rentals</b><span class="dbtns"><span class="dbtn pri">New Rental</span></span></div>
+      <div class="dtabs"><span class="on">Active</span><span>Expired</span></div>
+      <div class="dtable">
+        <div class="drow dhr r4"><span>Number</span><span>Services</span><span>Renews in</span><span>Status</span></div>
+        <div class="drow r4"><span class="dnum">(938) 555-0182</span><span>Unlimited services</span><span>29d 06:12:44</span><span class="dst ok"><span class="live"></span>Active</span></div>
+        <div class="drow r4"><span class="dnum">(415) 555-0142</span><span>Instagram</span><span>12d 18:03:19</span><span class="dst ok"><span class="live"></span>Active</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scrim"></div>
+  <div class="modal">
+    <div class="mhead">New Rental <span class="x">✕</span></div>
+    <div class="msvc"><i style="background:#0069a8">∞</i>Unlimited services</div>
+
+    <div class="mlab">Duration</div>
+    <div class="amounts" data-rental-duration><span>1 Day</span><span>1 Week</span><span class="on">1 Month</span><span>Forever</span></div>
+
+    <div class="mlab">Renewal</div>
+    <div class="methods" data-rental-renewal><span class="on">Automatic</span><span>Manual</span><span>None</span></div>
+
+    <div class="mlab">Area code</div>
+    <div class="methods" data-rental-area><span class="on">415</span><span>206</span><span>938</span><span>Any</span></div>
+
+    <div class="osum">
+      <div>Number type <b>Non-VoIP US</b></div>
+      <div>Keeps running until <b data-rental-until>you cancel it</b></div>
+    </div>
+
+    <div class="mban ok" data-rental-banner><Loader /><span data-rental-text>Line ready — (415) 555-0142</span></div>
+  </div>
+</div>
+
+<style>
+  /* the dialog packs more controls than the verification one, so it runs a
+     little tighter — everything else comes from mock.css */
+  .modal { width: 68%; }
+  .mlab { margin-top: .8em; }
+  .amounts, .methods { margin-top: .4em; }
+  .osum { margin-top: .9em; }
+  /* the banner is the only line whose text changes; two lines of room at
+     every width, so a longer message never grows the dialog */
+  .mban { margin-top: .9em; }
+  /* .methods came from the credits screen, where the selected chip is crypto
+     orange. Here every choice is a brand choice, so it matches .amounts. */
+  .methods span.on { background: rgb(0 105 168 / 7%); border-color: #0069a8; color: #0069a8; }
+</style>
+
+<script>
+  import { prefersReducedMotion, runWhileVisible, wait } from '../../scripts/demo';
+
+  /* [duration, renewal, area, until, issued number] */
+  const CONFIGS: Array<[number, number, number, string, string]> = [
+    [2, 0, 0, 'you cancel it', '(415) 555-0142'],
+    [0, 2, 1, 'tomorrow', '(206) 555-0163'],
+    [1, 1, 2, 'next Tuesday', '(938) 555-0117'],
+    [3, 0, 3, 'you cancel it', '(713) 555-0129'],
+  ];
+
+  document.querySelectorAll<HTMLElement>('[data-rental-setup]').forEach((screen) => {
+    const groups = {
+      duration: screen.querySelector<HTMLElement>('[data-rental-duration]'),
+      renewal: screen.querySelector<HTMLElement>('[data-rental-renewal]'),
+      area: screen.querySelector<HTMLElement>('[data-rental-area]'),
+    };
+    const until = screen.querySelector<HTMLElement>('[data-rental-until]');
+    const banner = screen.querySelector<HTMLElement>('[data-rental-banner]');
+    const text = screen.querySelector<HTMLElement>('[data-rental-text]');
+    const loader = banner?.querySelector<SVGElement>('.tvload');
+    if (prefersReducedMotion()) { // the issued line stands
+      if (loader) loader.style.display = 'none';
+      return;
+    }
+
+    const select = (group: HTMLElement | null, index: number) => {
+      if (!group) return;
+      [...group.children].forEach((child, position) => child.classList.toggle('on', position === index));
+    };
+
+    let step = 0;
+    runWhileVisible(screen, async (stopped) => {
+      while (!stopped()) {
+        const [duration, renewal, area, untilText, issued] = CONFIGS[step % CONFIGS.length];
+        step++;
+
+        /* the choices land one after another, the way someone fills the form */
+        banner?.classList.remove('ok');
+        if (loader) loader.style.display = '';
+        if (text) text.textContent = 'Reserving your line…';
+        select(groups.duration, duration);
+        await wait(620);
+        if (stopped()) return;
+        select(groups.renewal, renewal);
+        if (until) until.textContent = untilText;
+        await wait(620);
+        if (stopped()) return;
+        select(groups.area, area);
+        await wait(900);
+        if (stopped()) return;
+
+        banner?.classList.add('ok');
+        if (loader) loader.style.display = 'none';
+        if (text) text.textContent = `Line ready — ${issued}`;
+        await wait(2900);
+      }
+    });
+  });
+</script>
