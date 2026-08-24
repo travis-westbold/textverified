@@ -1,0 +1,168 @@
+meta:
+  title: Rentals | Textverified
+  description: >-
+    Rent a non-VoIP US phone number for a day, a month, or as long as you
+    like. Receive unlimited SMS on a long-term line, choose your area code,
+    and keep or expire the number on your own schedule.
+  canonical: https://www.textverified.com/rentals
+hero:
+  kicker: Rental products
+  title: Long-term phone number
+  mark: { em: Rentals. }
+  lede: >-
+    Rent a US phone number online for as long as you would like. Use our real
+    non-VoIP numbers to receive SMS codes and verify accounts for any length
+    of time.
+  primaryCta: Sign up for Textverified
+  secondaryCta: What can I verify?
+sections:
+  - id: setup
+    kicker: Getting started
+    tone: light
+    ink: true
+    flip: false
+    headingPre: Rent a number,
+    markEm: your way.
+    lede: >-
+      Rentals let you own a temporary number for a long period of time — one
+      day, one month, one year, or forever. Pick the line that fits and keep
+      it for as long as you need it.
+    steps:
+      - title: Select a service.
+        text: >-
+          Choose from our list of supported services, or take a private
+          number that works across all of them.
+      - title: Customize.
+        text: >-
+          Set the duration, the renewal and the US area code. Rentals are
+          highly personalized, so the line fits the way you work.
+      - title: Verify!
+        text: >-
+          Receive SMS on demand from your dashboard, manage your numbers, and
+          read your previous messages whenever you need them.
+    primaryLabel: Create an account
+    primaryLink: register
+    secondaryLabel: See pricing
+    secondaryLink: pricing
+  - id: manage
+    kicker: Your lines
+    tone: dark
+    ink: false
+    flip: true
+    headingPre: Every number,
+    markEm: on one page.
+    lede: >-
+      Active rentals sit in your dashboard with their renewal clocks running.
+      Take messages whenever they arrive, keep the lines you want, and let the
+      rest expire.
+    steps:
+      - title: See what is running.
+        text: >-
+          Every active line, the services on it, and the time left before it
+          renews.
+      - title: Take messages any time.
+        text: >-
+          Rentals are designed for ongoing access, which makes them a strong
+          fit for accounts you want to keep over time.
+      - title: Keep it or let it go.
+        text: >-
+          Renewable lines can be kept indefinitely. Non-renewable lines simply
+          expire on their date, with nothing to cancel.
+useCases:
+  kicker: Use cases
+  heading: Popular use cases.
+  lede: >-
+    People use rentals across hundreds of apps. Here is where owning the
+    number for a while helps most, rather than borrowing it once.
+  cards:
+    - title: Dating Apps
+      icons: [tinder, snapchat, instagram]
+      body: >-
+        Keeping your personal number private matters most on dating apps.
+        Use a real US number instead, and avoid unwanted calls or texts.
+    - title: Social Media
+      icons: [facebook, x, tiktok]
+      body: >-
+        Create several accounts on a single line, keep your personal number
+        out of them, and share access with your team as you grow.
+    - title: Online Promotions
+      icons: [amazon, walmart, target]
+      body: >-
+        Recurring rewards need an account that sticks around. A rented line
+        keeps those accounts reachable for as long as you use them.
+extras:
+  kicker: Rentals
+  heading: Powerful customization options.
+  cards:
+    - icon: chat
+      title: Message Access
+      body: >-
+        Manage your rental and receive SMS from your dashboard whenever you
+        need them, for as long as the line is yours.
+    - icon: clock
+      title: Duration
+      body: >-
+        Choose the length of your rental — a day, a week, two weeks, or
+        month by month for as long as you see fit.
+    - icon: refresh
+      title: Renewability
+      body: >-
+        Non-renewable rentals expire on a set date. Renewable rentals can be
+        kept for as long as you want them.
+    - icon: globe
+      title: Area Codes
+      body: >-
+        Pick a number with a specific US area code, available from all US
+        states except Alaska and Hawaii.
+    - icon: list
+      title: All-On-One Lines
+      body: >-
+        Buy a line that carries many services on the same number, which some
+        services require.
+    - icon: bulk
+      title: Unlimited Services
+      body: >-
+        Rent a special number that receives SMS from every service at once —
+        an all-in-one line for many accounts.
+planCompare:
+  kicker: Pricing
+  heading: Verifications vs rentals.
+  lede: >-
+    Rentals and verifications are aimed at different jobs. Here is how they
+    compare, so you can pick the one that fits.
+  plans:
+    - name: Verifications
+      price: $0.25
+      unit: /verification
+      description: The right choice when you need a one-time SMS code or voice call.
+      ctaLabel: Get started today
+      ctaLink: register
+      features:
+        - Non-VoIP US phone number
+        - US area code selection
+        - Receive one-time SMS verifications
+        - Receive one-time voice verifications
+        - Short-term phone service
+        - One account per phone line
+    - name: Rentals
+      price: $1.50
+      unit: /rental
+      featured: true
+      description: Own a US phone number for as long as you like, and pay as you go.
+      ctaLabel: Get started today
+      ctaLink: register
+      features:
+        - Non-VoIP US phone number
+        - US area code selection
+        - Receive unlimited SMS
+        - Keep the number from one day to forever
+        - Extremely customizable
+        - Long-term phone service
+        - Many accounts per phone line
+signupCta:
+  heading: Use our rentals to verify anything.
+  body: >-
+    Rent a real US number and keep your online accounts reachable for as long
+    as you need. We have a solution for all your SMS and voice verification
+    needs.
+  buttonLabel: Create an account

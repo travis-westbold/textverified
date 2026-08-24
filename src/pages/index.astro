@@ -27,7 +27,11 @@ const { meta, signupCta } = page.data;
     <Hero />
     <DashboardShowcase />
     <WhatWeOffer />
-    <SignupCta {...signupCta} />
+    <SignupCta
+      heading={signupCta.heading}
+      body={signupCta.body}
+      buttonLabel={signupCta.buttonLabel}
+    />
     <Reviews />
     <Pricing />
     <Faq />
