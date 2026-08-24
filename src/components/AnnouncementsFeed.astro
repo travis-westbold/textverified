@@ -154,5 +154,5 @@ const { endpoint, endpointNote } = Astro.props;
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }[hidden] { display: none !important; }
   @keyframes shimmer { to { background-position: -220% 0; } }
   @media (max-width: 700px) { .section-head { grid-template-columns: 1fr; gap: 1rem; }.pagination { gap: .6rem; }.page-button { padding-inline: .8rem; } }
-  @media (prefers-reduced-motion: reduce) { .skeleton span { animation: none; }.learn-more:hover, .page-button:hover:not(:disabled) { transform: none; } }
+  @media (prefers-reduced-motion: reduce), (prefers-reduced-data: reduce) { .skeleton span { animation: none; }.learn-more:hover, .page-button:hover:not(:disabled) { transform: none; } }
 </style>
