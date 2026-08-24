@@ -1,0 +1,44 @@
+---
+/* Payment marks, matching the marks on textverified.com. Inline build-time
+   SVG rather than images, per the no-image rule for public pages, and run
+   through svgo — the source paths carried up to 8 decimal places, which the
+   page's HTML budget has no room for. Visa is monochrome and inherits
+   currentColor; the rest carry their own brand colours. */
+---
+
+<div class="marks">
+  <div class="cards">
+    <svg role="img" aria-label="Visa" fill="currentColor" viewBox="0 0 1000 325"><path fill-rule="evenodd" d="M651 1c-71 0-134 36-134 104 0 78 112 83 112 123 0 16-19 31-51 31-46 0-80-21-80-21l-14 69s39 17 91 17c78 0 139-38 139-107 0-83-113-88-113-124 0-13 15-27 48-27 36 0 66 15 66 15l14-67S697 1 651 1M2 5 0 15s30 6 57 17c35 12 37 20 43 42l64 245h85L380 5h-85l-84 214-35-181c-3-21-19-33-38-33zm412 0-67 314h81L495 5zm452 0c-20 0-30 11-38 29L710 319h85l16-47h104l10 47h75L934 5zm11 85 25 118h-67z"/></svg>
+    <svg role="img" aria-label="Mastercard" viewBox="0 0 1000 618"><path fill="#ff5f00" d="M364.8 66.1h270.4v485.8H364.8z"/><path fill="#eb001b" d="M382 309c0-98.7 46.3-186.3 117.6-242.9A308.8 308.8 0 0 0 0 309.1a308.8 308.8 0 0 0 499.6 242.8A309 309 0 0 1 382 309"/><path fill="#f79e1b" d="M1000 309a308.8 308.8 0 0 1-499.6 243 310 310 0 0 0 0-485.8A307 307 0 0 1 691-.1c170.8 0 309 139 309 309"/></svg>
+    <svg role="img" aria-label="American Express" viewBox="-150 -249 1300 1496"><path fill="#016fd0" d="M0 0h998v538l-50 78 50 68v314H0V490l31-36-31-34z"/><path fill="#fff" d="M194 695V538h165l18 24 19-24h602v146s-16 11-34 11H630l-20-25v25h-65v-42s-9 6-29 6h-22v36H394l-18-24-18 24zM0 420l37-87h65l21 49v-49h81l12 36 13-36h360v18s19-18 51-18l117 1 20 48v-49h68l18 28v-28h68v157h-68l-17-28v28h-99l-10-25h-27l-10 25h-67c-26 0-44-17-44-17v17H488l-20-25v25H92l-9-25H56l-10 25H0z"/><path fill="#016fd0" d="M51 353 0 470h33l9-24h54l10 24h33L89 353zm18 27 17 41H53zm74 90V353h46l28 75 26-75h46v117h-29v-87l-31 87h-26l-31-87v87zm166 0V353h96v26h-66v20h64v25h-64v20h66v26zm113-117v117h29v-42h13l35 42h36l-39-43c16-2 32-15 32-36 0-25-19-38-41-38zm29 26h34q13 2 14 12c0 8-8 13-14 13h-34zm119 91h-30V353h30zm71 0h-6c-32 0-51-25-51-58 0-35 19-59 59-59h32v27h-34q-25 2-27 32 2 33 32 32h7zm64-117-51 117h33l10-24h54l9 24h34l-51-117zm19 27 16 41h-33zm73 90V353h37l48 73v-73h29v117h-36l-49-76v76zM214 675V558h95v26h-66v20h65v25h-65v21h66v25zm468 0V558h96v26h-66v20h64v25h-64v21h66v25zm-369 0 47-58-48-59h37l28 36 29-36h35l-47 58 47 59h-37l-28-36-27 36zm131-117v117h30v-37h31c26 0 46-14 46-41 0-22-15-39-42-39zm30 26h33q13 0 14 14-1 13-14 13h-33zm90-26v117h29v-42h13l35 42h36l-39-43c16-1 32-15 32-36 0-25-19-38-41-38zm29 26h34q13 2 14 12c0 8-8 13-14 13h-34zm199 91v-25h58q13-1 13-10t-13-10h-26q-35-2-36-35c0-19 12-37 46-37h57l-12 26h-50q-13 1-12 10 0 9 11 10h28c25 0 36 15 36 34 0 20-12 37-38 37zm107 0v-25h59q13-1 12-10 1-9-12-10h-27q-35-2-35-35c0-19 11-37 46-37h57l-13 26h-49q-13 1-12 10 0 9 10 10h28c26 0 37 15 37 34 0 20-12 37-38 37z"/></svg>
+  </div>
+  <div class="coins">
+    <svg role="img" aria-label="Bitcoin" viewBox="0 0 32 32"><g fill="none" fill-rule="evenodd"><circle cx="16" cy="16" r="16" fill="#f7931a"/><path fill="#fff" fill-rule="nonzero" d="M23.19 14.02c.31-2.1-1.28-3.22-3.47-3.97l.71-2.85-1.73-.43-.69 2.77-1.38-.33.7-2.78L15.6 6l-.71 2.84-1.1-.26v-.01l-2.39-.6-.46 1.85s1.28.3 1.26.31c.7.18.82.64.8 1l-.8 3.24.18.06-.19-.04-1.13 4.53c-.08.21-.3.53-.79.4.02.03-1.25-.3-1.25-.3l-.86 1.97 2.25.56 1.23.32-.72 2.87 1.73.43.7-2.84 1.39.36-.71 2.83 1.73.43.71-2.87c2.95.56 5.17.34 6.1-2.33.75-2.15-.04-3.38-1.59-4.2 1.13-.25 1.98-1 2.2-2.53m-3.95 5.54c-.53 2.15-4.15.98-5.32.7l.95-3.81c1.17.3 4.93.87 4.37 3.1m.53-5.57c-.48 1.95-3.5.96-4.47.72l.86-3.45c.98.24 4.12.7 3.61 2.73"/></g></svg>
+    <svg role="img" aria-label="Ethereum" viewBox="0 0 32 32"><g fill="none" fill-rule="evenodd"><circle cx="16" cy="16" r="16" fill="#627eea"/><g fill="#fff" fill-rule="nonzero"><path fill-opacity=".6" d="M16.5 4v8.87l7.5 3.35z"/><path d="M16.5 4 9 16.22l7.5-3.35z"/><path fill-opacity=".6" d="M16.5 21.97V28L24 17.62z"/><path d="M16.5 28v-6.03L9 17.62z"/><path fill-opacity=".2" d="m16.5 20.57 7.5-4.35-7.5-3.35z"/><path fill-opacity=".6" d="m9 16.22 7.5 4.35v-7.7z"/></g></g></svg>
+    <svg role="img" aria-label="Litecoin" viewBox="0 0 32 32"><g fill="none" fill-rule="evenodd"><circle cx="16" cy="16" r="16" fill="#bfbbbb"/><path fill="#fff" d="M10.43 19.21 9 19.77 9.69 17l1.44-.58L13.21 8h5.13l-1.52 6.2 1.41-.57-.68 2.74-1.42.58-.85 3.48H23L22.13 24H9.25z"/></g></svg>
+    <svg role="img" aria-label="USD Coin" viewBox="0 0 32 32"><g fill="none"><circle cx="16" cy="16" r="16" fill="#3e73c4"/><g fill="#fff"><path d="M20.02 18.12c0-2.12-1.28-2.85-3.84-3.15-1.83-.25-2.2-.73-2.2-1.58s.62-1.4 1.84-1.4c1.1 0 1.7.37 2 1.28a.5.5 0 0 0 .43.3h.98a.4.4 0 0 0 .43-.42v-.06a3.04 3.04 0 0 0-2.75-2.5V9.15q-.02-.37-.48-.48h-.92q-.37.02-.48.48v1.4c-1.83.24-3 1.45-3 2.97 0 2 1.23 2.8 3.79 3.1 1.7.3 2.25.66 2.25 1.64s-.85 1.63-2 1.63c-1.6 0-2.14-.66-2.32-1.57-.06-.25-.25-.37-.43-.37h-1.04a.4.4 0 0 0-.42.43v.06c.24 1.52 1.22 2.6 3.23 2.91v1.46q.02.38.48.48h.92q.37-.02.49-.48v-1.46c1.82-.3 3.04-1.58 3.04-3.22"/><path d="M12.9 24.5a9.03 9.03 0 0 1-5.43-11.66 9 9 0 0 1 5.42-5.4q.37-.17.37-.6v-.86q0-.37-.37-.48c-.06 0-.18 0-.24.06a10.9 10.9 0 0 0-7.13 13.72c1.1 3.4 3.72 6 7.13 7.1.24.12.49 0 .55-.24q.08-.08.06-.25v-.85c0-.18-.19-.42-.37-.54m6.45-18.94c-.24-.12-.49 0-.55.24q-.07.08-.06.25v.85c0 .24.19.48.37.6a9.03 9.03 0 0 1 5.42 11.66 9 9 0 0 1-5.42 5.4q-.37.16-.37.6v.85q0 .39.37.49c.06 0 .18 0 .24-.06a10.9 10.9 0 0 0 7.13-13.72 11 11 0 0 0-7.13-7.16"/></g></g></svg>
+    <svg role="img" aria-label="Tether" viewBox="0 0 32 32"><g fill="none" fill-rule="evenodd"><circle cx="16" cy="16" r="16" fill="#26a17b"/><path fill="#fff" d="M17.92 17.38c-.1 0-.68.04-1.94.04-1.01 0-1.72-.03-1.97-.04-3.89-.17-6.8-.84-6.8-1.65s2.91-1.49 6.8-1.66v2.64a30 30 0 0 0 3.91 0v-2.64c3.88.17 6.78.85 6.78 1.66s-2.9 1.48-6.78 1.65m0-3.59v-2.36h5.42V7.82H8.6v3.6H14v2.37c-4.4.2-7.7 1.08-7.7 2.12s3.3 1.92 7.7 2.12v7.58h3.92v-7.58c4.4-.2 7.7-1.08 7.7-2.12s-3.3-1.91-7.7-2.12"/></g></svg>
+    <svg role="img" aria-label="Monero" viewBox="0 0 32 32"><g fill="none" fill-rule="evenodd"><circle cx="16" cy="16" r="16" fill="#f60"/><path fill="#fff" fill-rule="nonzero" d="M15.97 5.24c5.99 0 10.83 4.84 10.83 10.82a11 11 0 0 1-.56 3.43H23v-9.1l-7.04 7.05-7.04-7.04v9.1H5.7a11 11 0 0 1-.55-3.44c0-5.98 4.84-10.82 10.82-10.82m-1.61 13.78L16 20.64l1.61-1.62 3.05-3.08v5.72h4.55a10.8 10.8 0 0 1-9.24 5.2c-3.9 0-7.33-2.09-9.24-5.2h4.55v-5.72z"/></g></svg>
+  </div>
+</div>
+
+<style>
+  .marks { display: grid; gap: 1.15rem; justify-items: center; }
+  .cards, .coins { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; }
+  .cards { gap: 1.6rem; }
+  .coins { gap: .9rem; }
+  /* the marks differ in aspect ratio, so height is set per brand to balance
+     them optically rather than mathematically */
+  .cards svg { width: auto; }
+  [aria-label='Visa'] { height: 1.5rem; color: white; }
+  [aria-label='Mastercard'] { height: 2.1rem; }
+  [aria-label='American Express'] { height: 2.5rem; }
+  .coins svg { width: 2.5rem; height: 2.5rem; }
+  @media (max-width: 640px) {
+    .cards { gap: 1.25rem; }
+    [aria-label='Visa'] { height: 1.3rem; }
+    [aria-label='Mastercard'] { height: 1.8rem; }
+    [aria-label='American Express'] { height: 2.15rem; }
+    .coins svg { width: 2.25rem; height: 2.25rem; }
+  }
+</style>
