@@ -75,7 +75,11 @@ const sectionProps = (id: (typeof sections)[number]['id']) => {
 
     <PlanCompare kicker={planCompare.kicker} heading={planCompare.heading} lede={planCompare.lede} plans={[...planCompare.plans]} />
 
-    <SignupCta {...signupCta} />
+    <SignupCta
+      heading={signupCta.heading}
+      body={signupCta.body}
+      buttonLabel={signupCta.buttonLabel}
+    />
   </main>
   <Footer />
 </BaseLayout>

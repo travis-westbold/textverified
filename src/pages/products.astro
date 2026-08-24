@@ -108,7 +108,11 @@ const sectionProps = (id: (typeof sections)[number]['id']) => {
 
     <ExtrasGrid tone="dark" kicker={generalExtras.kicker} heading={generalExtras.heading} cards={[...generalExtras.cards]} />
 
-    <SignupCta {...signupCta} />
+    <SignupCta
+      heading={signupCta.heading}
+      body={signupCta.body}
+      buttonLabel={signupCta.buttonLabel}
+    />
   </main>
   <Footer />
 </BaseLayout>

@@ -72,7 +72,11 @@ const sectionProps = (id: (typeof sections)[number]['id']) => {
 
     <ExtrasGrid kicker={extras.kicker} heading={extras.heading} cards={[...extras.cards]} />
 
-    <SignupCta {...signupCta} />
+    <SignupCta
+      heading={signupCta.heading}
+      body={signupCta.body}
+      buttonLabel={signupCta.buttonLabel}
+    />
   </main>
   <Footer />
 </BaseLayout>
