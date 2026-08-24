@@ -43,7 +43,7 @@ const BARS = [
 ];
 
 for (const card of cards) {
-  for (const key of card.icons.slice(0, 3)) {
+  for (const key of card.icons) {
     if (!brandIconPaths[key]) {
       throw new Error(`UseCases: "${key}" is not a brand mark in src/data/icons.ts`);
     }
@@ -63,7 +63,7 @@ for (const card of cards) {
       {cards.map((card, cardIndex) => (
         <article class="card up">
           <div class="log" aria-hidden="true">
-            {card.icons.slice(0, 3).map((key, i) => (
+            {card.icons.map((key, i) => (
               <div class="row" style={`--delay: ${DELAYS[cardIndex * 3 + i]}s; --accent: ${ACCENTS[ACCENT_ORDER[cardIndex * 3 + i]]}`}>
                 <span class="svc"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd">{brandIconPaths[key].map((d) => <path d={d} />)}</svg>{label(key)}</span>
                 <span class="status">

@@ -222,9 +222,9 @@ const verifications = defineCollection({
         body: safeHtml,
       })).min(1),
     }),
-    /* Editors enter this as free text in CMS, but not validated at schema time.
-      At build time, UseCases.astro validates that the value matches a key in
-      brandIconPaths and fails on unknown icons. */
+    /* Each card's three services form the three rows in UseCases.astro.
+      Icon names remain free text here; the component fails the build on an
+      unknown brandIconPaths key. */
     useCases: z.object({
       kicker: z.string().min(1),
       heading: z.string().min(1),
@@ -232,7 +232,7 @@ const verifications = defineCollection({
       cards: z.array(z.object({
         title: z.string().min(1),
         body: z.string().min(1),
-        icons: z.array(z.string().min(1)).min(1),
+        icons: z.array(z.string().min(1)).length(3),
       })).length(3),
     }),
     planCompare: z.object({
@@ -328,7 +328,7 @@ const rentals = defineCollection({
       cards: z.array(z.object({
         title: z.string().min(1),
         body: z.string().min(1),
-        icons: z.array(z.string().min(1)).min(1),
+        icons: z.array(z.string().min(1)).length(3),
       })).length(3),
     }),
     extras: z.object({
