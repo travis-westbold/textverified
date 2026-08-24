@@ -1,0 +1,105 @@
+meta:
+  title: Developer API | Textverified
+  description: >-
+    Automate SMS and voice verification with the Textverified API. Create
+    verifications and rentals, receive codes, and manage your account
+    programmatically with non-VoIP US phone numbers.
+  canonical: https://www.textverified.com/automate
+hero:
+  kicker: Developer API
+  title: Automate with the
+  mark: { pre: Textverified, em: API. }
+  lede: >-
+    We offer a powerful API to automate your entire Textverified experience.
+    Receive SMS, manage your lines, and purchase verifications and rentals
+    without ever opening the dashboard.
+  primaryCta: Get your API key
+  secondaryCta: API documentation
+sections:
+  - id: start
+    kicker: Getting started
+    tone: light
+    ink: true
+    flip: false
+    headingPre: Three steps to your
+    markEm: first call.
+    lede: >-
+      Use our API to interact with Textverified programatically. Whether you
+      need one verification or thousands, our API will solve your verification
+      problems.
+    steps:
+      - title: Get your API key.
+        text: >-
+          Find your API key on your profile, then open the API documentation
+          to see what each endpoint expects.
+      - title: Generate a token.
+        text: >-
+          Generate a bearer token from your account email and API key, and
+          send it with every request. Tokens expire, so refresh yours on a
+          schedule.
+      - title: Verify!
+        text: >-
+          Call our endpoints to automate your Textverified experience. Read
+          the API docs or contact support for help or more information.
+    primaryLabel: API reference
+    primaryLink: apiDocs
+    secondaryLabel: Contact support
+    secondaryLink: support
+  - id: bulk
+    kicker: Scale
+    tone: dark
+    ink: false
+    flip: true
+    headingPre: Verify in
+    markEm: bulk.
+    lede: >-
+      Scale your applications and build new products on quality non-VoIP US
+      numbers. One verification and a run of thousands go through the same
+      endpoints — only the number of calls changes.
+    steps:
+      - title: Queue your run.
+        text: >-
+          Create verifications for any of our supported services, one at a
+          time or thousands in parallel.
+      - title: Collect the codes.
+        text: >-
+          Every verification reports its own state, so you can take codes as
+          they land instead of waiting on the slowest one.
+      - title: Pay for what arrives.
+        text: >-
+          Verifications that never receive a code are refunded automatically,
+          so a large run costs what it actually delivered.
+    primaryLabel: Create an account
+    primaryLink: register
+    secondaryLabel: What can I verify?
+    secondaryLink: pricing
+extras:
+  kicker: Developer API
+  heading: Built for developers.
+  cards:
+    - icon: code
+      title: REST and JSON
+      body: >-
+        Plain HTTP endpoints with JSON responses. There is no SDK to install —
+        anything that can make a request can use it.
+    - icon: key
+      title: Bearer tokens
+      body: >-
+        Authenticate with a bearer token generated from your account email and
+        API key. Tokens expire, so rotation is built in.
+    - icon: bulk
+      title: One or thousands
+      body: >-
+        The same endpoints serve a single verification and a run of thousands.
+        Scale up without changing how you call us.
+    - icon: refund
+      title: Automatic refunds
+      body: >-
+        If no SMS or call is received, those credits return to your balance
+        automatically — no support ticket, no reconciliation.
+signupCta:
+  heading: Verify in bulk with our API.
+  body: >-
+    Automate verifications and rentals to create thousands of accounts, or just
+    the one. We have a solution for all your SMS and voice verification needs.
+  buttonLabel: Create an account
