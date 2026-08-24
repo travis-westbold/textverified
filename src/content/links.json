@@ -20,7 +20,7 @@
   "extensionBlog": "https://www.textverified.com/support/chrome-extension-walkthrough/",
   "rentals": "/rentals",
   "developerApi": "/automate",
-  "apiDocs": "https://www.textverified.com/docs/api/v2",
+  "apiDocs": "https://tv-api-demo.vercel.app/",
   "freeNumbers": "https://www.textverified.com/free",
   "creditsInfo": "https://www.textverified.com/products/credits",
   "buyCredits": "https://www.textverified.com/app/credits/card?open=true",
