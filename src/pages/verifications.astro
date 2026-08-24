@@ -25,19 +25,8 @@ const section = (id: (typeof sections)[number]['id']) => {
   return found;
 };
 
-const sectionProps = (id: (typeof sections)[number]['id']) => {
-  const data = section(id);
-  return {
-    id: data.id,
-    kicker: data.kicker,
-    tone: data.tone,
-    flip: data.flip,
-    lede: data.lede,
-    steps: data.steps,
-    primaryLabel: data.primaryLabel,
-    primaryHref: data.primaryLink ? links[data.primaryLink] : undefined,
-  };
-};
+const sms = section('sms');
+const voice = section('voice');
 ---
 
 <BaseLayout
@@ -59,13 +48,21 @@ const sectionProps = (id: (typeof sections)[number]['id']) => {
       secondaryHref={links.pricing}
     />
 
-    <ProductSection {...sectionProps('sms')}>
-      <Fragment slot="heading"><span>{section('sms').headingPre} </span><span class="mark"><em>{section('sms').markEm}</em> <Swoosh ink={section('sms').ink} /></span></Fragment>
+    <ProductSection
+      id={sms.id} kicker={sms.kicker} tone={sms.tone} flip={sms.flip}
+      lede={sms.lede} steps={sms.steps}
+      primaryLabel={sms.primaryLabel} primaryHref={sms.primaryLink ? links[sms.primaryLink] : undefined}
+    >
+      <Fragment slot="heading"><span>{sms.headingPre} </span><span class="mark"><em>{sms.markEm}</em> <Swoosh ink={sms.ink} /></span></Fragment>
       <Laptop width="min(40rem, 100%)"><SmsScreen /></Laptop>
     </ProductSection>
 
-    <ProductSection {...sectionProps('voice')}>
-      <Fragment slot="heading"><span>{section('voice').headingPre} </span><span class="mark"><em>{section('voice').markEm}</em><Swoosh ink={section('voice').ink} /></span></Fragment>
+    <ProductSection
+      id={voice.id} kicker={voice.kicker} tone={voice.tone} flip={voice.flip}
+      lede={voice.lede} steps={voice.steps}
+      primaryLabel={voice.primaryLabel} primaryHref={voice.primaryLink ? links[voice.primaryLink] : undefined}
+    >
+      <Fragment slot="heading"><span>{voice.headingPre} </span><span class="mark"><em>{voice.markEm}</em><Swoosh ink={voice.ink} /></span></Fragment>
       <Laptop width="min(40rem, 100%)"><VoiceScreen /></Laptop>
     </ProductSection>
 

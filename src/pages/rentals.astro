@@ -26,21 +26,8 @@ const section = (id: (typeof sections)[number]['id']) => {
   return found;
 };
 
-const sectionProps = (id: (typeof sections)[number]['id']) => {
-  const data = section(id);
-  return {
-    id: data.id,
-    kicker: data.kicker,
-    tone: data.tone,
-    flip: data.flip,
-    lede: data.lede,
-    steps: data.steps,
-    primaryLabel: data.primaryLabel,
-    primaryHref: data.primaryLink ? links[data.primaryLink] : undefined,
-    secondaryLabel: data.secondaryLabel,
-    secondaryHref: data.secondaryLink ? links[data.secondaryLink] : undefined,
-  };
-};
+const setup = section('setup');
+const manage = section('manage');
 ---
 
 <BaseLayout
@@ -62,13 +49,23 @@ const sectionProps = (id: (typeof sections)[number]['id']) => {
       secondaryHref={links.pricing}
     />
 
-    <ProductSection {...sectionProps('setup')}>
-      <Fragment slot="heading"><span>{section('setup').headingPre} </span><span class="mark"><em>{section('setup').markEm}</em><Swoosh ink={section('setup').ink} /></span></Fragment>
+    <ProductSection
+      id={setup.id} kicker={setup.kicker} tone={setup.tone} flip={setup.flip}
+      lede={setup.lede} steps={setup.steps}
+      primaryLabel={setup.primaryLabel} primaryHref={setup.primaryLink ? links[setup.primaryLink] : undefined}
+      secondaryLabel={setup.secondaryLabel} secondaryHref={setup.secondaryLink ? links[setup.secondaryLink] : undefined}
+    >
+      <Fragment slot="heading"><span>{setup.headingPre} </span><span class="mark"><em>{setup.markEm}</em><Swoosh ink={setup.ink} /></span></Fragment>
       <Laptop width="min(40rem, 100%)"><RentalSetupScreen /></Laptop>
     </ProductSection>
 
-    <ProductSection {...sectionProps('manage')}>
-      <Fragment slot="heading"><span>{section('manage').headingPre} </span><span class="mark"><em>{section('manage').markEm}</em><Swoosh ink={section('manage').ink} /></span></Fragment>
+    <ProductSection
+      id={manage.id} kicker={manage.kicker} tone={manage.tone} flip={manage.flip}
+      lede={manage.lede} steps={manage.steps}
+      primaryLabel={manage.primaryLabel} primaryHref={manage.primaryLink ? links[manage.primaryLink] : undefined}
+      secondaryLabel={manage.secondaryLabel} secondaryHref={manage.secondaryLink ? links[manage.secondaryLink] : undefined}
+    >
+      <Fragment slot="heading"><span>{manage.headingPre} </span><span class="mark"><em>{manage.markEm}</em><Swoosh ink={manage.ink} /></span></Fragment>
       <Monitor><RentalsScreen /></Monitor>
     </ProductSection>
 

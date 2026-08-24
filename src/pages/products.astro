@@ -30,21 +30,12 @@ const section = (id: (typeof sections)[number]['id']) => {
   return found;
 };
 
-const sectionProps = (id: (typeof sections)[number]['id']) => {
-  const data = section(id);
-  return {
-    id: data.id,
-    kicker: data.kicker,
-    tone: data.tone,
-    flip: data.flip,
-    lede: data.lede,
-    steps: data.steps,
-    primaryLabel: data.primaryLabel,
-    primaryHref: data.primaryLink ? links[data.primaryLink] : undefined,
-    secondaryLabel: data.secondaryLabel,
-    secondaryHref: data.secondaryLink ? links[data.secondaryLink] : undefined,
-  };
-};
+const sms = section('sms');
+const extension = section('extension');
+const voice = section('voice');
+const rentals = section('rentals');
+const api = section('api');
+const credits = section('credits');
 ---
 
 <BaseLayout
@@ -69,40 +60,70 @@ const sectionProps = (id: (typeof sections)[number]['id']) => {
     />
 
     <!-- ============ SMS verifications ============ -->
-    <ProductSection {...sectionProps('sms')}>
-      <Fragment slot="heading"><span>{section('sms').headingPre} </span><span class="mark"><em>{section('sms').markEm}</em><Swoosh ink={section('sms').ink} /></span></Fragment>
+    <ProductSection
+      id={sms.id} kicker={sms.kicker} tone={sms.tone} flip={sms.flip}
+      lede={sms.lede} steps={sms.steps}
+      primaryLabel={sms.primaryLabel} primaryHref={sms.primaryLink ? links[sms.primaryLink] : undefined}
+      secondaryLabel={sms.secondaryLabel} secondaryHref={sms.secondaryLink ? links[sms.secondaryLink] : undefined}
+    >
+      <Fragment slot="heading"><span>{sms.headingPre} </span><span class="mark"><em>{sms.markEm}</em><Swoosh ink={sms.ink} /></span></Fragment>
       <Laptop width="min(40rem, 100%)"><SmsScreen /></Laptop>
     </ProductSection>
 
     <!-- ============ Chrome extension ============ -->
-    <ProductSection {...sectionProps('extension')}>
-      <Fragment slot="heading"><span>{section('extension').headingPre} </span><span class="mark"><em>{section('extension').markEm}</em><Swoosh ink={section('extension').ink} /></span></Fragment>
+    <ProductSection
+      id={extension.id} kicker={extension.kicker} tone={extension.tone} flip={extension.flip}
+      lede={extension.lede} steps={extension.steps}
+      primaryLabel={extension.primaryLabel} primaryHref={extension.primaryLink ? links[extension.primaryLink] : undefined}
+      secondaryLabel={extension.secondaryLabel} secondaryHref={extension.secondaryLink ? links[extension.secondaryLink] : undefined}
+    >
+      <Fragment slot="heading"><span>{extension.headingPre} </span><span class="mark"><em>{extension.markEm}</em><Swoosh ink={extension.ink} /></span></Fragment>
       <Monitor><ExtensionScreen /></Monitor>
     </ProductSection>
 
     <!-- ============ Voice verifications ============ -->
-    <ProductSection {...sectionProps('voice')}>
-      <Fragment slot="heading"><span>{section('voice').headingPre} </span><span class="mark"><em>{section('voice').markEm}</em><Swoosh ink={section('voice').ink} /></span></Fragment>
+    <ProductSection
+      id={voice.id} kicker={voice.kicker} tone={voice.tone} flip={voice.flip}
+      lede={voice.lede} steps={voice.steps}
+      primaryLabel={voice.primaryLabel} primaryHref={voice.primaryLink ? links[voice.primaryLink] : undefined}
+      secondaryLabel={voice.secondaryLabel} secondaryHref={voice.secondaryLink ? links[voice.secondaryLink] : undefined}
+    >
+      <Fragment slot="heading"><span>{voice.headingPre} </span><span class="mark"><em>{voice.markEm}</em><Swoosh ink={voice.ink} /></span></Fragment>
       <Laptop width="min(40rem, 100%)"><VoiceScreen /></Laptop>
     </ProductSection>
 
     <ExtrasGrid tone="dark" kicker={verificationExtras.kicker} heading={verificationExtras.heading} cards={[...verificationExtras.cards]} />
 
     <!-- ============ Rentals ============ -->
-    <ProductSection {...sectionProps('rentals')}>
-      <Fragment slot="heading"><span>{section('rentals').headingPre} </span><span class="mark"><em>{section('rentals').markEm}</em><Swoosh ink={section('rentals').ink} /></span></Fragment>
+    <ProductSection
+      id={rentals.id} kicker={rentals.kicker} tone={rentals.tone} flip={rentals.flip}
+      lede={rentals.lede} steps={rentals.steps}
+      primaryLabel={rentals.primaryLabel} primaryHref={rentals.primaryLink ? links[rentals.primaryLink] : undefined}
+      secondaryLabel={rentals.secondaryLabel} secondaryHref={rentals.secondaryLink ? links[rentals.secondaryLink] : undefined}
+    >
+      <Fragment slot="heading"><span>{rentals.headingPre} </span><span class="mark"><em>{rentals.markEm}</em><Swoosh ink={rentals.ink} /></span></Fragment>
       <Monitor><RentalsScreen /></Monitor>
     </ProductSection>
 
     <!-- ============ API ============ -->
-    <ProductSection {...sectionProps('api')}>
-      <Fragment slot="heading"><span>{section('api').headingPre} </span><span class="mark"><em>{section('api').markEm}</em><Swoosh ink={section('api').ink} /></span></Fragment>
+    <ProductSection
+      id={api.id} kicker={api.kicker} tone={api.tone} flip={api.flip}
+      lede={api.lede} steps={api.steps}
+      primaryLabel={api.primaryLabel} primaryHref={api.primaryLink ? links[api.primaryLink] : undefined}
+      secondaryLabel={api.secondaryLabel} secondaryHref={api.secondaryLink ? links[api.secondaryLink] : undefined}
+    >
+      <Fragment slot="heading"><span>{api.headingPre} </span><span class="mark"><em>{api.markEm}</em><Swoosh ink={api.ink} /></span></Fragment>
       <Laptop width="min(40rem, 100%)"><ApiScreen /></Laptop>
     </ProductSection>
 
     <!-- ============ Credits ============ -->
-    <ProductSection {...sectionProps('credits')}>
-      <Fragment slot="heading"><span>{section('credits').headingPre} </span><span class="mark"><em>{section('credits').markEm}</em><Swoosh ink={section('credits').ink} /></span></Fragment>
+    <ProductSection
+      id={credits.id} kicker={credits.kicker} tone={credits.tone} flip={credits.flip}
+      lede={credits.lede} steps={credits.steps}
+      primaryLabel={credits.primaryLabel} primaryHref={credits.primaryLink ? links[credits.primaryLink] : undefined}
+      secondaryLabel={credits.secondaryLabel} secondaryHref={credits.secondaryLink ? links[credits.secondaryLink] : undefined}
+    >
+      <Fragment slot="heading"><span>{credits.headingPre} </span><span class="mark"><em>{credits.markEm}</em><Swoosh ink={credits.ink} /></span></Fragment>
       <Monitor><CreditsScreen /></Monitor>
     </ProductSection>
 

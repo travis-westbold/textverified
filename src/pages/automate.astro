@@ -24,21 +24,8 @@ const section = (id: (typeof sections)[number]['id']) => {
   return found;
 };
 
-const sectionProps = (id: (typeof sections)[number]['id']) => {
-  const data = section(id);
-  return {
-    id: data.id,
-    kicker: data.kicker,
-    tone: data.tone,
-    flip: data.flip,
-    lede: data.lede,
-    steps: data.steps,
-    primaryLabel: data.primaryLabel,
-    primaryHref: data.primaryLink ? links[data.primaryLink] : undefined,
-    secondaryLabel: data.secondaryLabel,
-    secondaryHref: data.secondaryLink ? links[data.secondaryLink] : undefined,
-  };
-};
+const start = section('start');
+const bulk = section('bulk');
 ---
 
 <BaseLayout
@@ -60,13 +47,23 @@ const sectionProps = (id: (typeof sections)[number]['id']) => {
       secondaryHref={links.apiDocs}
     />
 
-    <ProductSection {...sectionProps('start')}>
-      <Fragment slot="heading"><span>{section('start').headingPre} </span><span class="mark"><em>{section('start').markEm}</em><Swoosh ink={section('start').ink} /></span></Fragment>
+    <ProductSection
+      id={start.id} kicker={start.kicker} tone={start.tone} flip={start.flip}
+      lede={start.lede} steps={start.steps}
+      primaryLabel={start.primaryLabel} primaryHref={start.primaryLink ? links[start.primaryLink] : undefined}
+      secondaryLabel={start.secondaryLabel} secondaryHref={start.secondaryLink ? links[start.secondaryLink] : undefined}
+    >
+      <Fragment slot="heading"><span>{start.headingPre} </span><span class="mark"><em>{start.markEm}</em><Swoosh ink={start.ink} /></span></Fragment>
       <Laptop width="min(40rem, 100%)"><ApiScreen /></Laptop>
     </ProductSection>
 
-    <ProductSection {...sectionProps('bulk')}>
-      <Fragment slot="heading"><span>{section('bulk').headingPre} </span><span class="mark"><em>{section('bulk').markEm}</em><Swoosh ink={section('bulk').ink} /></span></Fragment>
+    <ProductSection
+      id={bulk.id} kicker={bulk.kicker} tone={bulk.tone} flip={bulk.flip}
+      lede={bulk.lede} steps={bulk.steps}
+      primaryLabel={bulk.primaryLabel} primaryHref={bulk.primaryLink ? links[bulk.primaryLink] : undefined}
+      secondaryLabel={bulk.secondaryLabel} secondaryHref={bulk.secondaryLink ? links[bulk.secondaryLink] : undefined}
+    >
+      <Fragment slot="heading"><span>{bulk.headingPre} </span><span class="mark"><em>{bulk.markEm}</em><Swoosh ink={bulk.ink} /></span></Fragment>
       <Monitor><BulkScreen /></Monitor>
     </ProductSection>
 
