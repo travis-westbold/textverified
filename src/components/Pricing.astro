@@ -10,6 +10,7 @@ const head = page.data.pricingHead;
 const pricingPlans = (await getCollection('pricing'))
   .sort((a, b) => a.data.order - b.data.order)
   .map((entry) => entry.data);
+import PaymentMarks from './PaymentMarks.astro';
 ---
 
 <section class="pricing" id="pricing" aria-labelledby="pricing-heading">
@@ -41,7 +42,7 @@ const pricingPlans = (await getCollection('pricing'))
     </div>
     <div class="payment-methods">
       <p>Buy credits using a wide variety of payment methods</p>
-      <div><span>VISA</span><span>Mastercard</span><span>AMEX</span><i class="btc">₿</i><i class="eth">Ξ</i><i class="ltc">Ł</i><i class="usdc">$</i><i class="usdt">₮</i><i class="xmr">ɱ</i></div>
+      <PaymentMarks />
     </div>
   </div>
 </section>
@@ -63,8 +64,8 @@ const pricingPlans = (await getCollection('pricing'))
   .plan > p { margin: .75rem 0 0; color: #5b6b82; font-size: .88rem; line-height: 1.6; }.plan.featured > p { color: #bcd4e6; }
   .plan-button { display: grid; place-items: center; width: 100%; min-height: 2.5rem; margin-top: 1.25rem; padding: .8rem 1.25rem; color: white; background: #0f172b; border-radius: 999px; font-size: .94rem; font-weight: 700; transition: transform 180ms ease; }.plan-button:active { transform: scale(.96); }.featured .plan-button { color: #0f172b; background: white; }
   ul { display: grid; gap: .69rem; margin: 1.25rem 0 0; padding: 0; list-style: none; } li { display: flex; gap: .63rem; color: #41506a; font-size: .86rem; line-height: 1.45; }.featured li { color: #cfe2f0; } li i { display: grid; place-items: center; flex: 0 0 1rem; height: 1rem; margin-top: .1rem; color: white; background: #0069a8; border-radius: 50%; font-size: .6rem; font-style: normal; }.featured li i { color: #06263f; background: #38d3ff; }
-  .payment-methods { margin-top: clamp(2.75rem, 5.5vw, 4.25rem); text-align: center; }.payment-methods p { margin: 0 0 1.25rem; color: #a9bcd8; font-size: .91rem; }.payment-methods div { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .75rem; }.payment-methods span { display: grid; place-items: center; height: 2.5rem; padding: 0 1rem; color: #15243a; background: rgb(255 255 255 / 95%); border-radius: .63rem; font-size: .84rem; font-weight: 800; }.payment-methods i { display: grid; place-items: center; width: 2.5rem; height: 2.5rem; color: white; border-radius: 50%; font-size: 1.06rem; font-style: normal; font-weight: 800; }.btc { background: #f7931a; }.eth { background: #627eea; }.ltc { background: #a6a9aa; }.usdc { background: #2775ca; }.usdt { background: #26a17b; }.xmr { background: #ff6600; }
+  .payment-methods { margin-top: clamp(2.75rem, 5.5vw, 4.25rem); text-align: center; }.payment-methods p { margin: 0 0 1.25rem; color: #a9bcd8; font-size: .91rem; }
   .hexagon { position: absolute; width: min(30rem, 34vw); aspect-ratio: 1; border: .45rem solid rgb(30 143 214 / 50%); border-radius: 28%; transform: rotate(30deg); }.hexagon-left { top: -8%; left: -10%; }.hexagon-right { right: -9%; bottom: -10%; }
   @media (max-width: 940px) { .plans { grid-template-columns: 1fr; max-width: 32.5rem; margin-inline: auto; }.plan.featured { order: -1; } }
-  @media (max-width: 640px) { .hexagon { display: none; }.payment-methods span, .payment-methods i { min-width: 2.25rem; height: 2.25rem; } }
+  @media (max-width: 640px) { .hexagon { display: none; } }
 </style>

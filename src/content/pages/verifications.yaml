@@ -18,7 +18,8 @@ hero:
 sections:
   - id: sms
     kicker: Text / SMS
-    tone: dark
+    tone: light
+    ink: true
     flip: false
     headingPre: SMS
     markEm: Verifications.
@@ -34,7 +35,7 @@ sections:
     primaryLink: sms
   - id: voice
     kicker: Voice
-    tone: deep
+    tone: dark
     flip: true
     ink: false
     headingPre: Voice
@@ -79,6 +80,64 @@ extras:
       body: >-
         Choose the verification method you need for each service: SMS, voice,
         or both.
+useCases:
+  kicker: Use cases
+  heading: Popular use cases.
+  lede: >-
+    People use verifications on hundreds of apps. Here is where they help
+    most — keeping your own number out of accounts that do not need it.
+  cards:
+    - title: Communication Services
+      icons: [gmail, discord, whatsapp, telegram, messenger, wechat]
+      body: >-
+        Use messaging apps like Gmail, Facebook and Discord without linking
+        your personal number. Sign up with a one-time verification and stay
+        anonymous.
+    - title: Sign Up Bonuses
+      icons: [paypal, venmo, zelle, amazon, walmart, target]
+      body: >-
+        Take advantage of signup bonuses and recurring rewards on the sites
+        you already use, one verification at a time.
+    - title: Online Privacy
+      icons: [tinder, instagram, snapchat, reddit, craigslist, airbnb]
+      body: >-
+        Keeping your number private matters most on dating apps and
+        marketplaces. Use our real numbers to avoid unwanted calls or texts.
+planCompare:
+  kicker: Pricing
+  heading: Verifications vs rentals.
+  lede: >-
+    Rentals and verifications are aimed at different jobs. Here is how they
+    compare, so you can pick the one that fits.
+  plans:
+    - name: Verifications
+      price: $0.25
+      unit: /verification
+      featured: true
+      description: The right choice when you need a one-time SMS code or voice call.
+      ctaLabel: Get started today
+      ctaLink: register
+      features:
+        - Non-VoIP US phone number
+        - US area code selection
+        - Receive one-time SMS verifications
+        - Receive one-time voice verifications
+        - Short-term phone service
+        - One account per phone line
+    - name: Rentals
+      price: $1.50
+      unit: /rental
+      description: Own a US phone number for as long as you like, and pay as you go.
+      ctaLabel: Get started today
+      ctaLink: register
+      features:
+        - Non-VoIP US phone number
+        - US area code selection
+        - Receive unlimited SMS
+        - Keep the number from one day to forever
+        - Extremely customizable
+        - Long-term phone service
+        - Many accounts per phone line
 signupCta:
   heading: Use our numbers to verify anything.
   body: >-

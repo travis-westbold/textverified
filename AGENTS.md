@@ -80,6 +80,9 @@ For example, an API-backed announcements feed can use a custom element and
 
 ### Design and motion
 
+`DESIGN.md` documents the visual system — tokens, the ground rhythm, section
+and card anatomy, and the motion mechanisms. Read it before building a page.
+
 - Reuse tokens when possible, such as from `src/styles/global.css`: `--brand`, `--brand-light`,
   `--cyan`, `--text`, `--text-muted`, `--surface-subtle`, `--surface-blue`,
   `--border`, `--border-blue`, `--header-height`, `--shell`, and `--font`.
@@ -89,6 +92,9 @@ For example, an API-backed announcements feed can use a custom element and
   pause off-screen and cannot stack. Preserve reduced-motion and reduced-data
   behavior.
 - Treat large scroll effects, broad backdrop-filter surfaces, and many continuously animated elements as performance-sensitive. Prefer small compositor-friendly animations, pause them off-screen, respect reduced motion, and be mobile and Firefox friendly.
+- **The Swoosh underlines only the emphasised (blue) words.** `<span
+  class="mark">` wraps the `<em>` and nothing else; any preceding words go
+  outside it. This holds site-wide, headings and heroes alike.
 - `Swoosh.astro` headings require a trailing space in `headingPre` before the marked span so words remain separated.
 - **Mocks must not resize.** Every mock and demo reserves space for its
   largest state; text and elements inside may change, but the frame around
