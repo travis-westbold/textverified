@@ -92,7 +92,7 @@ const sectionProps = (id: (typeof sections)[number]['id']) => {
       <Laptop width="min(40rem, 100%)"><VoiceScreen /></Laptop>
     </ProductSection>
 
-    <ExtrasGrid kicker={verificationExtras.kicker} heading={verificationExtras.heading} cards={[...verificationExtras.cards]} />
+    <ExtrasGrid tone="dark" kicker={verificationExtras.kicker} heading={verificationExtras.heading} cards={[...verificationExtras.cards]} />
 
     <!-- ============ Rentals ============ -->
     <ProductSection {...sectionProps('rentals')}>
@@ -112,7 +112,7 @@ const sectionProps = (id: (typeof sections)[number]['id']) => {
       <Monitor><CreditsScreen /></Monitor>
     </ProductSection>
 
-    <ExtrasGrid kicker={generalExtras.kicker} heading={generalExtras.heading} cards={[...generalExtras.cards]} />
+    <ExtrasGrid tone="dark" kicker={generalExtras.kicker} heading={generalExtras.heading} cards={[...generalExtras.cards]} />
 
     <SignupCta {...signupCta} />
   </main>
