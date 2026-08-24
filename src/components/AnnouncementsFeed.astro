@@ -1,0 +1,158 @@
+---
+interface Props {
+  endpoint: string;
+  endpointNote?: string;
+}
+
+const { endpoint, endpointNote } = Astro.props;
+---
+
+<section class="announcements-section" aria-labelledby="feed-heading">
+  <announcements-feed class="feed-shell shell" data-endpoint={endpoint}>
+    {endpointNote && <aside class="endpoint-note"><strong>Development mode</strong><span>{endpointNote}</span></aside>}
+    <header class="section-head">
+      <div><span class="section-kicker">What’s new</span><h2 id="feed-heading">Announcements</h2></div>
+      <p>Follow along as we make Textverified faster, easier, and more capable.</p>
+    </header>
+
+    <div class="feed-status loading-state" data-ref="loading" role="status">
+      <span class="sr-only">Loading the latest announcements…</span>
+      {[0, 1, 2].map(() => <div class="announcement-card skeleton" aria-hidden="true"><span class="skeleton-date"></span><span class="skeleton-title"></span><span class="skeleton-copy"></span><span class="skeleton-copy short"></span></div>)}
+    </div>
+    <div class="feed-status message-state" data-ref="error" hidden role="alert"><span class="message-icon" aria-hidden="true">!</span><h3>We couldn’t load announcements right now.</h3><button class="button button-outline" type="button" data-ref="retry">Try again</button></div>
+    <div class="feed-status message-state" data-ref="empty" hidden role="status"><span class="message-icon empty-icon" aria-hidden="true">✓</span><h3>There are no announcements to share yet.</h3></div>
+    <div class="announcements-list" data-ref="list" hidden aria-live="polite"></div>
+    <nav class="pagination" data-ref="pagination" hidden aria-label="Announcements pages">
+      <button class="page-button" type="button" data-ref="previous"><span aria-hidden="true">←</span> Previous</button>
+      <span class="page-count"><span class="sr-only">Page </span><span data-ref="page">1</span></span>
+      <button class="page-button" type="button" data-ref="next">Next <span aria-hidden="true">→</span></button>
+    </nav>
+    <template data-ref="card">
+      <article class="announcement-card"><div class="announcement-meta"><time></time><span class="latest-pill" data-card-latest hidden>Latest</span></div><h3></h3><p></p><a class="learn-more" data-card-link hidden>Learn more <span aria-hidden="true">↗</span></a></article>
+    </template>
+  </announcements-feed>
+</section>
+
+<script>
+  interface Announcement { id: string; title: string; content: string; createdAt: string; uriPath: string | null; }
+  interface AnnouncementPage { data: Announcement[]; hasNext: boolean; }
+  type Refs = { loading: HTMLElement; error: HTMLElement; empty: HTMLElement; list: HTMLElement; pagination: HTMLElement; previous: HTMLButtonElement; next: HTMLButtonElement; page: HTMLElement; retry: HTMLButtonElement; card: HTMLTemplateElement; };
+
+  class AnnouncementsFeed extends HTMLElement {
+    private currentPage = 1;
+    private currentData: Announcement[] = [];
+    private hasNext = false;
+    private pageKeys: Array<string | null> = [null];
+    private controller?: AbortController;
+    private refs!: Refs;
+
+    connectedCallback() {
+      if (this.dataset.ready) return;
+      this.dataset.ready = 'true';
+      const ref = <T extends Element>(name: string) => {
+        const element = this.querySelector<T>(`[data-ref="${name}"]`);
+        if (!element) throw new Error(`AnnouncementsFeed is missing its ${name} element`);
+        return element;
+      };
+      this.refs = { loading: ref('loading'), error: ref('error'), empty: ref('empty'), list: ref('list'), pagination: ref('pagination'), previous: ref('previous'), next: ref('next'), page: ref('page'), retry: ref('retry'), card: ref('card') };
+      this.refs.next.addEventListener('click', this.nextPage);
+      this.refs.previous.addEventListener('click', this.previousPage);
+      this.refs.retry.addEventListener('click', this.retry);
+      void this.loadPage(1);
+    }
+
+    disconnectedCallback() { this.controller?.abort(); }
+    private show(element: HTMLElement, visible: boolean) { element.hidden = !visible; }
+    private setLoading(loading: boolean) {
+      this.show(this.refs.loading, loading); this.show(this.refs.error, false); this.show(this.refs.empty, false);
+      this.show(this.refs.list, !loading && this.currentData.length > 0);
+      this.show(this.refs.pagination, !loading && this.currentData.length > 0 && (this.hasNext || this.currentPage > 1));
+      this.refs.previous.disabled = loading || this.currentPage === 1; this.refs.next.disabled = loading || !this.hasNext;
+    }
+    private valid(item: unknown): item is Announcement {
+      if (!item || typeof item !== 'object') return false;
+      const value = item as Record<string, unknown>;
+      return typeof value.id === 'string' && typeof value.title === 'string' && typeof value.content === 'string' && typeof value.createdAt === 'string' && (value.uriPath === null || typeof value.uriPath === 'string');
+    }
+    private date(value: string) {
+      const date = new Date(value); if (Number.isNaN(date.valueOf())) return value;
+      return new Intl.DateTimeFormat(undefined, { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }).format(date);
+    }
+    private url(value: string | null) {
+      if (!value) return null;
+      try { const url = new URL(value.trim(), window.location.origin); return ['http:', 'https:'].includes(url.protocol) ? url : null; } catch { return null; }
+    }
+    private card(announcement: Announcement, index: number) {
+      const fragment = this.refs.card.content.cloneNode(true) as DocumentFragment;
+      const article = fragment.querySelector<HTMLElement>('.announcement-card')!;
+      const time = article.querySelector<HTMLTimeElement>('time')!;
+      const latest = article.querySelector<HTMLElement>('[data-card-latest]')!;
+      const link = article.querySelector<HTMLAnchorElement>('[data-card-link]')!;
+      const isLatest = index === 0 && this.currentPage === 1;
+      article.classList.toggle('is-latest', isLatest); time.dateTime = announcement.createdAt; time.textContent = this.date(announcement.createdAt); latest.hidden = !isLatest;
+      article.querySelector('h3')!.textContent = announcement.title; article.querySelector('p')!.textContent = announcement.content;
+      const destination = this.url(announcement.uriPath);
+      if (destination) { link.hidden = false; link.href = destination.href; if (destination.origin !== window.location.origin) { link.target = '_blank'; link.rel = 'noreferrer'; } }
+      return fragment;
+    }
+    private render() {
+      this.refs.list.replaceChildren(...this.currentData.map((item, index) => this.card(item, index)));
+      this.refs.page.textContent = String(this.currentPage); this.refs.previous.disabled = this.currentPage === 1; this.refs.next.disabled = !this.hasNext;
+      this.show(this.refs.list, this.currentData.length > 0); this.show(this.refs.empty, this.currentData.length === 0); this.show(this.refs.pagination, this.currentData.length > 0 && (this.hasNext || this.currentPage > 1));
+    }
+    private async loadPage(page: number, key: string | null = null) {
+      this.controller?.abort(); this.controller = new AbortController(); this.setLoading(true);
+      try {
+        const url = new URL(this.dataset.endpoint!); url.searchParams.set('limit', '10'); if (key) url.searchParams.set('key', key);
+        const response = await fetch(url, { headers: { Accept: 'application/json' }, signal: this.controller.signal });
+        if (!response.ok) throw new Error(`Announcements request failed with ${response.status}`);
+        const payload = await response.json() as AnnouncementPage;
+        if (!payload || !Array.isArray(payload.data) || !payload.data.every((item) => this.valid(item))) throw new Error('Unexpected announcements response');
+        this.currentPage = page; this.currentData = payload.data; this.hasNext = payload.hasNext === true; this.setLoading(false); this.render();
+      } catch (error) {
+        if (error instanceof DOMException && error.name === 'AbortError') return;
+        this.currentData = []; this.show(this.refs.loading, false); this.show(this.refs.list, false); this.show(this.refs.empty, false); this.show(this.refs.pagination, false); this.show(this.refs.error, true);
+      }
+    }
+    private scrollToFeed = () => this.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    private nextPage = () => { const last = this.currentData.at(-1); if (!this.hasNext || !last) return; this.pageKeys[this.currentPage] = last.createdAt; void this.loadPage(this.currentPage + 1, last.createdAt).then(this.scrollToFeed); };
+    private previousPage = () => { if (this.currentPage === 1) return; const page = this.currentPage - 1; void this.loadPage(page, this.pageKeys[page - 1] ?? null).then(this.scrollToFeed); };
+    private retry = () => { void this.loadPage(this.currentPage, this.pageKeys[this.currentPage - 1] ?? null); };
+  }
+  if (!customElements.get('announcements-feed')) customElements.define('announcements-feed', AnnouncementsFeed);
+</script>
+
+<style>
+  .announcements-section { padding: clamp(4rem, 8vw, 7rem) 0; background: linear-gradient(180deg, #f5f9fd 0%, #fff 28%, #fff 100%); }
+  .feed-shell { display: block; max-width: 62rem; }
+  .endpoint-note { display: flex; flex-wrap: wrap; gap: .35rem .75rem; margin-bottom: 1.5rem; padding: .75rem 1rem; color: #42546c; background: #e9f5ff; border-radius: .75rem; font-size: .76rem; line-height: 1.5; overflow-wrap: anywhere; }
+  .endpoint-note strong { color: var(--brand); }
+  .section-head { display: grid; grid-template-columns: minmax(0, .85fr) minmax(18rem, 1fr); align-items: end; gap: 2rem; margin-bottom: clamp(2.3rem, 5vw, 3.75rem); }
+  .section-kicker { display: inline-flex; color: var(--brand); font-size: .72rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+  .section-head h2 { margin: .65rem 0 0; font-size: clamp(2rem, 4vw, 3.1rem); letter-spacing: -.04em; line-height: 1.06; }
+  .section-head p { margin: 0; color: var(--text-muted); font-size: 1rem; line-height: 1.72; }
+  .announcements-list, .loading-state { display: grid; gap: 1rem; }
+  .announcement-card { position: relative; padding: clamp(1.45rem, 3.2vw, 2.25rem); overflow: hidden; background: #fff; border-radius: 1.25rem; box-shadow: 0 1px 2px rgb(15 23 43 / 5%), 0 .85rem 2.5rem -1.8rem rgb(22 63 105 / 30%); }
+  .announcement-card::before { content: ''; position: absolute; inset: 0 auto 0 0; width: .24rem; background: #cbd9e7; }
+  .announcement-card.is-latest { background: linear-gradient(135deg, #fff 45%, #f1f9ff 100%); box-shadow: 0 1px 2px rgb(15 23 43 / 5%), 0 1rem 3rem -1.7rem rgb(0 105 168 / 38%); }
+  .announcement-card.is-latest::before { background: linear-gradient(180deg, var(--cyan), var(--brand)); }
+  .announcement-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; }
+  .announcement-meta time { color: #65758b; font-size: .78rem; font-weight: 700; letter-spacing: .035em; text-transform: uppercase; font-variant-numeric: tabular-nums; }
+  .latest-pill { padding: .25rem .6rem; color: #006195; background: #def5ff; border-radius: 999px; font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .announcement-card h3 { max-width: 34ch; margin: .75rem 0 0; font-size: clamp(1.15rem, 2.2vw, 1.45rem); letter-spacing: -.025em; line-height: 1.3; }
+  .announcement-card p { max-width: 72ch; margin: .65rem 0 0; color: var(--text-muted); font-size: .95rem; line-height: 1.7; }
+  .learn-more { display: inline-flex; min-height: 2.5rem; align-items: center; gap: .4rem; margin-top: 1rem; color: var(--brand); font-size: .87rem; font-weight: 800; transition: color 180ms ease, transform 180ms ease; }
+  .learn-more:hover { color: #004f80; transform: translateX(.18rem); }.learn-more:active { transform: scale(.96); }
+  .pagination { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1rem; margin-top: 2rem; }
+  .page-button { display: inline-flex; min-height: 2.75rem; align-items: center; justify-content: center; gap: .45rem; padding: .65rem 1rem; color: #334155; background: #fff; border: 0; border-radius: .85rem; box-shadow: 0 1px 2px rgb(15 23 43 / 8%), 0 .5rem 1.4rem -1rem rgb(15 23 43 / 30%); font: 700 .85rem var(--font); cursor: pointer; transition: color 180ms ease, transform 180ms ease, box-shadow 180ms ease; }
+  .page-button:first-child { justify-self: start; }.page-button:last-child { justify-self: end; }.page-button:hover:not(:disabled) { color: var(--brand); transform: translateY(-2px); }.page-button:active:not(:disabled) { transform: scale(.96); }.page-button:disabled { opacity: .42; cursor: not-allowed; }
+  .page-count { display: grid; place-items: center; min-width: 2.75rem; min-height: 2.75rem; color: #4c5b70; background: #eef5fb; border-radius: 50%; font-size: .84rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .message-state { padding: 3rem 1.5rem; color: var(--text-muted); background: #fff; border-radius: 1.25rem; box-shadow: 0 1px 2px rgb(15 23 43 / 5%), 0 .85rem 2.5rem -1.8rem rgb(22 63 105 / 30%); text-align: center; }
+  .message-state h3 { margin: 1rem 0 1.25rem; color: var(--text); font-size: 1.1rem; }.message-icon { display: grid; place-items: center; width: 2.7rem; height: 2.7rem; margin-inline: auto; color: #b45309; background: #fff1d6; border-radius: 50%; font-weight: 800; }.empty-icon { color: #047857; background: #dbf7e9; }
+  .skeleton { min-height: 11rem; }.skeleton::before { background: #dde8f1; }.skeleton span { display: block; border-radius: .45rem; background: linear-gradient(90deg, #edf2f7 20%, #f8fafc 50%, #edf2f7 80%); background-size: 220% 100%; animation: shimmer 1.4s linear infinite; }
+  .skeleton-date { width: 7rem; height: .7rem; }.skeleton-title { width: min(25rem, 72%); height: 1.15rem; margin-top: 1rem; }.skeleton-copy { width: 100%; height: .78rem; margin-top: 1rem; }.skeleton-copy.short { width: 67%; margin-top: .55rem; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }[hidden] { display: none !important; }
+  @keyframes shimmer { to { background-position: -220% 0; } }
+  @media (max-width: 700px) { .section-head { grid-template-columns: 1fr; gap: 1rem; }.pagination { gap: .6rem; }.page-button { padding-inline: .8rem; } }
+  @media (prefers-reduced-motion: reduce), (prefers-reduced-data: reduce) { .skeleton span { animation: none; }.learn-more:hover, .page-button:hover:not(:disabled) { transform: none; } }
+</style>

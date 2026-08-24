@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SignupCta from '../components/SignupCta.astro';
+import Swoosh from '../components/Swoosh.astro';
+import AnnouncementsFeed from '../components/AnnouncementsFeed.astro';
+
+const meta = {
+  title: 'Announcements | Textverified',
+  description: 'Stay current with Textverified product releases, service improvements, and important platform news.',
+  canonical: 'https://www.textverified.com/announcements',
+};
+
+const endpoints = {
+  development: 'https://localhost:10006/api/v2/announcements/clearable',
+  production: 'https://backend.textverified.com/api/v2/announcements/clearable',
+};
+const announcementsEndpoint = import.meta.env.DEV ? endpoints.development : endpoints.production;
+const endpointNote = import.meta.env.DEV
+  ? `Development API: ${endpoints.development} · Production API: ${endpoints.production}`
+  : undefined;
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonical={meta.canonical}>
+  <Header />
+  <main>
+    <section class="announcements-hero" aria-labelledby="announcements-title" data-reveal>
+      <div class="aurora" aria-hidden="true"></div>
+      <div class="signal signal-one" aria-hidden="true"></div>
+      <div class="signal signal-two" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <span class="kicker up">Textverified updates</span>
+        <h1 id="announcements-title" class="up">
+          The latest from<br />
+          <span class="mark"><em>Textverified</em><Swoosh /></span>
+        </h1>
+        <p class="hero-lede up">Product releases, service improvements, and important news—collected in one place.</p>
+      </div>
+    </section>
+    <AnnouncementsFeed endpoint={announcementsEndpoint} endpointNote={endpointNote} />
+    <SignupCta heading="Ready to get started?" body="Create your account and start receiving verification codes in minutes." buttonLabel="Sign up now" />
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const reveal = () => document.querySelector('.announcements-hero')?.classList.add('revealed');
+  window.requestAnimationFrame(reveal);
+  window.setTimeout(reveal, 60);
+</script>
+
+<style>
+  .announcements-hero { position: relative; isolation: isolate; overflow: hidden; padding: calc(var(--header-height) + clamp(3.5rem, 7vw, 6.75rem)) 0 clamp(4.25rem, 8vw, 7rem); color: white; text-align: center; background: radial-gradient(85% 100% at 50% -20%, #1b365e 0%, transparent 58%), linear-gradient(180deg, #0f172b 0%, #070d1a 100%); }
+  .hero-inner { position: relative; z-index: 1; width: min(51rem, 90vw); margin-inline: auto; }
+  .kicker { display: inline-flex; align-items: center; padding: .4rem .9rem; color: #8fd8f5; background: rgb(17 177 234 / 10%); border: 1px solid rgb(17 177 234 / 30%); border-radius: 999px; font-size: .72rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+  h1 { margin: 1.5rem 0 0; font-size: clamp(2rem, 3.9vw, 3.25rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.12; }
+  h1 em { color: var(--cyan); font-style: normal; }
+  .hero-lede { max-width: 56ch; margin: 1.55rem auto 0; color: #a9bcd8; font-size: clamp(1rem, 1.45vw, 1.15rem); line-height: 1.72; }
+  .aurora { position: absolute; z-index: -3; inset: -25%; opacity: .3; pointer-events: none; background: radial-gradient(circle at 18% 30%, #076da8, transparent 28%), radial-gradient(circle at 82% 20%, #0f89bd, transparent 27%), radial-gradient(circle at 52% 88%, #153d73, transparent 32%); }
+  .signal { position: absolute; z-index: -1; width: clamp(17rem, 31vw, 28rem); aspect-ratio: 1; border: 1px solid rgb(56 211 255 / 10%); border-radius: 50%; pointer-events: none; }
+  .signal::before, .signal::after { content: ''; position: absolute; border: inherit; border-radius: inherit; }
+  .signal::before { inset: 16%; }.signal::after { inset: 34%; }
+  .signal-one { left: -9rem; bottom: -13rem; }.signal-two { top: -12rem; right: -7rem; }
+  .up { opacity: 0; transform: translateY(1.5rem); transition: opacity 800ms cubic-bezier(.22,1,.36,1), transform 800ms cubic-bezier(.22,1,.36,1); }
+  .announcements-hero.revealed .up { opacity: 1; transform: none; }
+  .kicker.up { transition-delay: 50ms; } h1.up { transition-delay: 150ms; } .hero-lede.up { transition-delay: 280ms; }
+  @media (max-width: 700px) { .announcements-hero { padding-top: calc(var(--header-height) + 3.5rem); } }
+  @media (prefers-reduced-motion: reduce) { .up { opacity: 1; transform: none; transition: none; } }
+</style>
