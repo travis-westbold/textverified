@@ -1,0 +1,99 @@
+---
+/* Verifications vs Rentals — the two plans side by side, so the difference in
+   use case is legible before anyone reaches the full pricing page. */
+import { links } from '../../config/links';
+import type { LinkKey } from '../../config/link-keys';
+
+interface Plan {
+  name: string;
+  price: string;
+  unit: string;
+  description: string;
+  features: string[];
+  ctaLabel: string;
+  ctaLink: LinkKey;
+  featured?: boolean;
+}
+
+interface Props {
+  kicker: string;
+  heading: string;
+  lede: string;
+  plans: Plan[];
+  tone?: 'light' | 'dark';
+}
+
+const { kicker, heading, lede, plans, tone = 'light' } = Astro.props;
+---
+
+<section class:list={['compare', tone]} aria-labelledby="compare-heading" data-reveal>
+  <div class="shell">
+    <header class="compare-head up">
+      <span class="kicker">{kicker}</span>
+      <h2 id="compare-heading">{heading}</h2>
+      <p>{lede}</p>
+    </header>
+
+    <div class="compare-grid">
+      {plans.map((plan) => (
+        <article class:list={['plan', 'up', { featured: plan.featured }]}>
+          {plan.featured && <span class="flag">Most popular</span>}
+          <span class="starting">Starting at…</span>
+          <p class="price"><strong>{plan.price}</strong><span>{plan.unit}</span></p>
+          <h3>{plan.name}</h3>
+          <p class="desc">{plan.description}</p>
+          <ul>
+            {plan.features.map((feature) => (
+              <li><i aria-hidden="true">✓</i>{feature}</li>
+            ))}
+          </ul>
+          <a class="plan-button" href={links[plan.ctaLink]}>{plan.ctaLabel}</a>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .compare { padding: clamp(3.75rem, 7.5vw, 6.25rem) 0; color: var(--text); background: linear-gradient(180deg, white 0%, #f2f5f9 100%); }
+  .compare.dark { color: white; background: linear-gradient(180deg, #0f172b 0%, #070d1a 100%); }
+  .compare-head { max-width: 44rem; margin: 0 auto clamp(2.1rem, 4.5vw, 3.25rem); text-align: center; }
+  .kicker { display: inline-flex; align-items: center; padding: .38rem .88rem; color: var(--brand); background: rgb(0 105 168 / 8%); border: 1px solid rgb(0 105 168 / 25%); border-radius: 999px; font-size: .72rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+  .compare.dark .kicker { color: #8fd8f5; background: rgb(17 177 234 / 10%); border-color: rgb(17 177 234 / 30%); }
+  h2 { margin: 1rem 0 0; font-size: clamp(1.63rem, 3vw, 2.5rem); font-weight: 800; letter-spacing: -.028em; line-height: 1.14; }
+  .compare-head p { margin: .95rem 0 0; color: #54637a; font-size: clamp(.94rem, 1.15vw, 1.06rem); line-height: 1.7; }
+  .compare.dark .compare-head p { color: #a9bcd8; }
+
+  .compare-grid { display: grid; grid-template-columns: repeat(2, 1fr); align-items: stretch; gap: clamp(1rem, 2vw, 1.63rem); max-width: 55rem; margin-inline: auto; }
+  .plan { position: relative; display: flex; flex-direction: column; height: 100%; padding: 1.75rem 1.6rem 1.85rem; color: var(--text); background: white; border: 1px solid rgb(15 23 43 / 9%); border-radius: 1.38rem; box-shadow: 0 1.5rem 3.1rem -1.9rem rgb(15 23 43 / 55%); transition: transform 350ms cubic-bezier(.22,1,.36,1), box-shadow 350ms cubic-bezier(.22,1,.36,1); }
+  .plan:hover { transform: translateY(-5px); box-shadow: 0 2.1rem 3.75rem -1.85rem rgb(15 23 43 / 60%); }
+  .plan.featured { color: white; background: linear-gradient(170deg, #0b3f63, #06263f); border-color: rgb(56 211 255 / 35%); }
+  .flag { position: absolute; top: -.8rem; left: 50%; padding: .38rem .94rem; color: white; background: linear-gradient(135deg, #1e8fd6, #0069a8); border-radius: 999px; box-shadow: 0 .5rem 1.25rem -.5rem rgb(30 143 214 / 90%); font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; transform: translateX(-50%); white-space: nowrap; }
+  .starting { color: #7a8ba3; font-size: .84rem; }
+  .plan.featured .starting { color: #9dc4dd; }
+  .price { display: flex; align-items: baseline; gap: .5rem; margin: .13rem 0 0; }
+  .price strong { font-size: clamp(2.1rem, 3.6vw, 2.75rem); letter-spacing: -.03em; line-height: 1; }
+  .price span { color: #7a8ba3; font-size: .94rem; }
+  .plan.featured .price span { color: #9dc4dd; }
+  h3 { margin: 1.25rem 0 0; font-size: 1.03rem; font-weight: 800; }
+  .desc { margin: .75rem 0 0; color: #5b6b82; font-size: .88rem; line-height: 1.6; }
+  .plan.featured .desc { color: #bcd4e6; }
+  ul { display: grid; gap: .69rem; margin: 1.25rem 0 0; padding: 0; list-style: none; }
+  li { display: flex; gap: .63rem; color: #41506a; font-size: .86rem; line-height: 1.45; }
+  .plan.featured li { color: #cfe2f0; }
+  li i { display: grid; place-items: center; flex: 0 0 1rem; height: 1rem; margin-top: .1rem; color: white; background: #0069a8; border-radius: 50%; font-size: .6rem; font-style: normal; }
+  .plan.featured li i { color: #06263f; background: #38d3ff; }
+  .plan-button { display: grid; place-items: center; width: 100%; min-height: 2.5rem; margin-top: auto; padding: .8rem 1.25rem; color: white; background: #0f172b; border-radius: 999px; font-size: .94rem; font-weight: 700; transition: transform 180ms ease; }
+  .plan-button:active { transform: scale(.96); }
+  .plan.featured .plan-button { color: #0f172b; background: white; }
+  /* the lists differ in length; the button is pinned to the bottom by
+     margin-top:auto so both cards end at the same place */
+  ul { margin-bottom: 1.5rem; }
+
+  .up { opacity: 0; transform: translateY(1.25rem); transition: opacity 700ms cubic-bezier(.22,1,.36,1), transform 700ms cubic-bezier(.22,1,.36,1); }
+  .compare.revealed .up { opacity: 1; transform: none; }
+  .plan.up:nth-child(2) { transition-delay: 90ms; }
+
+  @media (max-width: 780px) { .compare-grid { grid-template-columns: 1fr; max-width: 32.5rem; } }
+  @media (prefers-reduced-motion: reduce) { .up { opacity: 1; transform: none; transition: none; } }
+</style>
