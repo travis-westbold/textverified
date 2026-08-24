@@ -14,5 +14,10 @@ const keystaticEnabled = process.env.NODE_ENV === 'development' || Boolean(proce
 export default defineConfig({
   output: 'static',
   adapter: vercel(),
+  /* Astro's default inlines any bundled stylesheet under ~4kB. As pages were
+     added, the shared hero-field styles fell under that line and were copied
+     into every page's HTML instead of being fetched once and cached. Keep
+     stylesheets external: smaller HTML, one shared file. */
+  build: { inlineStylesheets: 'never' },
   integrations: [react(), ...(keystaticEnabled ? [keystatic()] : [])],
 });

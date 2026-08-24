@@ -6,6 +6,10 @@
    All selectors are scoped under .tvm because this file is global.
    ============================================================ */
 
+/* Every mock reserves space for its LARGEST state. Text that swaps (banners,
+   status lines, typed fields) must sit in a box sized for the longest copy,
+   so the frame around it never grows or shrinks mid-demo. See AGENTS.md. */
+
 /* ---- app chrome (dashboard behind the modals, rentals, credits) ---- */
 .tvm.mock { position: absolute; inset: 0; display: flex; flex-direction: column; background: #fff; color: #16233b;
   font-size: 9px; font-size: 1.45cqw; line-height: 1.4; text-align: left; user-select: none; }
@@ -48,7 +52,7 @@
 .tvm .mhead .x { color: #9aa7ba; font-weight: 600; }
 .tvm .msvc { display: flex; align-items: center; gap: .7em; margin-top: .9em; font-weight: 800; font-size: 1.1em; }
 .tvm .msvc i { width: 2.2em; height: 2.2em; border-radius: .55em; display: grid; place-items: center; color: #fff; font-style: normal; font-weight: 800; font-size: .9em; }
-.tvm .mban { display: flex; align-items: center; gap: .7em; margin-top: .95em; padding: .7em .9em; border-radius: .6em; font-size: .95em; font-weight: 600; background: #eaf4fd; border: 1px solid rgb(30 143 214 / 30%); color: #1d6fa8; transition: background 400ms, border-color 400ms, color 400ms; }
+.tvm .mban { display: flex; align-items: center; gap: .7em; margin-top: .95em; padding: .7em .9em; min-height: 4.4em; border-radius: .6em; font-size: .95em; font-weight: 600; background: #eaf4fd; border: 1px solid rgb(30 143 214 / 30%); color: #1d6fa8; transition: background 400ms, border-color 400ms, color 400ms; }
 .tvm .mban.warn { background: #fff7e8; border-color: rgb(214 146 15 / 35%); color: #a86f0d; }
 .tvm .mban.ok { background: #eafaf1; border-color: rgb(22 163 101 / 40%); color: #0f8a55; }
 .tvm .mban .tvload { width: 2.6em; height: 2em; }
@@ -59,7 +63,7 @@
 .tvm .mstat { padding: .6em .9em; border-radius: .6em; background: #f4f7fb; border: 1px solid #e2e8f1; }
 .tvm .mstat b { display: block; font-size: .8em; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #67788f; }
 .tvm .mstat span { display: block; margin-top: .15em; font-weight: 800; font-variant-numeric: tabular-nums; }
-.tvm .mmsg { margin-top: .95em; min-height: 4.4em; border-radius: .7em; padding: .75em .95em; border: 1.5px dashed #d4dce8; color: #8a97ab; font-size: .95em; display: flex; align-items: center; }
+.tvm .mmsg { margin-top: .95em; min-height: 4.75em; border-radius: .7em; padding: .75em .95em; border: 1.5px dashed #d4dce8; color: #8a97ab; font-size: .95em; display: flex; align-items: center; }
 .tvm .mmsg.got { display: block; border-style: solid; border-color: rgb(120 190 235 / 55%); background: #f2f9ff; color: #233c58; animation: tvm-pop 450ms cubic-bezier(.22,1,.36,1); }
 .tvm .mmsg.got b { color: #0069a8; }
 .tvm .mmsg .who { display: block; margin-bottom: .2em; font-size: .8em; font-weight: 700; color: #67788f; }
@@ -101,7 +105,7 @@
 /* pinned left of centre so the extension popup never covers the headline */
 .tvm .bform { position: absolute; left: 7%; top: 50%; transform: translateY(-52%); width: 44%; }
 .tvm .bform h3 { margin: 0; font-size: 1.5em; font-weight: 800; letter-spacing: -.02em; color: #000; }
-.tvm .bform .fld { margin-top: 1em; padding: .8em 1em; border-radius: .6em; border: 1.5px solid #d4dce8; color: #233c58; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; min-height: 2.9em; display: flex; align-items: center; }
+.tvm .bform .fld { margin-top: 1em; padding: .8em 1em; border-radius: .6em; border: 1.5px solid #d4dce8; color: #233c58; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; min-height: 3.2em; display: flex; align-items: center; }
 .tvm .bform .fld .tcaret { display: inline-block; width: 2px; height: 1.2em; background: #233c58; margin-left: 1px; animation: tvm-blink 1s steps(1) infinite; }
 .tvm .bform .go { margin-top: .9em; padding: .8em 1em; border-radius: .6em; background: #000; color: #fff; font-weight: 700; text-align: center; }
 /* the extension popup, docked under the toolbar's puzzle icon */
@@ -116,7 +120,7 @@
 .tvm .ext .esvc .tag { margin-left: auto; font-size: .78em; font-weight: 700; color: #0f8a55; background: #eafaf1; border: 1px solid rgb(22 163 101 / 40%); border-radius: 999px; padding: .2em .6em; }
 .tvm .ext .enum { display: flex; align-items: center; gap: .6em; margin-top: .6em; padding: .6em .7em; border-radius: .6em; border: 1.5px solid rgb(0 105 168 / 35%); background: #f2f9ff; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-weight: 700; }
 .tvm .ext .enum span { margin-left: auto; font-family: inherit; font-size: .8em; font-weight: 700; color: #fff; background: #0069a8; border-radius: .4em; padding: .35em .7em; transition: opacity 200ms; }
-.tvm .ext .est { display: flex; align-items: center; gap: .55em; margin-top: .7em; font-size: .88em; font-weight: 600; color: #67788f; }
+.tvm .ext .est { display: flex; align-items: center; gap: .55em; margin-top: .7em; min-height: 1.7em; font-size: .88em; font-weight: 600; color: #67788f; }
 .tvm .ext .est .tvload { width: 2.2em; height: 1.7em; }
 .tvm .ext .est.ok { color: #0f8a55; font-weight: 700; }
 

@@ -1,0 +1,106 @@
+---
+/* A bulk API run in the dashboard: a queue of verifications filling up while
+   the progress strip climbs. Every row is laid out from the first frame and
+   only its status chip changes, so the table never resizes. */
+import './mock.css';
+
+/* five rows: the sixth overflowed the panel at some widths, and the table
+   clips rather than scrolls */
+const RUN = [
+  { id: 'trgt_01KZ9MKVT3WY6NGPEMW054EPNP', mark: 'D',  fill: '#5865f2', name: 'Discord',   number: '(938) 555-0182' },
+  { id: 'trgt_01KZ9MKW2FKBZR7F1DGA4VMWJG', mark: 'ig', fill: '#c13584', name: 'Instagram', number: '(415) 555-0142' },
+  { id: 'ico_01J4YWKY1CZGTSK04N27FBS622', mark: 'T',  fill: '#2aabee', name: 'Telegram',  number: '(206) 555-0163' },
+  { id: 'trgt_01KZ9MKT6VV89TAVRGA2JC72KA', mark: 'W',  fill: '#25d366', name: 'WhatsApp',  number: '(713) 555-0129' },
+  { id: 'trgt_01KZ9MKYV017QFRTVDBCZF6CRZ', mark: 'P',  fill: '#003087', name: 'PayPal',    number: '(938) 555-0117' },
+];
+---
+
+<div class="tvm mock" data-bulk-screen role="img" aria-label="A bulk API run creating verifications, each one completing in turn">
+  <div class="dtop"><span class="dbrand"><img src="/tvlogo.svg" alt="" width="375" height="93" loading="lazy" decoding="async" /></span>
+    <span class="dtools"><span class="dcoin"><i></i>418.75</span><span class="dava"></span></span></div>
+  <div class="dbody">
+    <nav class="dside"><span>Inbox</span><span class="on">Verifications</span><span>Rentals</span><span>Lines</span><span>API Keys</span><span>Credits</span></nav>
+    <div class="dmain">
+      <div class="dhead"><b>Verifications</b><span class="dbtns"><span class="dbtn pri">New Run</span><span class="dbtn">API Docs</span></span></div>
+      <div class="dtabs"><span class="on">This run</span><span>History</span></div>
+
+      <div class="brun">
+        <span class="blab">Bulk run <b>#4821</b></span>
+        <span class="btrack"><i data-bulk-bar style="width:100%"></i></span>
+        <span class="bcount" data-bulk-count>250 / 250</span>
+      </div>
+
+      <div class="dtable">
+        <div class="drow dhr r4"><span>Service</span><span>Number</span><span>Status</span></div>
+        {RUN.map((row) => (
+          <div class="drow r4">
+            <span class="dsvc"><i style={`background:${row.fill}`}>{row.mark}</i>{row.name}</span>
+            <span class="dnum">{row.number}</span>
+            <span class="dst ok" data-bulk-state>Verified</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* the run strip. `em` here rides the mock's container-query font-size */
+  .brun { display: flex; align-items: center; gap: 1.1em; margin: .1em 0 .9em; padding: .7em 1em; border-radius: .7em; background: #f4f7fb; border: 1px solid #e2e8f1; }
+  .blab { flex: 0 0 auto; font-size: .92em; font-weight: 700; color: #67788f; }
+  .blab b { color: #16233b; }
+  .btrack { flex: 1; height: .6em; border-radius: 999px; background: #e2e8f1; overflow: hidden; }
+  .btrack i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #0069a8, #1e8fd6); transition: width 320ms linear, background 400ms; }
+  /* widest state is "250 / 250" — reserved so the strip never reflows */
+  .bcount { flex: 0 0 auto; min-width: 5.6em; text-align: right; font-weight: 800; font-variant-numeric: tabular-nums; color: #16233b; }
+</style>
+
+<script>
+  import { prefersReducedMotion, runWhileVisible, wait } from '../../scripts/demo';
+
+  const TOTAL = 250;
+  const TICKS = 20;
+  /* which tick each row lands on — deliberately uneven, so the run reads as
+     arrivals rather than as a metronome */
+  const LANDS = [2, 5, 7, 11, 16];
+
+  document.querySelectorAll<HTMLElement>('[data-bulk-screen]').forEach((screen) => {
+    if (prefersReducedMotion()) return; // the finished run stands
+
+    const bar = screen.querySelector<HTMLElement>('[data-bulk-bar]');
+    const count = screen.querySelector<HTMLElement>('[data-bulk-count]');
+    const states = [...screen.querySelectorAll<HTMLElement>('[data-bulk-state]')];
+    if (!bar || !count) return;
+
+    const setState = (cell: HTMLElement, done: boolean) => {
+      cell.classList.toggle('ok', done);
+      cell.textContent = done ? 'Verified' : 'Pending';
+    };
+
+    runWhileVisible(screen, async (stopped) => {
+      while (!stopped()) {
+        /* snap back to an empty run — no visible rewind of the bar */
+        bar.style.transition = 'none';
+        bar.style.width = '0%';
+        bar.style.background = '';
+        void bar.offsetWidth;
+        bar.style.transition = '';
+        count.textContent = `0 / ${TOTAL}`;
+        states.forEach((cell) => setState(cell, false));
+        await wait(900);
+
+        for (let tick = 1; tick <= TICKS; tick++) {
+          if (stopped()) return;
+          const done = Math.round((TOTAL * tick) / TICKS);
+          bar.style.width = `${(tick / TICKS) * 100}%`;
+          count.textContent = `${done} / ${TOTAL}`;
+          LANDS.forEach((land, index) => { if (land === tick) setState(states[index], true); });
+          await wait(320);
+        }
+
+        bar.style.background = 'linear-gradient(90deg, #0f8a55, #16a365)';
+        await wait(2600);
+      }
+    });
+  });
+</script>

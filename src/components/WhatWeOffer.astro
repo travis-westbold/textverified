@@ -24,7 +24,7 @@ const serviceIcons = [
 <section class="offer" id="offer" aria-labelledby="offer-heading">
   <div class="offer-inner shell">
     <header class="offer-head">
-      <h2 id="offer-heading">{offer.headingPre} <span class="mark"><em>{offer.markEm}</em><Swoosh ink /></span></h2>
+      <h2 id="offer-heading"><span>{offer.headingPre} </span><span class="mark"><em>{offer.markEm}</em><Swoosh ink /></span></h2>
       <p>{offer.lede}</p>
     </header>
 
@@ -154,7 +154,7 @@ const serviceIcons = [
   });
 
   const terminalTokens = [
-    { text: '$ curl https://api.textverified.com/api/pub/v2/verifications\n\n', className: 'terminal-command' },
+    { text: '$ curl https://api.textverified.com/api/pub/v2/verifications\n', className: 'terminal-command' },
     { text: '{\n  "number": ', className: '' }, { text: '"+14155550142"', className: 'terminal-string' },
     { text: ',\n  "code": ', className: '' }, { text: '"481209"', className: 'terminal-string' },
     { text: ',\n  "status": ', className: '' }, { text: '"completed"', className: 'terminal-string' },
@@ -215,7 +215,7 @@ const serviceIcons = [
   .privacy-demo { display: flex; flex-direction: column; justify-content: center; }
   .number-card { display: flex; align-items: center; gap: .6rem; padding: .82rem .88rem; background: white; border: 1px solid rgb(15 23 43 / 10%); border-radius: .82rem; transition: 400ms cubic-bezier(.22,1,.36,1); }.number-card + .number-card { margin-top: .7rem; }.number-card span { color: #8394ab; font-size: .68rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }.number-card strong { margin-left: auto; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: .84rem; }.number-card.masked { background: #fdf2f2; border-color: rgb(200 60 60 / 28%); }.number-card.masked strong { color: #b64545; }.number-card.provided { background: #eafaf1; border-color: rgb(22 163 101 / 40%); }.number-card.provided strong { color: #0f8a55; }
   .privacy-badge { display: flex; align-items: center; gap: .38rem; margin-top: .75rem; color: #5b6b82; font-size: .78rem; font-weight: 700; opacity: 0; transform: translateY(.32rem); transition: 450ms cubic-bezier(.22,1,.36,1); }.privacy-badge.visible { color: #0f8a55; opacity: 1; transform: none; }.privacy-badge span { display: grid; place-items: center; width: 1.05rem; height: 1.05rem; color: white; background: #16a365; border-radius: 50%; font-size: .62rem; }
-  .terminal { display: flex; flex-direction: column; height: 100%; overflow: hidden; background: #0d1726; border: 1px solid rgb(255 255 255 / 9%); border-radius: .75rem; }.terminal-bar { display: flex; gap: .38rem; padding: .56rem .7rem; border-bottom: 1px solid rgb(255 255 255 / 8%); }.terminal-bar i { width: .56rem; height: .56rem; background: #33465f; border-radius: 50%; }.terminal-bar i:first-child { background: #e0605c; }.terminal-bar i:nth-child(2) { background: #e2b34a; }.terminal-bar i:nth-child(3) { background: #4fbf6e; }.terminal pre { flex: 1; margin: 0; padding: .7rem .75rem; overflow: hidden; color: #cfe0f2; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: .72rem; line-height: 1.62; white-space: pre-wrap; word-break: break-word; }
+  .terminal { display: flex; flex-direction: column; height: 100%; overflow: hidden; background: #0d1726; border: 1px solid rgb(255 255 255 / 9%); border-radius: .75rem; }.terminal-bar { display: flex; gap: .38rem; padding: .56rem .7rem; border-bottom: 1px solid rgb(255 255 255 / 8%); }.terminal-bar i { width: .56rem; height: .56rem; background: #33465f; border-radius: 50%; }.terminal-bar i:first-child { background: #e0605c; }.terminal-bar i:nth-child(2) { background: #e2b34a; }.terminal-bar i:nth-child(3) { background: #4fbf6e; }.terminal pre { flex: 1; margin: 0; padding: .7rem .75rem; overflow: hidden; color: #cfe0f2; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: .66rem; line-height: 1.45; white-space: pre-wrap; word-break: break-word; }
   :global(.terminal-command) { color: #7fe0b0; }:global(.terminal-string) { color: #f5c97a; }:global(.terminal-caret) { display: inline-block; width: .38rem; height: .75rem; background: #7fe0b0; vertical-align: -.13rem; animation: terminal-blink 1s steps(1) infinite; }
   @keyframes terminal-blink { 50% { opacity: 0; } }
   @media (max-width: 940px) { .offer-grid { grid-template-columns: 1fr; max-width: 35rem; margin-inline: auto; }.offer-card { transition-delay: 0ms !important; } }

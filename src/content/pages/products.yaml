@@ -25,9 +25,10 @@ jumpLinks:
 sections:
   - id: sms
     kicker: Text / SMS
-    tone: dark
+    tone: light
+    ink: true
     headingPre: SMS
-    markEm: verifications.
+    markEm: Verifications.
     lede: >-
       SMS Verifications are our most affordable option to receive a code with
       a temporary number – starting at $0.25. Use our numbers for any
@@ -41,9 +42,8 @@ sections:
     primaryLink: sms
   - id: extension
     kicker: Text / SMS · in your browser
-    tone: light
+    tone: dark
     flip: true
-    ink: true
     headingPre: The Chrome
     markEm: extension.
     lede: >-
@@ -59,9 +59,10 @@ sections:
     secondaryLink: extensionBlog
   - id: voice
     kicker: Voice
-    tone: deep
+    tone: light
+    ink: true
     headingPre: Voice
-    markEm: verifications.
+    markEm: Verifications.
     lede: >-
       Voice Verifications allow you to verify via phone call. Use our numbers
       for any service listed, and you'll only get charged if your call
@@ -74,9 +75,10 @@ sections:
     primaryLink: sms
   - id: rentals
     kicker: Long-term phone numbers
-    tone: dark
+    tone: light
+    ink: true
     flip: true
-    headingPre: Number
+    headingPre: Phone
     markEm: rentals.
     lede: >-
       Rentals allow you to own a number for a longer period of time. Own your
@@ -89,9 +91,8 @@ sections:
     primaryLink: rentals
   - id: api
     kicker: Automate
-    tone: light
-    ink: true
-    headingPre: The developer
+    tone: deep
+    headingPre: Developer
     markEm: API.
     lede: >-
       Use our API to interact with Textverified programatically. Whether you
@@ -107,9 +108,10 @@ sections:
     secondaryLink: support
   - id: credits
     kicker: Payments
-    tone: deep
+    tone: light
+    ink: true
     flip: true
-    headingPre: Fund with
+    headingPre: Buy with
     markEm: credits.
     lede: >-
       Use credits to purchase your verifications and rentals. Deposit funds
@@ -127,14 +129,10 @@ verificationExtras:
     - icon: refresh
       title: Reactivate
       body: >-
-        If you want to use a phone number again after receiving a code, you
-        can click the "Reactivate" button inside of the verification modal or
-        on your verification page. Verifications can always be used again for
-        a few minutes after receiving an SMS, but may be used again hours
-        later if we still have access to the number (not guaranteed). If you
-        need guaranteed access to a number for a longer period of time —
-        whether throughout a single day, a whole year, or even greater —
-        <a href="#rentals">rentals</a> will better fit your needs.
+        Click "Reactivate" in the verification modal or on your verification
+        page to use a number again. Reuse works for a few minutes after an SMS
+        arrives, and sometimes hours later, but is never guaranteed — for
+        that, use <a href="#rentals">rentals</a>.
     - icon: globe
       title: Area Codes
       body: >-

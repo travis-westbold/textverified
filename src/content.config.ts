@@ -187,4 +187,109 @@ const products = defineCollection({
   }),
 });
 
-export const collections = { reviews, pricing, faqs, navigation, footer, home, products };
+const verifications = defineCollection({
+  loader: glob({ pattern: 'verifications.yaml', base: './src/content/pages' }),
+  schema: z.object({
+    meta,
+    hero: z.object({
+      kicker: z.string().min(1),
+      title: z.string().min(1),
+      mark,
+      lede: z.string().min(1),
+      primaryCta: z.string().min(1),
+      secondaryCta: z.string().min(1),
+    }),
+    sections: z.array(z.object({
+      id: z.enum(['sms', 'voice']),
+      kicker: z.string().min(1),
+      tone: z.enum(['dark', 'deep', 'light']),
+      flip: z.boolean().default(false),
+      ink: z.boolean().default(false),
+      headingPre: z.string().min(1),
+      markEm: z.string().min(1),
+      lede: z.string().min(1),
+      steps: z.array(z.object({ title: z.string().min(1), text: z.string().min(1) })).min(1),
+      primaryLabel: z.string().optional(),
+      primaryLink: linkKey.optional(),
+    })).length(2),
+    extras: z.object({
+      kicker: z.string().min(1),
+      heading: z.string().min(1),
+      cards: z.array(z.object({
+        icon: z.enum(['refresh', 'globe', 'refund', 'list', 'bulk', 'bolt', 'chat']),
+        title: z.string().min(1),
+        body: safeHtml,
+      })).min(1),
+    }),
+    /* icon names are keys of brandIconPaths; UseCases.astro fails the build
+       on an unknown one, which keeps this list free-text for editors */
+    useCases: z.object({
+      kicker: z.string().min(1),
+      heading: z.string().min(1),
+      lede: z.string().min(1),
+      cards: z.array(z.object({
+        title: z.string().min(1),
+        body: z.string().min(1),
+        icons: z.array(z.string().min(1)).min(1),
+      })).length(3),
+    }),
+    planCompare: z.object({
+      kicker: z.string().min(1),
+      heading: z.string().min(1),
+      lede: z.string().min(1),
+      plans: z.array(z.object({
+        name: z.string().min(1),
+        price: z.string().min(1),
+        unit: z.string().min(1),
+        description: z.string().min(1),
+        features: z.array(z.string().min(1)).min(1),
+        ctaLabel: z.string().min(1),
+        ctaLink: linkKey,
+        featured: z.boolean().default(false),
+      })).length(2),
+    }),
+    signupCta: ctaBand,
+  }),
+});
+
+const automate = defineCollection({
+  loader: glob({ pattern: 'automate.yaml', base: './src/content/pages' }),
+  schema: z.object({
+    meta,
+    hero: z.object({
+      kicker: z.string().min(1),
+      title: z.string().min(1),
+      mark,
+      lede: z.string().min(1),
+      primaryCta: z.string().min(1),
+      secondaryCta: z.string().min(1),
+    }),
+    sections: z.array(z.object({
+      id: z.enum(['start', 'bulk']),
+      kicker: z.string().min(1),
+      tone: z.enum(['dark', 'deep', 'light']),
+      flip: z.boolean().default(false),
+      ink: z.boolean().default(false),
+      headingPre: z.string().min(1),
+      markEm: z.string().min(1),
+      lede: z.string().min(1),
+      steps: z.array(z.object({ title: z.string().min(1), text: z.string().min(1) })).min(1),
+      primaryLabel: z.string().optional(),
+      primaryLink: linkKey.optional(),
+      secondaryLabel: z.string().optional(),
+      secondaryLink: linkKey.optional(),
+    })).length(2),
+    extras: z.object({
+      kicker: z.string().min(1),
+      heading: z.string().min(1),
+      cards: z.array(z.object({
+        icon: z.enum(['refresh', 'globe', 'refund', 'list', 'bulk', 'bolt', 'chat', 'code', 'key']),
+        title: z.string().min(1),
+        body: safeHtml,
+      })).min(1),
+    }),
+    signupCta: ctaBand,
+  }),
+});
+
+export const collections = { reviews, pricing, faqs, navigation, footer, home, products, verifications, automate };

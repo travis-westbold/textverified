@@ -135,9 +135,12 @@ const { productsMenu: products, mainNav: navigation } = nav.data;
   .desktop-nav { display: flex; align-items: center; gap: .2rem; }
   .nav-link { position: relative; padding: .65rem .85rem; border-radius: 999px; color: var(--text-muted); font-size: .92rem; font-weight: 600; transition: color 180ms ease, background 180ms ease; }
   .nav-link:hover, .nav-link:focus-visible, .products[data-open] .nav-link { color: var(--text); background: var(--surface-subtle); }
-  .nav-link[aria-current='page'] { color: var(--text); box-shadow: inset 0 -2px var(--brand-light); border-radius: 999px 999px 2px 2px; }
+  /* selected page reads as a tinted pill — the radius comes from .nav-link,
+     so it stays a full pill rather than being reshaped */
+  .nav-link[aria-current='page'] { color: var(--brand); background: var(--surface-blue); box-shadow: inset 0 0 0 1px var(--border-blue); }
+  .nav-link[aria-current='page']:hover, .nav-link[aria-current='page']:focus-visible { background: var(--border-blue); }
   .products { position: relative; }
-  .products-trigger { display: flex; align-items: center; gap: .35rem; border: 0; cursor: pointer; font-family: inherit; }
+  .products-trigger { display: flex; align-items: center; gap: .35rem; border: 0; background: none; cursor: pointer; font-family: inherit; }
   .chevron { display: grid; place-items: center; flex: 0 0 .75rem; width: .75rem; height: .75rem; transition: transform 200ms ease; }
   .chevron svg { display: block; width: .7rem; height: .47rem; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
   .products[data-open] .chevron { transform: rotate(180deg); }

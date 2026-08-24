@@ -20,7 +20,7 @@ const { hero } = page.data;
       <p class="eyebrow up"><span></span> {hero.eyebrow}</p>
       <h1 id="hero-title" class="up">
         {hero.title}
-        <strong>{hero.strongPre} <span class="mark">{hero.mark.pre} <em>{hero.mark.em}</em><Swoosh /></span></strong>
+        <strong>{hero.strongPre} {hero.mark.pre} <span class="mark"><em>{hero.mark.em}</em><Swoosh /></span></strong>
       </h1>
       <p class="lede up">{hero.lede}</p>
       <div class="hero-actions up">
@@ -49,8 +49,8 @@ const { hero } = page.data;
 </section>
 
 <script>
-  /* ambient animations (marquee, eyebrow dot) sleep while the hero is
-     off-screen — [data-animation-state='paused'] is defined globally */
+  /* Ambient animations sleep while the hero is off-screen —
+     [data-animation-state='paused'] is defined globally. */
   document.querySelectorAll<HTMLElement>('[data-animated-section]').forEach((section) => {
     if (!('IntersectionObserver' in window)) return;
     new IntersectionObserver(([entry]) => {
@@ -114,6 +114,6 @@ const { hero } = page.data;
     .hero-actions { justify-content: center; }
   }
   @media (prefers-reduced-motion: reduce) { .up { opacity: 1; transform: none; } .platforms, .eyebrow span::after { animation: none; } }
-  /* data-saver tier: the marquee stands still (its brands remain readable) */
+  /* data-saver tier: the strip stands still (its brands remain readable) */
   @media (prefers-reduced-data: reduce) { .platforms { animation: none; } }
 </style>

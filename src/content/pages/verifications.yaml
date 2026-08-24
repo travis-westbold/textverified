@@ -1,0 +1,147 @@
+meta:
+  title: Verifications | Textverified
+  description: >-
+    Temporary non-VoIP US phone numbers for SMS and voice verification.
+    Receive one-time passcodes and calls for 700+ services with fast delivery
+    and automatic refunds when no code arrives.
+  canonical: https://www.textverified.com/verifications
+hero:
+  kicker: Verification products
+  title: Verifications
+  mark: { pre: SMS and, em: Voice }
+  lede: >-
+    Textverified provides temporary non-VoIP US phone numbers to receive SMS
+    codes and voice calls for online account verification. Choose your service,
+    get a number instantly, and verify in minutes.
+  primaryCta: Sign up for Textverified
+  secondaryCta: Explore services
+sections:
+  - id: sms
+    kicker: Text / SMS
+    tone: light
+    ink: true
+    flip: false
+    headingPre: SMS
+    markEm: Verifications.
+    lede: >-
+      Use temporary numbers to receive one-time SMS verification codes for the
+      services you use most. Fast delivery, clear status updates, and only pay
+      when a code arrives.
+    steps:
+      - { title: Select a service., text: Choose from 700+ supported services and get a temporary number instantly. }
+      - { title: Sign up., text: Enter that number on the website or app you are verifying and request your code. }
+      - { title: Verify!, text: Receive your SMS code in your dashboard and complete your account verification. }
+    primaryLabel: Learn more
+    primaryLink: sms
+  - id: voice
+    kicker: Voice
+    tone: dark
+    flip: true
+    ink: false
+    headingPre: Voice
+    markEm: Verifications.
+    lede: >-
+      Need call-based verification? Receive voice calls on temporary non-VoIP
+      numbers and verify accounts with the same fast, reliable flow.
+    steps:
+      - { title: Select a voice service., text: Pick a supported voice service and claim a temporary number. }
+      - { title: Wait for your call., text: Enter your number on the service and wait while your verification call connects. }
+      - { title: Verify!, text: Follow call instructions and complete your verification once connected. }
+    primaryLabel: Learn more
+    primaryLink: sms
+extras:
+  kicker: Verifications
+  heading: Additional features.
+  cards:
+    - icon: refresh
+      title: Reactivate
+      body: >-
+        Need another code from the same number? Reactivate recent verifications
+        in seconds while availability lasts.
+    - icon: globe
+      title: Area Codes
+      body: >-
+        Filter by area code to use numbers from specific regions when your
+        workflow requires it.
+    - icon: refund
+      title: Automatic Refunds
+      body: >-
+        If no SMS or call is received, your credits are refunded automatically.
+    - icon: list
+      title: 700+ Services
+      body: >-
+        Verify across hundreds of major apps, websites, and online platforms.
+    - icon: bolt
+      title: Instant Delivery
+      body: >-
+        Get temporary numbers and incoming verification updates in real time.
+    - icon: chat
+      title: SMS + Voice
+      body: >-
+        Choose the verification method you need for each service: SMS, voice,
+        or both.
+useCases:
+  kicker: Use cases
+  heading: Popular use cases.
+  lede: >-
+    People use verifications on hundreds of apps. Here is where they help
+    most — keeping your own number out of accounts that do not need it.
+  cards:
+    - title: Communication Services
+      icons: [gmail, discord, whatsapp, telegram, messenger, wechat]
+      body: >-
+        Use messaging apps like Gmail, Facebook and Discord without linking
+        your personal number. Sign up with a one-time verification and stay
+        anonymous.
+    - title: Sign Up Bonuses
+      icons: [paypal, venmo, zelle, amazon, walmart, target]
+      body: >-
+        Take advantage of signup bonuses and recurring rewards on the sites
+        you already use, one verification at a time.
+    - title: Online Privacy
+      icons: [tinder, instagram, snapchat, reddit, craigslist, airbnb]
+      body: >-
+        Keeping your number private matters most on dating apps and
+        marketplaces. Use our real numbers to avoid unwanted calls or texts.
+planCompare:
+  kicker: Pricing
+  heading: Verifications vs rentals.
+  lede: >-
+    Rentals and verifications are aimed at different jobs. Here is how they
+    compare, so you can pick the one that fits.
+  plans:
+    - name: Verifications
+      price: $0.25
+      unit: /verification
+      featured: true
+      description: The right choice when you need a one-time SMS code or voice call.
+      ctaLabel: Get started today
+      ctaLink: register
+      features:
+        - Non-VoIP US phone number
+        - US area code selection
+        - Receive one-time SMS verifications
+        - Receive one-time voice verifications
+        - Short-term phone service
+        - One account per phone line
+    - name: Rentals
+      price: $1.50
+      unit: /rental
+      description: Own a US phone number for as long as you like, and pay as you go.
+      ctaLabel: Get started today
+      ctaLink: register
+      features:
+        - Non-VoIP US phone number
+        - US area code selection
+        - Receive unlimited SMS
+        - Keep the number from one day to forever
+        - Extremely customizable
+        - Long-term phone service
+        - Many accounts per phone line
+signupCta:
+  heading: Use our numbers to verify anything.
+  body: >-
+    From one-off account signups to high-volume verification workflows,
+    Textverified gives you fast access to temporary non-VoIP US numbers for SMS
+    and voice.
+  buttonLabel: Create an account

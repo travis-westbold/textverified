@@ -19,7 +19,7 @@ performance budget (`scripts/check-budget.mjs`); the font is self-hosted
 - `src/components/` — one component per section; shared primitives:
   - `Laptop.astro` / `Monitor.astro` — device frames (render open/static; the old scroll-driven lid hinge was cut for performance)
   - `IsoField.astro` — the isometric app-tile lattice, rendered at build time, deliberately static
-  - `Swoosh.astro` — the hand-drawn brand underline; wrap a phrase in `<span class="mark">…<Swoosh /></span>`
+  - `Swoosh.astro` — the hand-drawn brand underline; wrap `headingPre` in a `<span>` with a trailing space before `<span class="mark">…<Swoosh /></span>` so the heading and emphasized phrase stay separated
   - `products/` — the six mock screens (`SmsScreen`, `ExtensionScreen`, `VoiceScreen`, `RentalsScreen`, `ApiScreen`, `CreditsScreen`), the `ProductSection` scaffold, `ExtrasGrid`, and `mock.css` (shared screen styles, scoped under `.tvm`)
 - `src/scripts/demo.ts` — `runWhileVisible` + `wait`: demos run only while on screen and never stack loops
 - `src/data/` — verbatim copy (`content.ts`), demo services (`services.ts`), brand icon paths (`icons.ts`)

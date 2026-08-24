@@ -7,26 +7,21 @@ import SignupCta from '../components/SignupCta.astro';
 import IsoField from '../components/IsoField.astro';
 import Swoosh from '../components/Swoosh.astro';
 import Laptop from '../components/Laptop.astro';
-import Monitor from '../components/Monitor.astro';
 import ProductSection from '../components/products/ProductSection.astro';
 import ExtrasGrid from '../components/products/ExtrasGrid.astro';
+import UseCases from '../components/products/UseCases.astro';
+import PlanCompare from '../components/products/PlanCompare.astro';
 import SmsScreen from '../components/products/SmsScreen.astro';
-import ExtensionScreen from '../components/products/ExtensionScreen.astro';
 import VoiceScreen from '../components/products/VoiceScreen.astro';
-import RentalsScreen from '../components/products/RentalsScreen.astro';
-import ApiScreen from '../components/products/ApiScreen.astro';
-import CreditsScreen from '../components/products/CreditsScreen.astro';
 import { links } from '../config/links';
 
-const page = await getEntry('products', 'products');
-if (!page) throw new Error('src/content/pages/products.yaml is missing');
-const { meta, hero, jumpLinks, sections, verificationExtras, generalExtras, signupCta } = page.data;
+const page = await getEntry('verifications', 'verifications');
+if (!page) throw new Error('src/content/pages/verifications.yaml is missing');
+const { meta, hero, sections, extras, useCases, planCompare, signupCta } = page.data;
 
-/* Copy comes from the YAML; which device frame and mock screen each section
-   gets is layout and stays here, keyed by the section's fixed id. */
 const section = (id: (typeof sections)[number]['id']) => {
   const found = sections.find((candidate) => candidate.id === id);
-  if (!found) throw new Error(`products.yaml is missing the "${id}" section`);
+  if (!found) throw new Error(`verifications.yaml is missing the "${id}" section`);
   return found;
 };
 
@@ -41,8 +36,6 @@ const sectionProps = (id: (typeof sections)[number]['id']) => {
     steps: data.steps,
     primaryLabel: data.primaryLabel,
     primaryHref: data.primaryLink ? links[data.primaryLink] : undefined,
-    secondaryLabel: data.secondaryLabel,
-    secondaryHref: data.secondaryLink ? links[data.secondaryLink] : undefined,
   };
 };
 ---
@@ -54,65 +47,37 @@ const sectionProps = (id: (typeof sections)[number]['id']) => {
 >
   <Header current="products" />
   <main>
-    <!-- ============ hero ============ -->
-    <section class="products-hero" aria-labelledby="products-title" data-reveal>
+    <section class="products-hero" aria-labelledby="verifications-title" data-reveal>
       <div class="aurora" aria-hidden="true"></div>
       <IsoField side="left" count={16} columns={4} />
       <IsoField side="right" count={16} columns={4} />
 
       <div class="hero-inner">
         <span class="kicker up">{hero.kicker}</span>
-        <h1 id="products-title" class="up">{hero.title}<br />{hero.mark.pre} <span class="mark"><em>{hero.mark.em}</em><Swoosh /></span></h1>
+        <h1 id="verifications-title" class="up">{hero.title}<br />{hero.mark.pre} <span class="mark"><em>{hero.mark.em}</em><Swoosh /></span></h1>
         <p class="lede up">{hero.lede}</p>
         <div class="actions up">
           <a class="button button-primary button-large" href={links.register}>{hero.primaryCta} <span aria-hidden="true">→</span></a>
           <a class="button button-inverse" href={links.pricing}>{hero.secondaryCta}</a>
         </div>
-        <nav class="jump up" aria-label="Jump to a product">
-          {jumpLinks.map((jump) => <a href={`#${jump.anchor}`}>{jump.label}</a>)}
-        </nav>
       </div>
     </section>
 
-    <!-- ============ SMS verifications ============ -->
     <ProductSection {...sectionProps('sms')}>
-      <Fragment slot="heading"><span>{section('sms').headingPre} </span><span class="mark"><em>{section('sms').markEm}</em><Swoosh ink={section('sms').ink} /></span></Fragment>
+      <Fragment slot="heading"><span>{section('sms').headingPre} </span><span class="mark"><em>{section('sms').markEm}</em> <Swoosh ink={section('sms').ink} /></span></Fragment>
       <Laptop width="min(40rem, 100%)"><SmsScreen /></Laptop>
     </ProductSection>
 
-    <!-- ============ Chrome extension ============ -->
-    <ProductSection {...sectionProps('extension')}>
-      <Fragment slot="heading"><span>{section('extension').headingPre} </span><span class="mark"><em>{section('extension').markEm}</em><Swoosh ink={section('extension').ink} /></span></Fragment>
-      <Monitor><ExtensionScreen /></Monitor>
-    </ProductSection>
-
-    <!-- ============ Voice verifications ============ -->
     <ProductSection {...sectionProps('voice')}>
       <Fragment slot="heading"><span>{section('voice').headingPre} </span><span class="mark"><em>{section('voice').markEm}</em><Swoosh ink={section('voice').ink} /></span></Fragment>
       <Laptop width="min(40rem, 100%)"><VoiceScreen /></Laptop>
     </ProductSection>
 
-    <ExtrasGrid tone="dark" kicker={verificationExtras.kicker} heading={verificationExtras.heading} cards={[...verificationExtras.cards]} />
+    <ExtrasGrid kicker={extras.kicker} heading={extras.heading} cards={[...extras.cards]} />
 
-    <!-- ============ Rentals ============ -->
-    <ProductSection {...sectionProps('rentals')}>
-      <Fragment slot="heading"><span>{section('rentals').headingPre} </span><span class="mark"><em>{section('rentals').markEm}</em><Swoosh ink={section('rentals').ink} /></span></Fragment>
-      <Monitor><RentalsScreen /></Monitor>
-    </ProductSection>
+    <UseCases tone="dark" kicker={useCases.kicker} heading={useCases.heading} lede={useCases.lede} cards={[...useCases.cards]} />
 
-    <!-- ============ API ============ -->
-    <ProductSection {...sectionProps('api')}>
-      <Fragment slot="heading"><span>{section('api').headingPre} </span><span class="mark"><em>{section('api').markEm}</em><Swoosh ink={section('api').ink} /></span></Fragment>
-      <Laptop width="min(40rem, 100%)"><ApiScreen /></Laptop>
-    </ProductSection>
-
-    <!-- ============ Credits ============ -->
-    <ProductSection {...sectionProps('credits')}>
-      <Fragment slot="heading"><span>{section('credits').headingPre} </span><span class="mark"><em>{section('credits').markEm}</em><Swoosh ink={section('credits').ink} /></span></Fragment>
-      <Monitor><CreditsScreen /></Monitor>
-    </ProductSection>
-
-    <ExtrasGrid tone="dark" kicker={generalExtras.kicker} heading={generalExtras.heading} cards={[...generalExtras.cards]} />
+    <PlanCompare kicker={planCompare.kicker} heading={planCompare.heading} lede={planCompare.lede} plans={[...planCompare.plans]} />
 
     <SignupCta {...signupCta} />
   </main>
@@ -120,16 +85,24 @@ const sectionProps = (id: (typeof sections)[number]['id']) => {
 </BaseLayout>
 
 <script>
-  /* the hero is above the fold: reveal on load, not on intersection */
   const reveal = () => document.querySelector('.products-hero')?.classList.add('revealed');
   window.requestAnimationFrame(reveal);
   window.setTimeout(reveal, 60);
+
+  const nodes = document.querySelectorAll<HTMLElement>('[data-reveal]');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('revealed');
+      io.unobserve(entry.target);
+    });
+  }, { rootMargin: '0px 0px -12% 0px', threshold: 0.18 });
+  nodes.forEach((node) => io.observe(node));
 </script>
 
 <style>
   .products-hero { position: relative; isolation: isolate; overflow: hidden; text-align: center; color: white; padding: calc(var(--header-height) + clamp(2.75rem, 5.5vw, 5.25rem)) 0 clamp(3.5rem, 6.5vw, 5.75rem); background: radial-gradient(120% 80% at 50% -10%, #1a2c4d 0%, transparent 55%), linear-gradient(180deg, #0f172b 0%, #070d1a 100%); }
   .hero-inner { position: relative; width: min(55rem, 92vw); margin-inline: auto; }
-  /* legibility scrim over the tile fields */
   .hero-inner::before { content: ''; position: absolute; z-index: -1; inset: -16% -26%; background: radial-gradient(55% 58% at 50% 45%, rgb(7 13 26 / 92%) 0%, rgb(7 13 26 / 60%) 55%, transparent 80%); pointer-events: none; }
   .kicker { display: inline-flex; align-items: center; padding: .38rem .88rem; color: #8fd8f5; background: rgb(17 177 234 / 10%); border: 1px solid rgb(17 177 234 / 30%); border-radius: 999px; font-size: .72rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
   h1 { margin: 1.5rem 0 0; font-size: clamp(2rem, 3.9vw, 3.25rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.12; }
@@ -137,12 +110,6 @@ const sectionProps = (id: (typeof sections)[number]['id']) => {
   .products-hero :global(.mark.drawn .swoosh path) { animation-delay: .55s; }
   .lede { max-width: 62ch; margin: 1.38rem auto 0; color: #a9bcd8; font-size: clamp(.94rem, 1.15vw, 1.06rem); line-height: 1.7; }
   .actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .75rem; margin-top: 2.13rem; }
-  /* jump pills — the old page was one long scroll with no wayfinding */
-  .jump { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin-top: 1.88rem; }
-  .jump a { padding: .44rem .94rem; border-radius: 999px; font-size: .81rem; font-weight: 700; color: #bfe6fb; background: rgb(17 177 234 / 8%); border: 1px solid rgb(17 177 234 / 26%); transition: background 250ms, border-color 250ms, transform 250ms cubic-bezier(.22,1,.36,1); }
-  .jump a:hover { background: rgb(17 177 234 / 18%); border-color: rgb(56 211 255 / 55%); transform: translateY(-2px); }
-
-  /* static aurora, shared look with the homepage hero */
   .aurora { position: absolute; z-index: -3; inset: -20%; opacity: .32; pointer-events: none; background: radial-gradient(circle at 20% 25%, #0a5f96, transparent 32%), radial-gradient(circle at 82% 22%, #0e7fb8, transparent 32%), radial-gradient(circle at 52% 82%, #134a7a, transparent 34%); }
 
   .up { opacity: 0; transform: translateY(1.5rem); transition: opacity 800ms cubic-bezier(.22,1,.36,1), transform 800ms cubic-bezier(.22,1,.36,1); }
@@ -151,7 +118,6 @@ const sectionProps = (id: (typeof sections)[number]['id']) => {
   h1.up { transition-delay: 150ms; }
   .lede.up { transition-delay: 280ms; }
   .actions.up { transition-delay: 400ms; }
-  .jump.up { transition-delay: 500ms; }
 
   @media (max-width: 560px) { .actions .button { flex: 1 1 100%; } }
   @media (prefers-reduced-motion: reduce) { .up { opacity: 1; transform: none; transition: none; } }
