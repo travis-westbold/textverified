@@ -96,6 +96,12 @@ and card anatomy, and the motion mechanisms. Read it before building a page.
   class="mark">` wraps the `<em>` and nothing else; any preceding words go
   outside it. This holds site-wide, headings and heroes alike.
 - `Swoosh.astro` headings require a trailing space in `headingPre` before the marked span so words remain separated.
+- **Mocks must not resize.** Every mock and demo reserves space for its
+  largest state; text and elements inside may change, but the frame around
+  them must never grow or shrink mid-demo, and its content must never
+  overflow the space reserved for it. The designer treats any such movement
+  as a defect. Check swapping copy (status banners, typed fields) and
+  anything that appears or disappears, at mobile widths as well as desktop.
 
 ## Safety boundary
 

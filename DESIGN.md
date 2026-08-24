@@ -279,6 +279,11 @@ than being inserted. Check swapping copy and anything that appears or
 disappears **at mobile widths as well as desktop** — narrow columns are where
 a one-line box becomes two.
 
+Prefer a direct CSS value for a fixed reservation (for example,
+`min-height: 4.4em`). Use `calc()` only when its relationship between values is
+necessary to the layout; do not use it to express a value that can be stated
+plainly.
+
 ---
 
 ## 10. Mocks and device frames
