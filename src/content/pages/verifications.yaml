@@ -94,7 +94,7 @@ useCases:
         your personal number. Sign up with a one-time verification and stay
         anonymous.
     - title: Sign Up Bonuses
-      icons: [paypal, venmo, coinbase]
+      icons: [paypal, venmo, telegram]
       body: >-
         Take advantage of signup bonuses and recurring rewards on the sites
         you already use, one verification at a time.
