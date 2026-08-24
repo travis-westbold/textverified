@@ -8,7 +8,7 @@ meta:
 hero:
   kicker: Verification products
   title: Verifications
-  mark: { pre: SMS and, em: Voice }
+  mark: { pre: SMS, em: and, post: Voice }
   lede: >-
     Textverified provides temporary non-VoIP US phone numbers to receive SMS
     codes and voice calls for online account verification. Choose your service,
@@ -88,18 +88,18 @@ useCases:
     most — keeping your own number out of accounts that do not need it.
   cards:
     - title: Communication Services
-      icons: [gmail, discord, whatsapp, telegram, messenger, wechat]
+      icons: [gmail, discord, whatsapp]
       body: >-
         Use messaging apps like Gmail, Facebook and Discord without linking
         your personal number. Sign up with a one-time verification and stay
         anonymous.
     - title: Sign Up Bonuses
-      icons: [paypal, venmo, zelle, amazon, walmart, target]
+      icons: [paypal, venmo, telegram]
       body: >-
         Take advantage of signup bonuses and recurring rewards on the sites
         you already use, one verification at a time.
     - title: Online Privacy
-      icons: [tinder, instagram, snapchat, reddit, craigslist, airbnb]
+      icons: [tinder, instagram, snapchat]
       body: >-
         Keeping your number private matters most on dating apps and
         marketplaces. Use our real numbers to avoid unwanted calls or texts.
