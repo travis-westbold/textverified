@@ -36,6 +36,19 @@ New page checklist: `src/pages/<name>.astro`, `src/content/pages/<name>.yaml`,
 a collection in `src/content.config.ts`, and outbound URLs referenced by key
 through `src/config/links.ts` — never hard-coded.
 
+**One YAML trap, and it fails silently.** Inside a flow mapping —
+`- { title: …, text: … }` — a comma ends the value. Copy written that way is
+cut at its first comma, the remainder is parsed as another key, and zod drops
+it as unknown, so the build passes and the sentence is simply short on the
+page. Write any copy that contains a comma as a block scalar instead:
+
+```yaml
+- title: Queue your run.
+  text: >-
+    Create verifications for any of our supported services, one at a
+    time or thousands in parallel.
+```
+
 ---
 
 ## 2. Tokens
