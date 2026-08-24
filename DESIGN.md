@@ -61,7 +61,9 @@ From `src/styles/global.css`. Use these before inventing a value.
 | `--brand-light` | `#1e8fd6` | gradient partner for `--brand` |
 | `--cyan` | `#38d3ff` | emphasis on dark grounds, focus ring |
 | `--text` | `#0f172b` | body text on light |
-| `--text-muted` | `#53627a` | secondary text on light |
+| `--text-muted` | `#53627a` | secondary text on light (default) |
+| `--text-muted-dark` | `#a9bcd8` | secondary text on dark grounds |
+| `--text-muted-card` | `#5b6b82` | secondary text in card bodies |
 | `--surface-subtle` | `#f5f7fa` | quiet fills |
 | `--surface-blue` | `#f2f8ff` | selected / active tint |
 | `--border` | `#e5eaf0` | hairlines on light |
@@ -73,11 +75,10 @@ From `src/styles/global.css`. Use these before inventing a value.
 Recurring values that are **not** tokens but are conventions:
 
 - **Easing:** `cubic-bezier(.22,1,.36,1)` everywhere. There is no second curve.
-- **Muted text:** `#a9bcd8` on dark, `#54637a` on light, `#5b6b82` in card bodies.
 - **Status colours** (from `mock.css`): ok `#0f8a55` on `#eafaf1`; warn
-  `#a86f0d` on `#fff7e8`; info `#1d6fa8` on `#eaf4fd`; danger `#c93a3a`.
+   `#a86f0d` on `#fff7e8`; info `#1d6fa8` on `#eaf4fd`; danger `#c93a3a`.
 - **Accent trio** for multi-item animation, when one blue would read flat:
-  `#3ba9ff` blue, `#37e0a0` green, `#a877ff` purple (see `UseCases.astro`).
+   `#3ba9ff` blue, `#37e0a0` green, `#a877ff` purple (see `UseCases.astro`).
 
 ---
 
@@ -160,16 +161,18 @@ One card recipe, used by `ExtrasGrid` and `UseCases`. Don't fork it.
         box-shadow: 0 1px 2px rgb(15 23 43 / 5%), 0 1.13rem 2.5rem -1.88rem rgb(15 23 43 / 50%); }
 .card:hover { border-color: rgb(0 105 168 / 35%); transform: translateY(-3px); }
 .card strong { display: block; font-size: .97rem; font-weight: 800; }
-.card p      { margin: .5rem 0 0; color: #5b6b82; font-size: .84rem; line-height: 1.6; }
+.card p      { margin: .5rem 0 0; color: var(--text-muted-card); font-size: .84rem; line-height: 1.6; }
 ```
 
 Grid gap is `clamp(.88rem, 1.8vw, 1.38rem)`. Icon chips are 2.38rem, radius
 .75rem, `rgb(0 105 168 / 9%)` fill with a `rgb(0 105 168 / 22%)` border and a
 1.1rem stroked SVG at `stroke-width: 2`.
 
-Card copy must be roughly even in length across a row — a card three lines
-longer than its siblings reads as a mistake. Shorten the copy; don't stretch
-the others.
+**Card copy must be concise** — keep body text to **1–2 lines**. This ensures cards
+remain roughly even in length across a row and the grid doesn't read lopsided.
+If a card needs more than 2 lines, trim the copy; never stretch sibling cards to
+match it. Test at mobile widths as well as desktop, since text reflow can push
+two lines into three.
 
 ---
 
@@ -218,6 +221,11 @@ Three separate mechanisms. Pick the right one.
 and `.up` on the things that arrive; the page's IntersectionObserver
 (threshold `0.18`) adds `.revealed` once and stops watching.
 
+*Threshold detail:* `0.18` triggers entrance when ~18% of a section is visible.
+If sections feel "too early" or "too late", test values between `0.12–0.25`.
+Adjust in `ProductSection.astro` and test across mobile widths, where scroll
+speed and section heights vary most.
+
 ```css
 .up { opacity: 0; transform: translateY(1.5rem);
       transition: opacity 800ms cubic-bezier(.22,1,.36,1), transform 800ms cubic-bezier(.22,1,.36,1); }
@@ -240,9 +248,10 @@ every descendant animation off-screen. Loops that don't use it stack up.
 
 Rules for all three:
 
-- Animate `transform` and `opacity`. No `backdrop-filter`, no scroll- or
-  pointer-driven transforms on large layered elements, no infinite animation
-  across a whole field of elements.
+- Animate `transform` and `opacity` only. No `backdrop-filter`. No scroll- or
+  pointer-driven transforms on **large layered elements** (more than 3 overlapping
+  stacked z-index layers, or any composited layer spanning >50% viewport height).
+  No infinite animation across a whole field of elements.
 - Stagger with a fixed table of unordered delays, not `index * n` — an
   arithmetic sequence reads as a top-to-bottom wave rather than as arrival.
   Fixed, not random, so every build and visitor sees the same thing.
