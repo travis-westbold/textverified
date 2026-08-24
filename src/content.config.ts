@@ -222,8 +222,9 @@ const verifications = defineCollection({
         body: safeHtml,
       })).min(1),
     }),
-    /* icon names are keys of brandIconPaths; UseCases.astro fails the build
-       on an unknown one, which keeps this list free-text for editors */
+    /* Editors enter this as free text in CMS, but not validated at schema time.
+      At build time, UseCases.astro validates that the value matches a key in
+      brandIconPaths and fails on unknown icons. */
     useCases: z.object({
       kicker: z.string().min(1),
       heading: z.string().min(1),
