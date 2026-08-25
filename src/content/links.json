@@ -10,7 +10,8 @@
   "signIn": "https://www.textverified.com/login",
   "signInSupport": "https://www.textverified.com/login?returnUrl=%2fapp%2fsupport",
   "resetPassword": "https://www.textverified.com/account/forgot-password",
-  "contactForm": "https://www.textverified.com/contact-us/form",
+  "contactForm": "/contact-us/form",
+  "contactFormLive": "https://www.textverified.com/contact-us/form",
   "register": "https://www.textverified.com/register",
   "account": "https://www.textverified.com/app/account",
 

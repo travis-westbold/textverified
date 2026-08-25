@@ -1,0 +1,13 @@
+# Field labels and the button live in the component, not here: they are UI
+# implementation copy, and the names they post under are a backend contract.
+meta:
+  title: Contact Us | Textverified
+  description: >-
+    Send the Textverified team a message. Tell us your name, email, subject
+    and question, and our support team will get back to you.
+  canonical: https://www.textverified.com/contact-us/form
+header:
+  title: Contact Us
+  lede: >-
+    If you haven't created an account yet or have another type of inquiry
+    we're still here to provide assistance.
