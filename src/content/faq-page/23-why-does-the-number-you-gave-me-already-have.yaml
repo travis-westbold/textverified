@@ -1,0 +1,19 @@
+order: 23
+category: Verifications
+anchor: why-does-the-number-you-gave-me-already-have-an-account
+question: >-
+  Why does the number you gave me already have an account associated with it?
+answer: >-
+  <p>We work directly with phone carriers and are provided access to the same
+  pool of numbers as all their other customers. Once we release a number, the
+  carrier controls the availability, distribution, and reassignment of the
+  number. While rare, it is possible another customer of the mobile carrier
+  was previously assigned the number you received and had used it for their
+  account(s). Unfortunately, there is no way for us to know if this is the
+  case before you try the number. If a verification code came in and there's
+  already an account associated with it, you can <a
+  href="https://www.textverified.com/app/support">contact support for
+  assistance</a>. Provide the phone number and a detailed description of what
+  happened. In addition, please take a screenshot of the error/issue from the
+  website you were requesting a verification from and make sure the device's
+  time is clearly on display in the screenshot.</p>

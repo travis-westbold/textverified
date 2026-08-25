@@ -44,6 +44,20 @@ const pricing = defineCollection({
   }),
 });
 
+/* The /faq answers carry more than the home page's do: paragraphs, bulleted
+   lists and the occasional bold clause, because that is how they are written
+   today and flattening them into one run-on paragraph would be a downgrade.
+   This is a second, wider allow-list rather than a loosening of safeHtml —
+   the surfaces that use safeHtml keep the narrower guarantee. */
+const FAQ_HTML = /^(?:[^<>]|<\/?(?:p|ul|li|b|em)>|<a href="(?:https:\/\/[^"<>]+|#[a-z0-9-]+)">|<\/a>)*$/;
+const faqHtml = z.string().min(1).refine(
+  (value) => FAQ_HTML.test(value),
+  'Only text, <p> <ul> <li> <b> <em>, and <a href="https://…"> or <a href="#anchor"> are allowed here',
+).refine(
+  (value) => value.startsWith('<p>') || value.startsWith('<ul>'),
+  'Every answer must be made of block elements, so the page can style them predictably',
+);
+
 const faqs = defineCollection({
   loader: glob({ pattern: '*.yaml', base: './src/content/faqs' }),
   schema: z.object({
@@ -359,4 +373,40 @@ const rentals = defineCollection({
   }),
 });
 
-export const collections = { reviews, pricing, faqs, navigation, footer, home, products, verifications, automate, rentals };
+/* The full /faq. Deliberately separate from `faqs`, which is the shorter,
+   differently worded set the home page shows — the two are not the same copy
+   and merging them would silently rewrite one of the pages. */
+const faqPage = defineCollection({
+  loader: glob({ pattern: '*.yaml', base: './src/content/faq-page' }),
+  schema: z.object({
+    order: z.number().int().positive(),
+    /* grouping is layout: the page renders one section per category in this
+       order, so a new one is a developer change, not a typo away */
+    category: z.enum(['General', 'Verifications', 'Rentals', 'Credits']),
+    /* the question's permanent address; existing links point at these */
+    anchor: z.string().regex(/^[a-z0-9-]+$/),
+    question: z.string().min(1),
+    answer: faqHtml,
+  }),
+});
+
+/* Copy for the /faq page frame. The questions themselves live in the
+   faqPage collection, one file each. */
+const faqPageCopy = defineCollection({
+  loader: glob({ pattern: 'faq.yaml', base: './src/content/pages' }),
+  schema: z.object({
+    meta,
+    hero: z.object({
+      kicker: z.string().min(1),
+      title: z.string().min(1),
+      mark,
+      lede: z.string().min(1),
+      primaryCta: z.string().min(1),
+      secondaryCta: z.string().min(1),
+    }),
+    searchPlaceholder: z.string().min(1),
+    closing: ctaBand,
+  }),
+});
+
+export const collections = { reviews, pricing, faqs, navigation, footer, home, products, verifications, automate, rentals, faqPage, faqPageCopy };

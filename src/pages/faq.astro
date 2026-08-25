@@ -1,0 +1,88 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SignupCta from '../components/SignupCta.astro';
+import ProductHero from '../components/products/ProductHero.astro';
+import FaqBrowser from '../components/faq/FaqBrowser.astro';
+import { links } from '../config/links';
+
+const page = await getEntry('faqPageCopy', 'faq');
+if (!page) throw new Error('src/content/pages/faq.yaml is missing');
+const { meta, hero, searchPlaceholder, closing } = page.data;
+
+const entries = (await getCollection('faqPage')).sort((a, b) => a.data.order - b.data.order);
+if (!entries.length) throw new Error('src/content/faq-page/ has no questions');
+
+/* Topic order is the page's order, not the alphabet — General first because
+   it answers what the product is, Credits last because it answers billing. */
+const ORDER = ['General', 'Verifications', 'Rentals', 'Credits'] as const;
+
+const categories = ORDER.map((name) => ({
+  name,
+  id: name.toLowerCase(),
+  items: entries
+    .filter((entry) => entry.data.category === name)
+    .map((entry) => ({
+      anchor: entry.data.anchor,
+      question: entry.data.question,
+      answer: entry.data.answer,
+    })),
+})).filter((category) => category.items.length > 0);
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  canonical={meta.canonical}
+>
+  <Header current="faq" />
+  {/* Without scripting there is nothing to reveal the sections and nothing to
+      open an answer, so the page would be a list of questions nobody can read.
+      Both are undone here: everything is visible and every answer is open,
+      which is exactly how the current FAQ prints anyway. */}
+  <noscript><style>
+    .up { opacity: 1 !important; transform: none !important; }
+    .answer { grid-template-rows: 1fr !important; }
+    .chev { display: none !important; }
+  </style></noscript>
+  <main>
+    <ProductHero
+      id="faq"
+      kicker={hero.kicker}
+      title={hero.title}
+      mark={hero.mark}
+      lede={hero.lede}
+      primaryLabel={hero.primaryCta}
+      primaryHref={links.register}
+      secondaryLabel={hero.secondaryCta}
+      secondaryHref={links.support}
+    />
+
+    <FaqBrowser categories={categories} searchPlaceholder={searchPlaceholder} />
+
+    <SignupCta
+      heading={closing.heading}
+      body={closing.body}
+      buttonLabel={closing.buttonLabel}
+    />
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  /* Same observer ProductSection carries, repeated for the one section on
+     this page that needs it. */
+  const targets = document.querySelectorAll('[data-reveal]:not(.products-hero)');
+  if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    targets.forEach((target) => target.classList.add('revealed'));
+  } else {
+    const observer = new IntersectionObserver((entries, obs) => entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('revealed');
+      obs.unobserve(entry.target);
+    }), { threshold: 0.05 });
+    targets.forEach((target) => observer.observe(target));
+  }
+</script>

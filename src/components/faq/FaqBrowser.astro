@@ -1,0 +1,281 @@
+---
+/* The whole FAQ: 42 questions across four topics.
+
+   The live page splits them across five tab URLs and prints every answer
+   open, so finding anything means guessing a tab and then reading a wall.
+   Here every question is on one page and collapsed, a search filters all of
+   them at once by question *and* answer text, and the topic rail tracks
+   where you are. Each question keeps a permanent anchor, so a link to one
+   still lands on it — including #reasons-for-code-failure, which other
+   answers point at.
+
+   Copy is untouched; only its presentation changed. */
+interface Item { anchor: string; question: string; answer: string }
+interface Category { name: string; id: string; items: Item[] }
+
+interface Props {
+  categories: Category[];
+  searchPlaceholder: string;
+}
+const { categories, searchPlaceholder } = Astro.props;
+const total = categories.reduce((sum, category) => sum + category.items.length, 0);
+---
+
+<section class="faqs" aria-labelledby="faqs-heading" data-reveal>
+  <h2 id="faqs-heading" class="sr-only">Frequently asked questions</h2>
+  <div class="shell">
+    <faq-browser data-total={total}>
+      <div class="tools up">
+        <div class="field">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+          <input type="search" id="faq-search" autocomplete="off" placeholder={searchPlaceholder} aria-label="Search the questions" />
+        </div>
+        <p class="count" role="status">{total} questions</p>
+      </div>
+
+      <div class="layout">
+        <nav class="rail up" aria-label="Jump to a topic">
+          <ul>
+            {categories.map((category, index) => (
+              <li>
+                <a href={`#${category.id}`} data-rail={category.id} aria-current={index === 0 ? 'true' : undefined}>
+                  <span class="label">{category.name}</span>
+                  <span class="tally" data-tally={category.id}>{category.items.length}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div class="body">
+          {categories.map((category) => (
+            <section class="cat" id={category.id} data-cat={category.id} aria-labelledby={`${category.id}-heading`}>
+              <h3 id={`${category.id}-heading`} class="up">{category.name}</h3>
+              <ul class="qs">
+                {category.items.map((item) => (
+                  <li class="qa up" id={item.anchor}>
+                    <h4>
+                      <button type="button" id={`${item.anchor}-q`} aria-expanded="false" aria-controls={`${item.anchor}-answer`}>
+                        <span class="q">{item.question}</span>
+                        <span class="chev" aria-hidden="true"></span>
+                      </button>
+                    </h4>
+                    <div class="answer" id={`${item.anchor}-answer`} role="region" aria-labelledby={`${item.anchor}-q`}>
+                      {/* first-party copy; the schema limits it to text, lists and links */}
+                      <div class="prose" set:html={item.answer}></div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+
+          <p class="empty" hidden>No question matches that search.</p>
+        </div>
+      </div>
+    </faq-browser>
+  </div>
+</section>
+
+<script>
+  /* Everything is on the page already; this only shows, hides and opens. */
+  class FaqBrowser extends HTMLElement {
+    connectedCallback() {
+      const input = this.querySelector<HTMLInputElement>('input[type="search"]')!;
+      const count = this.querySelector<HTMLParagraphElement>('.count')!;
+      const empty = this.querySelector<HTMLParagraphElement>('.empty')!;
+      const railLinks = [...this.querySelectorAll<HTMLAnchorElement>('[data-rail]')];
+      const sections = [...this.querySelectorAll<HTMLElement>('[data-cat]')];
+      const total = Number(this.dataset.total ?? 0);
+
+      /* Read the searchable text off what is rendered, so the markup carries
+         no duplicate copy of every answer just to be searched. Blocks are
+         joined with a space rather than taking textContent wholesale: list
+         items sit flush against each other in the HTML, and concatenating
+         them would invent words like "proxiesGeographic". */
+      const rows = [...this.querySelectorAll<HTMLLIElement>('.qa')].map((item) => ({
+        item,
+        button: item.querySelector<HTMLButtonElement>('button')!,
+        text: [...item.querySelectorAll('.q, .prose p, .prose li')]
+          .map((block) => block.textContent ?? '')
+          .join(' ')
+          .toLowerCase()
+          .replace(/\s+/g, ' '),
+      }));
+
+      const setOpen = (row: (typeof rows)[number], open: boolean) => {
+        row.item.toggleAttribute('data-open', open);
+        row.button.setAttribute('aria-expanded', String(open));
+      };
+
+      /* --- search --------------------------------------------------- */
+      const apply = () => {
+        const query = input.value.trim().toLowerCase();
+        let matched = 0;
+
+        /* Opening two dozen answers one animation at a time is both slow and
+           visually noisy, so the transition is suspended while filtering and
+           restored once the list settles. */
+        this.setAttribute('data-filtering', '');
+
+        for (const row of rows) {
+          const hit = query === '' || row.text.includes(query);
+          row.item.hidden = !hit;
+          if (hit) matched += 1;
+          /* a hit is worth showing in full — the match may be in the answer */
+          setOpen(row, hit && query !== '');
+        }
+
+        for (const section of sections) {
+          const visible = section.querySelectorAll('.qa:not([hidden])').length;
+          section.hidden = visible === 0;
+          const tally = this.querySelector(`[data-tally="${section.dataset.cat}"]`);
+          if (tally) tally.textContent = String(visible);
+          const link = this.querySelector(`[data-rail="${section.dataset.cat}"]`);
+          link?.toggleAttribute('data-muted', visible === 0);
+        }
+
+        count.textContent = query === ''
+          ? `${total} questions`
+          : matched === 1 ? '1 question' : `${matched} questions`;
+        empty.hidden = matched > 0;
+
+        window.requestAnimationFrame(() => this.removeAttribute('data-filtering'));
+      };
+
+      input.addEventListener('input', apply);
+      input.addEventListener('search', apply);
+
+      /* --- open and close -------------------------------------------- */
+      for (const row of rows) {
+        row.button.addEventListener('click', () => {
+          const open = !row.item.hasAttribute('data-open');
+          setOpen(row, open);
+          /* the address bar follows what you are reading, so the URL in it is
+             always the one worth sending to somebody */
+          if (open && row.item.id) {
+            history.replaceState(null, '', `#${row.item.id}`);
+          }
+        });
+      }
+
+      /* --- arriving on a link to one question ------------------------ */
+      const openFromHash = () => {
+        const id = decodeURIComponent(location.hash.slice(1));
+        if (!id) return;
+        const row = rows.find((candidate) => candidate.item.id === id);
+        if (!row) return;
+        setOpen(row, true);
+        row.item.scrollIntoView({ block: 'center', behavior: 'auto' });
+      };
+      openFromHash();
+      window.addEventListener('hashchange', openFromHash);
+
+      /* --- the topic rail follows the page --------------------------- */
+      if ('IntersectionObserver' in window) {
+        const seen = new Map<string, boolean>();
+        const observer = new IntersectionObserver((entries) => {
+          for (const entry of entries) seen.set((entry.target as HTMLElement).dataset.cat!, entry.isIntersecting);
+          const current = sections.find((section) => seen.get(section.dataset.cat!));
+          for (const link of railLinks) {
+            if (current && link.dataset.rail === current.dataset.cat) link.setAttribute('aria-current', 'true');
+            else link.removeAttribute('aria-current');
+          }
+        }, { rootMargin: '-25% 0px -60% 0px' });
+        sections.forEach((section) => observer.observe(section));
+      }
+
+      apply();
+    }
+  }
+
+  customElements.define('faq-browser', FaqBrowser);
+</script>
+
+<style>
+  .faqs { padding: clamp(3.75rem, 7.5vw, 6.25rem) 0; color: var(--text); background: linear-gradient(180deg, white 0%, #f2f5f9 100%); }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  faq-browser { display: block; }
+
+  /* --- search ------------------------------------------------------- */
+  .tools { display: flex; flex-direction: column; align-items: center; gap: .9rem; margin-bottom: clamp(1.9rem, 4vw, 2.9rem); }
+  .field { position: relative; width: min(30rem, 100%); }
+  .field svg { position: absolute; top: 50%; left: 1rem; width: 1.05rem; height: 1.05rem; transform: translateY(-50%); fill: none; stroke: #8496ae; stroke-width: 2; stroke-linecap: round; pointer-events: none; }
+  .field input { width: 100%; padding: .9rem 1rem .9rem 2.7rem; color: var(--text); font: inherit; font-size: .97rem; background: white; border: 1px solid var(--border); border-radius: 999px; box-shadow: 0 1px 2px rgb(15 23 43 / 5%); transition: border-color 200ms, box-shadow 200ms; }
+  .field input::placeholder { color: #8496ae; }
+  .field input:focus { border-color: var(--border-blue); box-shadow: 0 0 0 4px rgb(0 105 168 / 10%); outline: none; }
+  .count { margin: 0; color: var(--text-muted-card); font-size: .8rem; font-weight: 700; letter-spacing: .04em; }
+
+  /* --- rail + body -------------------------------------------------- */
+  /* both columns get an explicit zero minimum: a grid item defaults to
+     min-width:auto, and the horizontally scrolling chip strip below would
+     otherwise widen its own column and take the page with it */
+  .layout { display: grid; grid-template-columns: minmax(0, 13rem) minmax(0, 1fr); gap: clamp(1.75rem, 4vw, 3.5rem); align-items: start; }
+  .layout > * { min-width: 0; }
+  .rail { position: sticky; top: calc(var(--header-height) + 1.5rem); }
+  .rail ul { display: flex; flex-direction: column; gap: .15rem; margin: 0; padding: 0; list-style: none; }
+  .rail a { display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding: .6rem .8rem; color: var(--text-muted-card); font-size: .88rem; font-weight: 700; border-radius: .6rem; transition: color 200ms, background 200ms; }
+  .rail a:hover { color: var(--brand); background: var(--surface-blue); }
+  .rail a[aria-current='true'] { color: var(--brand); background: var(--surface-blue); box-shadow: inset 0 0 0 1px var(--border-blue); }
+  .rail a[data-muted] { opacity: .4; }
+  .tally { color: var(--text-muted); font-size: .74rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .rail a[aria-current='true'] .tally { color: var(--brand); }
+
+  .body { display: flex; flex-direction: column; gap: clamp(1.9rem, 3.5vw, 2.75rem); }
+  .cat { scroll-margin-top: calc(var(--header-height) + 1.5rem); }
+  .cat h3 { margin: 0 0 .6rem; font-size: 1.13rem; font-weight: 800; letter-spacing: -.015em; }
+  .qs { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
+
+  /* --- one question ------------------------------------------------- */
+  .qa { border-bottom: 1px solid rgb(15 23 43 / 10%); scroll-margin-top: calc(var(--header-height) + 1.5rem); }
+  .qa h4 { margin: 0; font-size: inherit; font-weight: inherit; }
+  .qa button { display: flex; align-items: flex-start; gap: .9rem; width: 100%; padding: 1.05rem 0; color: var(--text); font: inherit; font-size: .97rem; font-weight: 700; line-height: 1.45; text-align: left; background: none; border: 0; cursor: pointer; transition: color 200ms; }
+  .qa button:hover { color: var(--brand); }
+  .q { flex: 1 1 auto; }
+  /* a chevron rather than a plus: it says "there is more below" instead of
+     "this adds something" */
+  .chev { position: relative; flex: 0 0 1.38rem; height: 1.38rem; margin-top: .05rem; background: rgb(0 105 168 / 10%); border-radius: 50%; transition: background 300ms cubic-bezier(.22,1,.36,1); }
+  .chev::before { content: ''; position: absolute; top: 45%; left: 50%; width: .44rem; height: .44rem; border-right: 2px solid var(--brand); border-bottom: 2px solid var(--brand); transform: translate(-50%, -50%) rotate(45deg); transition: transform 300ms cubic-bezier(.22,1,.36,1), border-color 300ms; }
+  /* the open question takes the brand colour, so scrolling a long answer you
+     can still see which question you are inside */
+  .qa[data-open] .q { color: var(--brand); }
+  .qa[data-open] .chev { background: var(--brand); }
+  .qa[data-open] .chev::before { border-color: white; transform: translate(-50%, -30%) rotate(225deg); }
+
+  .answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 380ms cubic-bezier(.22,1,.36,1); }
+  .qa[data-open] .answer { grid-template-rows: 1fr; }
+  .answer > .prose { overflow: hidden; }
+  /* filtering opens and closes many answers at once; animating each would be
+     slow and would read as the page thrashing */
+  faq-browser[data-filtering] .answer { transition: none; }
+
+  .prose { color: var(--text-muted); font-size: .92rem; line-height: 1.7; }
+  .prose :global(p) { margin: 0 0 1.05rem; padding-left: 2.28rem; }
+  .prose :global(ul) { margin: -.35rem 0 1.05rem; padding-left: 3.5rem; }
+  .prose :global(li) { margin-bottom: .22rem; }
+  .prose :global(b) { color: var(--text); font-weight: 700; }
+  .prose :global(a) { color: var(--brand); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+
+  .empty { margin: 0; padding: 3rem 1rem; color: var(--text-muted); font-size: .97rem; text-align: center; }
+
+  .up { opacity: 0; transform: translateY(1.5rem); transition: opacity 800ms cubic-bezier(.22,1,.36,1), transform 800ms cubic-bezier(.22,1,.36,1); }
+  .faqs.revealed .up { opacity: 1; transform: none; }
+  .rail.up { transition-delay: 90ms; }
+
+  @media (max-width: 880px) {
+    .layout { grid-template-columns: 1fr; gap: 1.25rem; }
+    /* the rail becomes a scrollable strip of chips, still sticky so the
+       topics stay reachable part-way down a long page. It stays inside the
+       shell: bleeding it to the viewport edge widened the page itself and
+       pushed every question off the right of the screen. */
+    .rail { position: sticky; top: var(--header-height); z-index: 2; padding: .6rem 0; background: rgb(255 255 255 / 92%); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+    .rail ul { flex-direction: row; gap: .4rem; overflow-x: auto; scrollbar-width: none; }
+    .rail ul::-webkit-scrollbar { display: none; }
+    .rail li { flex: 0 0 auto; }
+    .rail a { white-space: nowrap; border: 1px solid var(--border); background: white; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .up { opacity: 1; transform: none; transition: none; }
+    .answer, .chev, .chev::before { transition: none; }
+  }
+</style>

@@ -1,0 +1,11 @@
+order: 4
+category: General
+anchor: do-you-provide-an-api
+question: >-
+  Do you provide an API?
+answer: >-
+  <p>Yes, we have an API for all your automation needs! Our API can be used
+  to manage your Textverified account, automate your verifications, purchase
+  rentals, and more. Please <a
+  href="https://www.textverified.com/docs/api/v2">click here for more
+  information about how to use our API</a>.</p>

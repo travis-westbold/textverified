@@ -1,0 +1,25 @@
+order: 19
+category: Verifications
+anchor: reasons-for-code-failure
+question: >-
+  I've tried multiple times but still am unable to receive a code. What do I
+  do?
+answer: >-
+  <p>Usually in these situations, the service provider has started tracking
+  you and seeing that you may be making multiple accounts or are violating
+  their terms of use. Below is a non-exhaustive list of things that can
+  trigger this:</p><ul><li>Low quality proxies</li><li>Geographic
+  mismatch</li><li>Repeated use of an IP address</li><li>Non-standard
+  browsers and emulators</li><li>Not sanitizing your browser after each
+  session</li><li>Repetitive behaviors</li><li>Velocity of
+  actions</li><li>Multiple failed attempts/failures</li><li>Bots/scripts/any
+  automation</li></ul><p>This tracking is can be quite sophisticated so we
+  recommend you check the following to make sure your identity is
+  protected:</p><ul><li>IP address</li><li>IP address
+  rotations</li><li>IP/DNS leaks</li><li>Cookies, cache, and local
+  storage</li><li>Proxy/VPN provider
+  quality</li><li>Geolocation</li><li>Fingerprints
+  (TCP/Browser)</li><li>Browser extensions</li><li>Third-party
+  applications</li><li>Action throttling</li></ul><p>These tracking
+  techniques can also change regularly so what may have worked for you last
+  week could no longer be working now if you haven't adapted.</p>

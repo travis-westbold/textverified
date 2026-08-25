@@ -1,0 +1,16 @@
+order: 15
+category: Verifications
+anchor: what-is-the-service-not-listed-option
+question: >-
+  What is the "Service not listed" option?
+answer: >-
+  <p>The "Service not listed" option is a feature you can use to request a
+  verification for a service that we do not currently have on our services
+  list. We monitor all verifications done via this feature and periodically
+  update our services list with new requests, so please make sure the service
+  you are requesting is not already part of our offerings—verifications for
+  <b>services that are part of our current offerings will NOT work with the
+  "Service not listed" option.</b> Also, you can contact support with the
+  name of the service, the service's website/app link, and an example of the
+  SMS that the service sends to get that service added to our service
+  list.</p>

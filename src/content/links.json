@@ -2,7 +2,7 @@
   "home": "/",
   "productsPage": "/products",
 
-  "faq": "https://www.textverified.com/faq",
+  "faq": "/faq",
   "blog": "https://www.textverified.com/blog",
   "about": "https://www.textverified.com/about",
   "contact": "https://www.textverified.com/contact-us",
