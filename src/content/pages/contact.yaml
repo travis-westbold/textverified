@@ -1,0 +1,50 @@
+# Copy is verbatim from textverified.com/contact-us. The three choices are the
+# point of the page; only their presentation changed.
+meta:
+  title: Contact Us | Textverified
+  description: >-
+    Get help with your Textverified account. Sign in for account questions,
+    reset your password if you cannot log in, or send us a message if you do
+    not have an account yet.
+  canonical: https://www.textverified.com/contact-us
+hero:
+  kicker: Contact us
+  title: Need assistance?
+  markEm: We're here to help.
+  lede: >-
+    Please select the option below that best describes your situation, and
+    we'll guide you through the appropriate steps for resolution.
+choices:
+  - icon: account
+    title: I have an account...
+    body: >-
+      And need assistance. If you already have an account with us and have a
+      question related to it please click the "Sign In" button below to access
+      your account.
+    buttonLabel: Sign-in
+    link: signInSupport
+  - icon: key
+    title: I have an account...
+    body: >-
+      But I am unable to log in. If you're having trouble accessing your
+      account, please follow the steps to reset your password by clicking the
+      "Reset Password" button below.
+    buttonLabel: Reset Password
+    link: resetPassword
+  - icon: mail
+    title: I don't have an account...
+    body: >-
+      But have questions. If you haven't created an account yet or have another
+      type of inquiry we're still here to provide assistance. Please fill out
+      our "Contact Us" form below.
+    buttonLabel: Contact Us
+    link: contactForm
+# The closing band deliberately does not offer a fourth way to reach support —
+# that would compete with the three choices above it. It is the site's usual
+# sign-up close instead.
+closing:
+  heading: New to Textverified?
+  body: >-
+    Create an account and start receiving verification codes in minutes. No
+    subscription and no minimum spend.
+  buttonLabel: Sign up now

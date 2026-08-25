@@ -1,0 +1,76 @@
+---
+/* The three routes into support, and the reason the page exists.
+
+   The one thing that must hold: all three buttons sit on the same line. The
+   bodies are different lengths, so the cards stretch to a shared height and
+   each button is pushed to the bottom of its own card with `margin-top: auto`
+   — nothing is hard-coded to a pixel height, and no copy edit can knock a
+   button out of line. Two of the three cards open with the same words ("I
+   have an account..."), so the icon and the button label carry the
+   difference; both are set to be read before the body. */
+import { links } from '../../config/links';
+
+type Icon = 'account' | 'key' | 'mail';
+interface Choice { icon: Icon; title: string; body: string; buttonLabel: string; link: keyof typeof links }
+interface Props { choices: Choice[] }
+const { choices } = Astro.props;
+
+const ICONS: Record<Icon, string[]> = {
+  account: ['M12 12.5a4 4 0 1 0 0-8 4 4 0 0 0 0 8z', 'M4.5 20.5a7.5 7.5 0 0 1 15 0'],
+  key: ['M7.5 10a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11z', 'M21 2.5l-9.6 9.6', 'M15.5 8l3 3 3.5-3.5-3-3'],
+  mail: ['M3.5 6.5h17v11h-17z', 'm3.5 7 8.5 6 8.5-6'],
+};
+---
+
+<section class="choices" aria-labelledby="choices-heading" data-reveal>
+  <h2 id="choices-heading" class="sr-only">Choose the option that fits your situation</h2>
+  <div class="shell">
+    <ul class="grid" role="list">
+      {choices.map((choice) => (
+        <li class="choice up">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">{ICONS[choice.icon].map((d) => <path d={d} />)}</svg>
+          </span>
+          <h3>{choice.title}</h3>
+          <p>{choice.body}</p>
+          <a class="button button-primary button-large" href={links[choice.link]}>
+            {choice.buttonLabel} <span aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .choices { padding: clamp(3.5rem, 7vw, 5.75rem) 0 clamp(4rem, 8vw, 6.5rem); color: var(--text); background: linear-gradient(180deg, white 0%, #f2f5f9 100%); }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+  /* equal-width tracks and stretched items: the cards share a height, which is
+     what lets the buttons share a line */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1rem, 2.2vw, 1.63rem); max-width: 66rem; margin: 0 auto; padding: 0; list-style: none; }
+  .choice { display: flex; flex-direction: column; padding: clamp(1.5rem, 2.6vw, 2rem); background: white; border: 1px solid rgb(15 23 43 / 9%); border-radius: 1.13rem; box-shadow: 0 1px 2px rgb(15 23 43 / 5%), 0 1.13rem 2.5rem -1.88rem rgb(15 23 43 / 50%); transition: border-color 300ms, transform 300ms cubic-bezier(.22,1,.36,1), box-shadow 300ms cubic-bezier(.22,1,.36,1); }
+  .choice:hover { border-color: rgb(0 105 168 / 35%); transform: translateY(-3px); box-shadow: 0 1px 2px rgb(15 23 43 / 5%), 0 1.5rem 2.9rem -1.75rem rgb(15 23 43 / 55%); }
+
+  .icon { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; color: var(--brand); background: rgb(0 105 168 / 9%); border: 1px solid rgb(0 105 168 / 22%); border-radius: .81rem; }
+  .icon svg { width: 1.35rem; height: 1.35rem; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+
+  h3 { margin: 1.15rem 0 0; font-size: 1.13rem; font-weight: 800; letter-spacing: -.018em; line-height: 1.25; }
+  /* the body takes the slack, so a longer one grows the card rather than
+     shifting its button */
+  .choice p { flex: 1 1 auto; margin: .6rem 0 1.75rem; color: var(--text-muted-card); font-size: .91rem; line-height: 1.65; }
+
+  /* auto keeps the button on the floor of the card whatever the body does */
+  .choice .button { justify-content: center; width: 100%; margin-top: auto; font-size: .94rem; }
+
+  .up { opacity: 0; transform: translateY(1.5rem); transition: opacity 800ms cubic-bezier(.22,1,.36,1), transform 800ms cubic-bezier(.22,1,.36,1); }
+  .choices.revealed .up { opacity: 1; transform: none; }
+  .choice.up:nth-child(2) { transition-delay: 110ms; }
+  .choice.up:nth-child(3) { transition-delay: 220ms; }
+
+  /* Stacked, "same line" stops meaning anything and equal heights would only
+     add dead space under the shorter cards, so the cards size to their own
+     copy. */
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; max-width: 34rem; } .choice p { flex: 0 0 auto; } }
+  @media (prefers-reduced-motion: reduce) { .up { opacity: 1; transform: none; transition: none; } .choice { transition: none; } }
+</style>
