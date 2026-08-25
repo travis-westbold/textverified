@@ -22,9 +22,9 @@ export default defineConfig({
      was copied into every page's HTML instead of being fetched once and
      cached. Keep stylesheets external: smaller HTML, one shared file. */
   build: { inlineStylesheets: 'never' },
-  // Keystatic's client-only React island imports this CommonJS entry directly.
+  // Keystatic's client-only React island imports react-dom/client directly.
   // Pre-bundle it so Vite exposes React 18's named client exports in dev.
-  // createRoot export needed to hook into keystatic
+  // The `createRoot` export is needed to hook into Keystatic.
   vite: { optimizeDeps: { include: ['react-dom/client'] } },
   integrations: [react(), ...(keystaticEnabled ? [keystatic()] : [])],
   vite: { optimizeDeps: { include: ['react-dom/client'] } },
