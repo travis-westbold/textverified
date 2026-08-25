@@ -33,8 +33,8 @@ export default config({
   ui: {
     brand: { name: 'Textverified' },
     navigation: {
-      Pages: ['home', 'products'],
-      Content: ['reviews', 'pricing', 'faqs'],
+      Pages: ['home', 'products', 'faqPageCopy', 'contactPage', 'contactFormPage'],
+      Content: ['reviews', 'pricing', 'faqs', 'faqPage'],
       Site: ['navigation', 'footer', 'links'],
     },
   },
@@ -71,7 +71,7 @@ export default config({
       },
     }),
     faqs: collection({
-      label: 'FAQ',
+      label: 'Homepage FAQ',
       path: 'src/content/faqs/*',
       format: { data: 'yaml' },
       slugField: 'question',
@@ -80,6 +80,26 @@ export default config({
         order: fields.integer({ label: 'Order', validation: { min: 1 } }),
         answer: fields.text({
           label: 'Answer (plain text; <a href="…">links</a> allowed)',
+          multiline: true,
+        }),
+      },
+    }),
+    faqPage: collection({
+      label: 'FAQ page questions',
+      path: 'src/content/faq-page/*',
+      format: { data: 'yaml' },
+      slugField: 'question',
+      schema: {
+        question: fields.slug({ name: { label: 'Question' } }),
+        order: fields.integer({ label: 'Order', validation: { min: 1 } }),
+        category: fields.select({
+          label: 'Topic',
+          options: ['General', 'Verifications', 'Rentals', 'Credits'].map((value) => ({ label: value, value })),
+          defaultValue: 'General',
+        }),
+        anchor: fields.text({ label: 'Permanent URL anchor' }),
+        answer: fields.text({
+          label: 'Answer (HTML: paragraphs, lists, bold, emphasis, and links)',
           multiline: true,
         }),
       },
@@ -322,6 +342,97 @@ export default config({
           body: fields.text({ label: 'Body', multiline: true }),
           buttonLabel: fields.text({ label: 'Button label' }),
         }, { label: 'Signup band' }),
+      },
+    }),
+    faqPageCopy: singleton({
+      label: 'FAQ page',
+      path: 'src/content/pages/faq',
+      format: { data: 'yaml' },
+      schema: {
+        meta: fields.object({
+          title: fields.text({ label: 'Meta title' }),
+          description: fields.text({ label: 'Meta description', multiline: true }),
+          canonical: fields.url({ label: 'Canonical URL' }),
+        }, { label: 'Page meta' }),
+        hero: fields.object({
+          kicker: fields.text({ label: 'Kicker' }),
+          title: fields.text({ label: 'Headline (before underline)' }),
+          mark: fields.object({
+            pre: fields.text({ label: 'Underlined phrase — plain part' }),
+            em: fields.text({ label: 'Underlined phrase — accent part' }),
+            post: fields.text({ label: 'Text after underlined phrase' }),
+          }, { label: 'Underlined phrase' }),
+          lede: fields.text({ label: 'Lede', multiline: true }),
+          primaryCta: fields.text({ label: 'Primary button' }),
+          secondaryCta: fields.text({ label: 'Secondary button' }),
+        }, { label: 'Hero' }),
+        searchPlaceholder: fields.text({ label: 'Search placeholder' }),
+        closing: fields.object({
+          heading: fields.text({ label: 'Heading' }),
+          body: fields.text({ label: 'Body', multiline: true }),
+          buttonLabel: fields.text({ label: 'Button label' }),
+        }, { label: 'Closing band' }),
+      },
+    }),
+    contactPage: singleton({
+      label: 'Contact page',
+      path: 'src/content/pages/contact',
+      format: { data: 'yaml' },
+      schema: {
+        meta: fields.object({
+          title: fields.text({ label: 'Meta title' }),
+          description: fields.text({ label: 'Meta description', multiline: true }),
+          canonical: fields.url({ label: 'Canonical URL' }),
+        }, { label: 'Page meta' }),
+        hero: fields.object({
+          kicker: fields.text({ label: 'Kicker' }),
+          title: fields.text({ label: 'Headline (before underline)' }),
+          markEm: fields.text({ label: 'Underlined phrase' }),
+          lede: fields.text({ label: 'Lede', multiline: true }),
+        }, { label: 'Hero' }),
+        /* Three, and only three: the layout puts them in one row with their
+           buttons on a shared line, which a fourth would break. */
+        choices: fields.array(
+          fields.object({
+            icon: fields.select({
+              label: 'Icon',
+              options: [
+                { label: 'Account', value: 'account' },
+                { label: 'Key', value: 'key' },
+                { label: 'Mail', value: 'mail' },
+              ],
+              defaultValue: 'account',
+            }),
+            title: fields.text({ label: 'Title' }),
+            body: fields.text({ label: 'Body', multiline: true }),
+            buttonLabel: fields.text({ label: 'Button label' }),
+            link: fields.text({ label: 'Link name (from links.json)' }),
+          }, { label: 'Choice' }),
+          { label: 'Choices', itemLabel: (item) => item.fields.buttonLabel.value },
+        ),
+        closing: fields.object({
+          heading: fields.text({ label: 'Heading' }),
+          body: fields.text({ label: 'Body', multiline: true }),
+          buttonLabel: fields.text({ label: 'Button label' }),
+        }, { label: 'Closing band' }),
+      },
+    }),
+    contactFormPage: singleton({
+      label: 'Contact form page',
+      /* Field labels and the Send button are not here: they are UI
+         implementation copy, and they post under names the backend expects. */
+      path: 'src/content/pages/contact-form',
+      format: { data: 'yaml' },
+      schema: {
+        meta: fields.object({
+          title: fields.text({ label: 'Meta title' }),
+          description: fields.text({ label: 'Meta description', multiline: true }),
+          canonical: fields.url({ label: 'Canonical URL' }),
+        }, { label: 'Page meta' }),
+        header: fields.object({
+          title: fields.text({ label: 'Headline' }),
+          lede: fields.text({ label: 'Lede', multiline: true }),
+        }, { label: 'Header' }),
       },
     }),
   },
