@@ -20,4 +20,5 @@ export default defineConfig({
      cached. Keep stylesheets external: smaller HTML, one shared file. */
   build: { inlineStylesheets: 'never' },
   integrations: [react(), ...(keystaticEnabled ? [keystatic()] : [])],
+  vite: { optimizeDeps: { include: ['react-dom/client'] } },
 });
