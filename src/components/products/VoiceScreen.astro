@@ -18,7 +18,7 @@ const waveBars = Array.from({ length: 12 }, (_, index) => index);
       <div class="dtabs"><span class="on">Active</span><span>History</span></div>
       <div class="dtable">
         <div class="drow dhr"><span>Created</span><span>Service</span><span>Number</span><span>Status</span></div>
-        <div class="drow"><span>10:04</span><span class="dsvc"><i style="background:#6d4aff">tf</i>TextFree</span><span class="dnum">(206) 555-0117</span><span class="dst ok">Completed</span></div>
+        <div class="drow"><span>10:04</span><span class="dsvc"><i style="background:#ff5a3c">D</i>DoorDash</span><span class="dnum">(206) 555-0117</span><span class="dst ok">Completed</span></div>
         <div class="drow"><span>09:58</span><span class="dsvc"><i style="background:#0071ce">W</i>Walmart</span><span class="dnum">(713) 555-0129</span><span class="dst ok">Completed</span></div>
       </div>
     </div>
@@ -26,9 +26,9 @@ const waveBars = Array.from({ length: 12 }, (_, index) => index);
   <div class="scrim"></div>
   <div class="modal dense">
     <div class="mhead">Voice Verification <span class="x">✕</span></div>
-    <div class="msvc"><i style="background:#6d4aff">tf</i>TextFree</div>
-    <div class="mban warn" data-voice-banner><Loader /><span data-voice-banner-text>Waiting to receive a call from TextFree — don’t refresh this page</span></div>
-    <div class="mlab">Use this phone number for TextFree</div>
+    <div class="msvc"><i style="background:#ff5a3c">D</i>DoorDash</div>
+    <div class="mban warn" data-voice-banner><Loader /><span data-voice-banner-text>Waiting to receive a call from DoorDash — don’t refresh this page</span></div>
+    <div class="mlab">Use this phone number for DoorDash</div>
     <div class="mnum">+1 (206) 555-0117 <span>Copy</span></div>
     <div class="mstats">
       <div class="mstat"><b>Verification cost</b><span>2.50</span></div>
@@ -71,7 +71,7 @@ const waveBars = Array.from({ length: 12 }, (_, index) => index);
         screen.classList.remove('oncall');
         if (banner) banner.className = 'mban warn';
         if (loader) loader.style.display = '';
-        if (bannerText) bannerText.textContent = 'Waiting to receive a call from TextFree — don’t refresh this page';
+        if (bannerText) bannerText.textContent = 'Waiting to receive a call from DoorDash — don’t refresh this page';
         if (timer) timer.textContent = '0:00';
         await wait(2600);
         if (stopped()) return;
