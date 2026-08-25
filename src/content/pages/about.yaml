@@ -1,0 +1,41 @@
+# Copy is verbatim from textverified.com/about. Nothing here is reworded; the
+# only editorial decision is which line carries the emphasis, and that is the
+# `emphasis` flag below.
+meta:
+  title: About Us | Textverified
+  description: >-
+    Textverified was founded in 2017 by a trio of tech enthusiasts and privacy
+    advocates who believed privacy should not come at the expense of access
+    and convenience.
+  canonical: https://www.textverified.com/about
+hero:
+  title: About Us
+mission:
+  heading: Our Mission
+  paragraphs:
+    - text: >-
+        textverified.com was founded in 2017 by Vish, Yi, and Kay; a passionate
+        trio of tech enthusiasts and privacy advocates. We were tired of
+        handing out our information to third parties and having our data
+        resold or breached later. Seeing our phones become inundated with
+        robocalls, scams, and spam, we are reluctant to give up our privacy to
+        yet another party. Why should we give our phone number to another
+        company that will resell or leak our information?
+    # the one short line in the piece, and the turn the whole story hinges on
+    - text: We knew there had to be a better way.
+      emphasis: true
+    - text: >-
+        Driven by a shared commitment to this purpose, we set out to create a
+        solution to take back our privacy. At textverified.com, we believe that
+        privacy should not come at the expense of access and convenience. Join
+        us as we pave the way for a safer, smarter, and more secure digital
+        experience.
+# The sentence is split around its link so the destination stays in
+# links.json rather than being hard-coded into the copy.
+getInTouch:
+  heading: Get In Touch
+  before: >-
+    If you have questions or would like to learn more about us, feel free to
+  linkLabel: reach out
+  link: contact
+  after: .

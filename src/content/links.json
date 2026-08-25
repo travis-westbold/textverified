@@ -4,7 +4,7 @@
 
   "faq": "/faq",
   "blog": "https://www.textverified.com/blog",
-  "about": "https://www.textverified.com/about",
+  "about": "/about",
   "contact": "/contact-us",
 
   "signIn": "https://www.textverified.com/login",
