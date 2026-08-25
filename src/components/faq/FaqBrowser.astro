@@ -57,7 +57,9 @@ const total = categories.reduce((sum, category) => sum + category.items.length, 
                     <h4>
                       <button type="button" id={`${item.anchor}-q`} aria-expanded="false" aria-controls={`${item.anchor}-answer`}>
                         <span class="q">{item.question}</span>
-                        <span class="chev" aria-hidden="true"></span>
+                        <span class="chev" aria-hidden="true">
+                          <svg viewBox="0 0 14 14"><path d="M3 5l4 4 4-4" /></svg>
+                        </span>
                       </button>
                     </h4>
                     <div class="answer" id={`${item.anchor}-answer`} role="region" aria-labelledby={`${item.anchor}-q`}>
@@ -233,7 +235,10 @@ const total = categories.reduce((sum, category) => sum + category.items.length, 
   .tally { color: var(--text-muted); font-size: .74rem; font-weight: 700; font-variant-numeric: tabular-nums; }
   .rail a[aria-current='true'] .tally { color: var(--brand); }
 
-  .body { display: flex; flex-direction: column; gap: clamp(1.9rem, 3.5vw, 2.75rem); }
+  /* The cap has to live on the column too, not only on the grid track: once
+     the rail moves above the questions the track is gone, and without this a
+     tablet got wider lines than a desktop does. */
+  .body { display: flex; flex-direction: column; gap: clamp(1.9rem, 3.5vw, 2.75rem); max-width: 41rem; margin-inline: auto; width: 100%; }
   .cat { scroll-margin-top: calc(var(--header-height) + 1.5rem); }
   .cat h3 { margin: 0 0 .6rem; font-size: 1.13rem; font-weight: 800; letter-spacing: -.015em; }
   .qs { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
@@ -244,15 +249,24 @@ const total = categories.reduce((sum, category) => sum + category.items.length, 
   .qa button { display: flex; align-items: flex-start; gap: .9rem; width: 100%; padding: 1.05rem 0; color: var(--text); font: inherit; font-size: .97rem; font-weight: 700; line-height: 1.45; text-align: left; background: none; border: 0; cursor: pointer; transition: color 200ms; }
   .qa button:hover { color: var(--brand); }
   .q { flex: 1 1 auto; }
-  /* a chevron rather than a plus: it says "there is more below" instead of
-     "this adds something" */
-  .chev { position: relative; flex: 0 0 1.38rem; height: 1.38rem; margin-top: .05rem; background: rgb(0 105 168 / 10%); border-radius: 50%; transition: background 300ms cubic-bezier(.22,1,.36,1); }
-  .chev::before { content: ''; position: absolute; top: 45%; left: 50%; width: .44rem; height: .44rem; border-right: 2px solid var(--brand); border-bottom: 2px solid var(--brand); transform: translate(-50%, -50%) rotate(45deg); transition: transform 300ms cubic-bezier(.22,1,.36,1), border-color 300ms; }
+  /* A chevron rather than a plus: it says "there is more below" instead of
+     "this adds something".
+
+     It is drawn, not built from two rotated borders. That trick puts the ink
+     off-centre in the circle — measured, the down arrow sat 1% low and the up
+     arrow 8% high, and each needed its own hand-tuned nudge. Here the path is
+     centred inside its own viewBox, so both states are centred by
+     construction and turning one into the other is a plain 180deg. */
+  .chev { display: grid; flex: 0 0 1.38rem; place-items: center; height: 1.38rem; margin-top: .05rem; background: rgb(0 105 168 / 10%); border-radius: 50%; transition: background 300ms cubic-bezier(.22,1,.36,1); }
+  /* the path's ink is 10x6 of a 14 box, centred on 7,7 — at .88rem that is a
+     chevron the same weight as the one it replaced, in a circle it actually
+     sits in the middle of */
+  .chev svg { width: .88rem; height: .88rem; fill: none; stroke: var(--brand); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform 300ms cubic-bezier(.22,1,.36,1), stroke 300ms; }
   /* the open question takes the brand colour, so scrolling a long answer you
      can still see which question you are inside */
   .qa[data-open] .q { color: var(--brand); }
   .qa[data-open] .chev { background: var(--brand); }
-  .qa[data-open] .chev::before { border-color: white; transform: translate(-50%, -30%) rotate(225deg); }
+  .qa[data-open] .chev svg { stroke: white; transform: rotate(180deg); }
 
   .answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 380ms cubic-bezier(.22,1,.36,1); }
   .qa[data-open] .answer { grid-template-rows: 1fr; }
@@ -262,14 +276,12 @@ const total = categories.reduce((sum, category) => sum + category.items.length, 
   faq-browser[data-filtering] .answer { transition: none; }
 
   /* Room above and below the answer so an open one reads as its own block
-     rather than as text crowded between two questions. */
-  .prose { padding: .9rem 0 1.95rem 2.28rem; color: var(--text-muted); font-size: .92rem; line-height: 1.7; }
-  /* A measure, not the full column width. Unconstrained, an answer ran to a
-     median of 21 words a line at 1440px and as many as 33 — roughly twice a
-     comfortable read. At 32em the median is 10 and three quarters of lines
-     land at 12 or fewer, which is also squarely inside the usual 45-75
-     character measure. Measured, not guessed. */
-  .prose :global(p), .prose :global(ul) { max-width: 32em; }
+     rather than as text crowded between two questions.
+
+     The inset is the same on both sides, and the right one is exactly the
+     chevron plus its gap — so the answer stops where the question's own text
+     stops, level with the arrow, instead of ending short of it. */
+  .prose { padding: .9rem 2.28rem 1.95rem; color: var(--text-muted); font-size: .92rem; line-height: 1.7; }
   .prose :global(p) { margin: 0 0 1.05rem; }
   .prose :global(ul) { margin: -.35rem 0 1.05rem; padding-left: 1.25rem; }
   .prose :global(li) { margin-bottom: .22rem; }
