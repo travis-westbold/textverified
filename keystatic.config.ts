@@ -33,7 +33,7 @@ export default config({
   ui: {
     brand: { name: 'Textverified' },
     navigation: {
-      Pages: ['home', 'products', 'faqPageCopy', 'contactPage', 'contactFormPage'],
+      Pages: ['home', 'products', 'faqPageCopy', 'contactPage', 'contactFormPage', 'aboutPage'],
       Content: ['reviews', 'pricing', 'faqs', 'faqPage'],
       Site: ['navigation', 'footer', 'links'],
     },
@@ -433,6 +433,41 @@ export default config({
           title: fields.text({ label: 'Headline' }),
           lede: fields.text({ label: 'Lede', multiline: true }),
         }, { label: 'Header' }),
+      },
+    }),
+    aboutPage: singleton({
+      label: 'About page',
+      path: 'src/content/pages/about',
+      format: { data: 'yaml' },
+      schema: {
+        meta: fields.object({
+          title: fields.text({ label: 'Meta title' }),
+          description: fields.text({ label: 'Meta description', multiline: true }),
+          canonical: fields.url({ label: 'Canonical URL' }),
+        }, { label: 'Page meta' }),
+        hero: fields.object({
+          title: fields.text({ label: 'Headline' }),
+        }, { label: 'Hero' }),
+        mission: fields.object({
+          heading: fields.text({ label: 'Heading' }),
+          /* "Pull out" is the one editorial control here: it sets which line
+             the layout lifts to heading weight with the brand underline. */
+          paragraphs: fields.array(
+            fields.object({
+              text: fields.text({ label: 'Paragraph', multiline: true }),
+              emphasis: fields.checkbox({ label: 'Pull this line out', defaultValue: false }),
+            }, { label: 'Paragraph' }),
+            { label: 'Paragraphs', itemLabel: (item) => item.fields.text.value.slice(0, 60) },
+          ),
+        }, { label: 'Mission' }),
+        /* Split around its link so the destination stays in links.json. */
+        getInTouch: fields.object({
+          heading: fields.text({ label: 'Heading' }),
+          before: fields.text({ label: 'Sentence before the link', multiline: true }),
+          linkLabel: fields.text({ label: 'Link text' }),
+          link: fields.text({ label: 'Link name (from links.json)' }),
+          after: fields.text({ label: 'Sentence after the link' }),
+        }, { label: 'Get in touch' }),
       },
     }),
   },
