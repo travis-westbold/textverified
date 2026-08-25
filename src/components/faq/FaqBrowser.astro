@@ -168,7 +168,6 @@ const total = categories.reduce((sum, category) => sum + category.items.length, 
         setOpen(row, true);
         row.item.scrollIntoView({ block: 'center', behavior: 'auto' });
       };
-      openFromHash();
       window.addEventListener('hashchange', openFromHash);
 
       /* --- the topic rail follows the page --------------------------- */
@@ -185,7 +184,11 @@ const total = categories.reduce((sum, category) => sum + category.items.length, 
         sections.forEach((section) => observer.observe(section));
       }
 
+      /* apply() closes every answer when there is no query, so opening the
+         linked one has to come after it — otherwise arriving on a deep link
+         opens the answer and then immediately shuts it again. */
       apply();
+      openFromHash();
     }
   }
 
