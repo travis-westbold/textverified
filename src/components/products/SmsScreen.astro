@@ -16,7 +16,7 @@ import Loader from './Loader.astro';
       <div class="dtabs"><span class="on">Active</span><span>History</span></div>
       <div class="dtable">
         <div class="drow dhr"><span>Created</span><span>Service</span><span>Number</span><span>Status</span></div>
-        <div class="drow"><span>09:31</span><span class="dsvc"><i style="background:#026cdf">tm</i>Ticketmaster</span><span class="dnum">(938) 555-0182</span><span class="dst ok">Completed</span></div>
+        <div class="drow"><span>09:31</span><span class="dsvc"><i style="background:#ff5a3c">D</i>DoorDash</span><span class="dnum">(938) 555-0182</span><span class="dst ok">Completed</span></div>
         <div class="drow"><span>09:27</span><span class="dsvc"><i style="background:#000">U</i>Uber</span><span class="dnum">(206) 555-0163</span><span class="dst ok">Completed</span></div>
         <div class="drow"><span>09:20</span><span class="dsvc"><i style="background:#003087">P</i>PayPal</span><span class="dnum">(415) 555-0142</span><span class="dst ok">Completed</span></div>
       </div>
@@ -25,9 +25,9 @@ import Loader from './Loader.astro';
   <div class="scrim"></div>
   <div class="modal">
     <div class="mhead">SMS Verification <span class="x">✕</span></div>
-    <div class="msvc"><i data-sms-icon style="background:#026cdf">tm</i><span data-sms-service>Ticketmaster</span></div>
-    <div class="mban" data-sms-banner><Loader /><span data-sms-banner-text>Waiting to receive an SMS from Ticketmaster</span></div>
-    <div class="mlab" data-sms-number-label>Use this phone number for Ticketmaster</div>
+    <div class="msvc"><i data-sms-icon style="background:#ff5a3c">D</i><span data-sms-service>DoorDash</span></div>
+    <div class="mban" data-sms-banner><Loader /><span data-sms-banner-text>Waiting to receive an SMS from DoorDash</span></div>
+    <div class="mlab" data-sms-number-label>Use this phone number for DoorDash</div>
     <div class="mnum">+1 (938) 555-0182 <span>Copy</span></div>
     <div class="mstats">
       <div class="mstat"><b>Verification cost</b><span>0.25</span></div>
@@ -42,10 +42,10 @@ import Loader from './Loader.astro';
   import { prefersReducedMotion, runWhileVisible, wait } from '../../scripts/demo';
 
   const SERVICES = [
-    { name: 'Ticketmaster', mark: 'tm', color: '#026cdf' },
+    { name: 'DoorDash', mark: 'D', color: '#ff5a3c' },
     { name: 'Uber', mark: 'U', color: '#000' },
     { name: 'PayPal', mark: 'P', color: '#003087' },
-    { name: 'DoorDash', mark: 'D', color: '#ff5a3c' },
+    { name: 'Grubhub', mark: 'gh', color: '#f57c00' },
   ];
   const minuteSecond = (total: number) => `${Math.floor(total / 60)}:${String(total % 60).padStart(2, '0')}`;
 
@@ -78,7 +78,7 @@ import Loader from './Loader.astro';
       banner?.classList.add('ok');
       if (loader) loader.style.display = 'none';
       if (bannerText) bannerText.textContent = 'Code received — verification complete';
-      showCode('Ticketmaster', '383941');
+      showCode('DoorDash', '383941');
       return;
     }
 

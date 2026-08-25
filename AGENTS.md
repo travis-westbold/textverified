@@ -74,6 +74,7 @@ part of an unrelated task.
   register that collection in `keystatic.config.ts`, add it to the Keystatic
   navigation, and verify its existing files load in `/keystatic`. Do not infer
   that other entries in `src/content.config.ts` belong in the CMS.
+- Do not use Ticketmaster in marketing copy, mock data, or service examples.
 - Do not make UI labels, fixed demo text, layout-specific labels, or other
   UI implementation copy Keystatic-editable merely because it is text.
 - Outbound destinations live in `src/content/links.json`; their allowed keys
