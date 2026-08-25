@@ -37,7 +37,6 @@ const { kicker, heading, lede, plans, tone = 'light' } = Astro.props;
     <div class="compare-grid">
       {plans.map((plan) => (
         <article class:list={['plan', 'up', { featured: plan.featured }]}>
-          {plan.featured && <span class="flag">Most popular</span>}
           <span class="starting">Starting at…</span>
           <p class="price"><strong>{plan.price}</strong><span>{plan.unit}</span></p>
           <h3>{plan.name}</h3>
@@ -68,7 +67,6 @@ const { kicker, heading, lede, plans, tone = 'light' } = Astro.props;
   .plan { position: relative; display: flex; flex-direction: column; height: 100%; padding: 1.75rem 1.6rem 1.85rem; color: var(--text); background: white; border: 1px solid rgb(15 23 43 / 9%); border-radius: 1.38rem; box-shadow: 0 1.5rem 3.1rem -1.9rem rgb(15 23 43 / 55%); transition: transform 350ms cubic-bezier(.22,1,.36,1), box-shadow 350ms cubic-bezier(.22,1,.36,1); }
   .plan:hover { transform: translateY(-5px); box-shadow: 0 2.1rem 3.75rem -1.85rem rgb(15 23 43 / 60%); }
   .plan.featured { color: white; background: linear-gradient(170deg, #0b3f63, #06263f); border-color: rgb(56 211 255 / 35%); }
-  .flag { position: absolute; top: -.8rem; left: 50%; padding: .38rem .94rem; color: white; background: linear-gradient(135deg, #1e8fd6, #0069a8); border-radius: 999px; box-shadow: 0 .5rem 1.25rem -.5rem rgb(30 143 214 / 90%); font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; transform: translateX(-50%); white-space: nowrap; }
   .starting { color: #7a8ba3; font-size: .84rem; }
   .plan.featured .starting { color: #9dc4dd; }
   .price { display: flex; align-items: baseline; gap: .5rem; margin: .13rem 0 0; }
