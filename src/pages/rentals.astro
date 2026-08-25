@@ -69,11 +69,11 @@ const manage = section('manage');
       <Monitor><RentalsScreen /></Monitor>
     </ProductSection>
 
-    <UseCases kicker={useCases.kicker} heading={useCases.heading} lede={useCases.lede} cards={[...useCases.cards]} />
+    <UseCases kicker={useCases.kicker} heading={useCases.heading} lede={useCases.lede} cards={useCases.cards} />
 
-    <ExtrasGrid tone="dark" kicker={extras.kicker} heading={extras.heading} cards={[...extras.cards]} />
+    <ExtrasGrid tone="dark" kicker={extras.kicker} heading={extras.heading} cards={extras.cards} />
 
-    <PlanCompare kicker={planCompare.kicker} heading={planCompare.heading} lede={planCompare.lede} plans={[...planCompare.plans]} />
+    <PlanCompare kicker={planCompare.kicker} heading={planCompare.heading} lede={planCompare.lede} plans={planCompare.plans} />
 
     <SignupCta
       heading={signupCta.heading}

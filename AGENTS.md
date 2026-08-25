@@ -59,10 +59,19 @@ part of an unrelated task.
 
 - Editable copy lives in `src/content/` and is validated by
   `src/content.config.ts`.
+- Do not make UI labels, fixed demo text, layout-specific labels, or other
+  UI implementation copy Keystatic-editable merely because it is text.
 - Outbound destinations live in `src/content/links.json`; their allowed keys
   live in `src/config/link-keys.ts`. Access them through
   `src/config/links.ts`, not hard-coded component URLs.
 - Public pages are English-only and static-first.
+
+### Components
+
+- Prefer explicit component props over prop spreads when they make the
+  component's inputs clearer.
+- Create generic components only for established repeated patterns; do not
+  abstract a single use speculatively.
 
 ### Astro and browser behavior
 

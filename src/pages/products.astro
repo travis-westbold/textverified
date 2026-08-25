@@ -56,7 +56,7 @@ const credits = section('credits');
       primaryHref={links.register}
       secondaryLabel={hero.secondaryCta}
       secondaryHref={links.pricing}
-      jumpLinks={[...jumpLinks]}
+      jumpLinks={jumpLinks}
     />
 
     <!-- ============ SMS verifications ============ -->
@@ -92,7 +92,7 @@ const credits = section('credits');
       <Laptop width="min(40rem, 100%)"><VoiceScreen /></Laptop>
     </ProductSection>
 
-    <ExtrasGrid tone="dark" kicker={verificationExtras.kicker} heading={verificationExtras.heading} cards={[...verificationExtras.cards]} />
+    <ExtrasGrid tone="dark" kicker={verificationExtras.kicker} heading={verificationExtras.heading} cards={verificationExtras.cards} />
 
     <!-- ============ Rentals ============ -->
     <ProductSection
@@ -127,7 +127,7 @@ const credits = section('credits');
       <Monitor><CreditsScreen /></Monitor>
     </ProductSection>
 
-    <ExtrasGrid tone="dark" kicker={generalExtras.kicker} heading={generalExtras.heading} cards={[...generalExtras.cards]} />
+    <ExtrasGrid tone="dark" kicker={generalExtras.kicker} heading={generalExtras.heading} cards={generalExtras.cards} />
 
     <SignupCta
       heading={signupCta.heading}
