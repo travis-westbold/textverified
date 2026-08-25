@@ -17,6 +17,7 @@ const BUDGETS = {
 };
 
 const distRoot = fileURLToPath(new URL('../dist/', import.meta.url));
+const vercelStaticRoot = fileURLToPath(new URL('../.vercel/output/static/', import.meta.url));
 
 async function walk(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -37,9 +38,12 @@ const check = (label, actual, budget) => {
   else if (actual > budget * 0.8) warnings.push(line);
 };
 
-const files = await walk(distRoot).catch(() => null);
+/* Vercel moves the served files from dist/ into its output directory for
+   server builds (which Keystatic enables). Measure the files users receive. */
+const outputRoot = await stat(vercelStaticRoot).then(() => vercelStaticRoot).catch(() => distRoot);
+const files = await walk(outputRoot).catch(() => null);
 if (!files) {
-  console.error('Budget check failed: dist/ is missing — run after `astro build`.');
+  console.error('Budget check failed: no build output is present — run after `astro build`.');
   process.exit(1);
 }
 
@@ -47,7 +51,7 @@ const pages = files.filter((file) => file.endsWith('.html'));
 const fonts = files.filter((file) => /\.(woff2?|ttf|otf)$/.test(file));
 
 for (const page of pages) {
-  const name = relative(distRoot, page);
+  const name = relative(outputRoot, page);
   const html = await readFile(page, 'utf8');
 
   /* the public site must be self-contained: no font CDNs, no CMS leakage */
@@ -58,7 +62,7 @@ for (const page of pages) {
   let css = 0;
   let js = 0;
   for (const asset of assets) {
-    const size = await gzipSize(join(distRoot, asset.slice(1)));
+    const size = await gzipSize(join(outputRoot, asset.slice(1)));
     if (asset.endsWith('.css')) css += size;
     else js += size;
   }
