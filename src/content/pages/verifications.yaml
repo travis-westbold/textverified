@@ -2,7 +2,7 @@ meta:
   title: Verifications | Textverified
   description: >-
     Temporary non-VoIP US phone numbers for SMS and voice verification.
-    Receive one-time passcodes and calls for 700+ services with fast delivery
+    Receive one-time passcodes and calls for 900+ services with fast delivery
     and automatic refunds when no code arrives.
   canonical: https://www.textverified.com/verifications
 hero:
@@ -28,7 +28,7 @@ sections:
       services you use most. Fast delivery, clear status updates, and only pay
       when a code arrives.
     steps:
-      - { title: Select a service., text: Choose from 700+ supported services and get a temporary number instantly. }
+      - { title: Select a service., text: Choose from 900+ supported services and get a temporary number instantly. }
       - { title: Sign up., text: Enter that number on the website or app you are verifying and request your code. }
       - { title: Verify!, text: Receive your SMS code in your dashboard and complete your account verification. }
     primaryLabel: Learn more
@@ -68,7 +68,7 @@ extras:
       body: >-
         If no SMS or call is received, your credits are refunded automatically.
     - icon: list
-      title: 700+ Services
+      title: 900+ Services
       body: >-
         Verify across hundreds of major apps, websites, and online platforms.
     - icon: bolt
