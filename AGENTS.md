@@ -65,6 +65,11 @@ part of an unrelated task.
 
 - Editable copy lives in `src/content/` and is validated by
   `src/content.config.ts`.
+- When a page introduces a per-item YAML collection of repeated editorial
+  copy that designers are expected to maintain (for example, a full FAQ),
+  register that collection in `keystatic.config.ts`, add it to the Keystatic
+  navigation, and verify its existing files load in `/keystatic`. Do not infer
+  that other entries in `src/content.config.ts` belong in the CMS.
 - Do not make UI labels, fixed demo text, layout-specific labels, or other
   UI implementation copy Keystatic-editable merely because it is text.
 - Outbound destinations live in `src/content/links.json`; their allowed keys
