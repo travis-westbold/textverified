@@ -4,7 +4,7 @@ import { links } from '../config/links';
 
 interface Props {
   /** which top-level item this page is, for aria-current styling */
-  current?: 'products';
+  current?: 'products' | 'faq';
 }
 
 const { current } = Astro.props;
@@ -42,7 +42,7 @@ const { productsMenu: products, mainNav: navigation } = nav.data;
           ))}
         </div>
       </div>
-      {navigation.map((item) => <a class="nav-link" href={links[item.link]}>{item.label}</a>)}
+      {navigation.map((item) => <a class="nav-link" href={links[item.link]} aria-current={item.link === current ? 'page' : undefined}>{item.label}</a>)}
     </nav>
 
     <div class="nav-actions">

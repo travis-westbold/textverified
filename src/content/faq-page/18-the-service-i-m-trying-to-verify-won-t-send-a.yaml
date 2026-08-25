@@ -1,0 +1,11 @@
+order: 18
+category: Verifications
+anchor: the-service-i-m-trying-to-verify-won-t-send-a-sms-to-the
+question: >-
+  The service I'm trying to verify won't send a SMS to the number I got
+  assigned. What do I do?
+answer: >-
+  <p>If a number is not working for you, you can click on the "Report Number"
+  button during the verification to indicate a problem to us. We will refund
+  you; then you can start a new verification and we will try to give you a
+  different number.</p>

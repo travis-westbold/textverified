@@ -1,0 +1,18 @@
+order: 40
+category: Credits
+anchor: my-payment-went-through-but-i-didn-t-get-my-credits-what-do
+question: >-
+  My payment went through, but I didn’t get my credits! What do I do?
+answer: >-
+  <p>Please <a href="https://www.textverified.com/app/support">contact
+  support</a> with your account email and order number. For Bitcoin payments,
+  <b>we require sufficient network confirmations</b> before automatically
+  crediting your account. Other cryptocurrencies will be processed whenever
+  we are notified by our payment processor. This will vary based on the
+  required number of confirmations and the network's confirmation speed. If
+  you are paying with a cryptocurrency, please make sure you are including
+  any transaction fees your wallet deducts in your total payment amount and
+  make sure you send exact amounts. We do not adjust for nominal differences
+  and <b>sending the incorrect amount can result in delays in processing your
+  order.</b> We are not liable for any payments sent to the wrong party, the
+  wrong wallet, or in the wrong form.</p>

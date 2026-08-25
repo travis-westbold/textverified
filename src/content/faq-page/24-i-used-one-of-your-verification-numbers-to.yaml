@@ -1,0 +1,17 @@
+order: 24
+category: Verifications
+anchor: i-used-one-of-your-verification-numbers-to-verify-a-service
+question: >-
+  I used one of your verification numbers to verify a service in the past and
+  now I need that number again to access my service account! What do I do?
+answer: >-
+  <p>Unfortunately, all of our verification numbers are short-term and
+  intended for single use. We routinely remove verification numbers from our
+  system. Once a verification number has been removed, that number can no
+  longer be recovered. If you are planning on long term usage of a service
+  account verified through our service, we strongly recommend using a rental
+  number instead of a verification number. Our rental numbers are kept in our
+  system for as long as the rental is active, in contrast to our verification
+  numbers which are removed any time after a verification has ended. Our
+  rental numbers will help prevent re-verification issues from occurring.
+  <b>We are unable to recover past verification numbers.</b></p>

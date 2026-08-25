@@ -1,0 +1,13 @@
+order: 21
+category: Verifications
+anchor: the-service-i-requested-didn-t-accept-the-number-what-do-i
+question: >-
+  The service I requested didn't accept the number! What do I do?
+answer: >-
+  <p>Often these issues are caused by checks done by the services involved.
+  They can detect if you are using a proxy, attempting to create multiple
+  accounts or other similar activity. Unfortunately, there isn’t anything we
+  can do on our end to address this. Our advice would be to try again later
+  and make sure you're following our <a
+  href="#reasons-for-code-failure">verification checklist</a>. It is up to
+  you to ensure that your digital identity is protected.</p>
