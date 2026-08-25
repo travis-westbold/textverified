@@ -61,8 +61,13 @@ const total = categories.reduce((sum, category) => sum + category.items.length, 
                       </button>
                     </h4>
                     <div class="answer" id={`${item.anchor}-answer`} role="region" aria-labelledby={`${item.anchor}-q`}>
-                      {/* first-party copy; the schema limits it to text, lists and links */}
-                      <div class="prose" set:html={item.answer}></div>
+                      {/* .clip is what the collapsing row hides; .prose inside it
+                          carries the padding, which would otherwise still show
+                          when the row is closed */}
+                      <div class="clip">
+                        {/* first-party copy; the schema limits it to text, lists and links */}
+                        <div class="prose" set:html={item.answer}></div>
+                      </div>
                     </div>
                   </li>
                 ))}
@@ -213,7 +218,11 @@ const total = categories.reduce((sum, category) => sum + category.items.length, 
   /* both columns get an explicit zero minimum: a grid item defaults to
      min-width:auto, and the horizontally scrolling chip strip below would
      otherwise widen its own column and take the page with it */
-  .layout { display: grid; grid-template-columns: minmax(0, 13rem) minmax(0, 1fr); gap: clamp(1.75rem, 4vw, 3.5rem); align-items: start; }
+  /* The question column is capped and the pair centred, rather than the
+     questions stretching the full shell while the answer under them stops at
+     its measure — that left an open answer sitting in half a screen of empty
+     row. Capped, the question and its answer end near the same edge. */
+  .layout { display: grid; grid-template-columns: minmax(0, 13rem) minmax(0, 41rem); justify-content: center; gap: clamp(1.75rem, 4vw, 3.5rem); align-items: start; }
   .layout > * { min-width: 0; }
   .rail { position: sticky; top: calc(var(--header-height) + 1.5rem); }
   .rail ul { display: flex; flex-direction: column; gap: .15rem; margin: 0; padding: 0; list-style: none; }
@@ -247,15 +256,24 @@ const total = categories.reduce((sum, category) => sum + category.items.length, 
 
   .answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 380ms cubic-bezier(.22,1,.36,1); }
   .qa[data-open] .answer { grid-template-rows: 1fr; }
-  .answer > .prose { overflow: hidden; }
+  .answer > .clip { overflow: hidden; }
   /* filtering opens and closes many answers at once; animating each would be
      slow and would read as the page thrashing */
   faq-browser[data-filtering] .answer { transition: none; }
 
-  .prose { color: var(--text-muted); font-size: .92rem; line-height: 1.7; }
-  .prose :global(p) { margin: 0 0 1.05rem; padding-left: 2.28rem; }
-  .prose :global(ul) { margin: -.35rem 0 1.05rem; padding-left: 3.5rem; }
+  /* Room above and below the answer so an open one reads as its own block
+     rather than as text crowded between two questions. */
+  .prose { padding: .9rem 0 1.95rem 2.28rem; color: var(--text-muted); font-size: .92rem; line-height: 1.7; }
+  /* A measure, not the full column width. Unconstrained, an answer ran to a
+     median of 21 words a line at 1440px and as many as 33 — roughly twice a
+     comfortable read. At 32em the median is 10 and three quarters of lines
+     land at 12 or fewer, which is also squarely inside the usual 45-75
+     character measure. Measured, not guessed. */
+  .prose :global(p), .prose :global(ul) { max-width: 32em; }
+  .prose :global(p) { margin: 0 0 1.05rem; }
+  .prose :global(ul) { margin: -.35rem 0 1.05rem; padding-left: 1.25rem; }
   .prose :global(li) { margin-bottom: .22rem; }
+  .prose :global(p:last-child), .prose :global(ul:last-child) { margin-bottom: 0; }
   .prose :global(b) { color: var(--text); font-weight: 700; }
   .prose :global(a) { color: var(--brand); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
 
