@@ -452,16 +452,18 @@ const aboutPage = defineCollection({
   loader: glob({ pattern: 'about.yaml', base: './src/content/pages' }),
   schema: z.object({
     meta,
-    hero: z.object({ title: z.string().min(1) }),
+    hero: z.object({ title: z.string().min(1), markEm: z.string().min(1) }),
     mission: z.object({
-      heading: z.string().min(1),
+      headingPre: z.string().min(1),
+      markEm: z.string().min(1),
       paragraphs: z.array(z.object({
         text: z.string().min(1),
         emphasis: z.boolean().default(false),
       })).min(1),
     }),
     getInTouch: z.object({
-      heading: z.string().min(1),
+      headingPre: z.string().min(1),
+      markEm: z.string().min(1),
       before: z.string().min(1),
       linkLabel: z.string().min(1),
       link: linkKey,

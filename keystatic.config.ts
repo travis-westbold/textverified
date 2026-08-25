@@ -446,10 +446,12 @@ export default config({
           canonical: fields.url({ label: 'Canonical URL' }),
         }, { label: 'Page meta' }),
         hero: fields.object({
-          title: fields.text({ label: 'Headline' }),
+          title: fields.text({ label: 'Headline (before underline)' }),
+          markEm: fields.text({ label: 'Underlined word' }),
         }, { label: 'Hero' }),
         mission: fields.object({
-          heading: fields.text({ label: 'Heading' }),
+          headingPre: fields.text({ label: 'Heading (before underline)' }),
+          markEm: fields.text({ label: 'Heading — underlined word' }),
           /* "Pull out" is the one editorial control here: it sets which line
              the layout lifts to heading weight with the brand underline. */
           paragraphs: fields.array(
@@ -462,7 +464,8 @@ export default config({
         }, { label: 'Mission' }),
         /* Split around its link so the destination stays in links.json. */
         getInTouch: fields.object({
-          heading: fields.text({ label: 'Heading' }),
+          headingPre: fields.text({ label: 'Heading (before underline)' }),
+          markEm: fields.text({ label: 'Heading — underlined word' }),
           before: fields.text({ label: 'Sentence before the link', multiline: true }),
           linkLabel: fields.text({ label: 'Link text' }),
           link: fields.text({ label: 'Link name (from links.json)' }),

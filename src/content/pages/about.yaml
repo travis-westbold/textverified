@@ -8,10 +8,15 @@ meta:
     advocates who believed privacy should not come at the expense of access
     and convenience.
   canonical: https://www.textverified.com/about
+# Headings are split so the brand underline can sit under the emphasised word,
+# the way it does on every other page. The words are unchanged: "About" + "Us",
+# "Our" + "Mission", "Get In" + "Touch".
 hero:
-  title: About Us
+  title: About
+  markEm: Us
 mission:
-  heading: Our Mission
+  headingPre: Our
+  markEm: Mission
   paragraphs:
     - text: >-
         textverified.com was founded in 2017 by Vish, Yi, and Kay; a passionate
@@ -33,7 +38,8 @@ mission:
 # The sentence is split around its link so the destination stays in
 # links.json rather than being hard-coded into the copy.
 getInTouch:
-  heading: Get In Touch
+  headingPre: Get In
+  markEm: Touch
   before: >-
     If you have questions or would like to learn more about us, feel free to
   linkLabel: reach out
