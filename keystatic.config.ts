@@ -33,7 +33,7 @@ export default config({
   ui: {
     brand: { name: 'Textverified' },
     navigation: {
-      Pages: ['home', 'products', 'faqPageCopy', 'contactPage'],
+      Pages: ['home', 'products', 'faqPageCopy', 'contactPage', 'aboutPage'],
       Content: ['reviews', 'pricing', 'faqs', 'faqPage'],
       Site: ['navigation', 'footer', 'links'],
     },
@@ -406,7 +406,7 @@ export default config({
             title: fields.text({ label: 'Title' }),
             body: fields.text({ label: 'Body', multiline: true }),
             buttonLabel: fields.text({ label: 'Button label' }),
-            link: fields.text({ label: 'Link name (from links.json)' }),
+            link: linkField('Destination'),
           }, { label: 'Choice' }),
           { label: 'Choices', itemLabel: (item) => item.fields.buttonLabel.value },
         ),
@@ -415,6 +415,44 @@ export default config({
           body: fields.text({ label: 'Body', multiline: true }),
           buttonLabel: fields.text({ label: 'Button label' }),
         }, { label: 'Closing band' }),
+      },
+    }),
+    aboutPage: singleton({
+      label: 'About page',
+      path: 'src/content/pages/about',
+      format: { data: 'yaml' },
+      schema: {
+        meta: fields.object({
+          title: fields.text({ label: 'Meta title' }),
+          description: fields.text({ label: 'Meta description', multiline: true }),
+          canonical: fields.url({ label: 'Canonical URL' }),
+        }, { label: 'Page meta' }),
+        hero: fields.object({
+          title: fields.text({ label: 'Headline (before underline)' }),
+          markEm: fields.text({ label: 'Underlined word' }),
+        }, { label: 'Hero' }),
+        mission: fields.object({
+          headingPre: fields.text({ label: 'Heading (before underline)' }),
+          markEm: fields.text({ label: 'Heading — underlined word' }),
+          /* "Pull out" is the one editorial control here: it sets which line
+             the layout lifts to heading weight with the brand underline. */
+          paragraphs: fields.array(
+            fields.object({
+              text: fields.text({ label: 'Paragraph', multiline: true }),
+              emphasis: fields.checkbox({ label: 'Pull this line out', defaultValue: false }),
+            }, { label: 'Paragraph' }),
+            { label: 'Paragraphs', itemLabel: (item) => item.fields.text.value.slice(0, 60) },
+          ),
+        }, { label: 'Mission' }),
+        /* Split around its link so the destination stays in links.json. */
+        getInTouch: fields.object({
+          headingPre: fields.text({ label: 'Heading (before underline)' }),
+          markEm: fields.text({ label: 'Heading — underlined word' }),
+          before: fields.text({ label: 'Sentence before the link', multiline: true }),
+          linkLabel: fields.text({ label: 'Link text' }),
+          link: linkField('Destination'),
+          after: fields.text({ label: 'Sentence after the link' }),
+        }, { label: 'Get in touch' }),
       },
     }),
   },

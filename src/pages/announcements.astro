@@ -45,9 +45,9 @@ const endpointNote = import.meta.env.DEV
 </BaseLayout>
 
 <script>
-  const reveal = () => document.querySelector('.announcements-hero')?.classList.add('revealed');
-  window.requestAnimationFrame(reveal);
-  window.setTimeout(reveal, 60);
+  import { revealAfterPaint } from '../scripts/reveal';
+
+  revealAfterPaint('.announcements-hero');
 </script>
 
 <style>

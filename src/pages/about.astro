@@ -1,0 +1,116 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Swoosh from '../components/Swoosh.astro';
+import IsoField from '../components/IsoField.astro';
+import { links } from '../config/links';
+
+const page = await getEntry('aboutPage', 'about');
+if (!page) throw new Error('src/content/pages/about.yaml is missing');
+const { meta, hero, mission, getInTouch } = page.data;
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonical={meta.canonical}>
+  <Header current="about" />
+  <noscript><style>.up { opacity: 1 !important; transform: none !important; }</style></noscript>
+  <main>
+    {/* No kicker and no lede — the live page has neither, and inventing them
+        would mean writing copy. Everything else the site's heroes carry does
+        not need words, so it is all here: the tile field, the aurora, and the
+        underline under the emphasised word. */}
+    <section class="about-hero" aria-labelledby="about-title" data-reveal>
+      <div class="aurora" aria-hidden="true"></div>
+      <IsoField side="left" count={16} columns={4} />
+      <IsoField side="right" count={16} columns={4} />
+      <h1 id="about-title" class="up">
+        {hero.title} <span class="mark"><em>{hero.markEm}</em><Swoosh /></span>
+      </h1>
+    </section>
+
+    <section class="mission" aria-labelledby="mission-heading" data-reveal>
+      <div class="shell">
+        <div class="column">
+          <h2 id="mission-heading" class="up"><span>{mission.headingPre} </span><span class="mark"><em>{mission.markEm}</em><Swoosh ink /></span></h2>
+          {mission.paragraphs.map((paragraph) => (
+            paragraph.emphasis
+              /* The turn in the story gets the treatment the rest of the site
+                 gives a heading — the same words, carrying their own weight. */
+              ? <p class="turn up"><span class="mark"><em>{paragraph.text}</em><Swoosh ink /></span></p>
+              : <p class="up">{paragraph.text}</p>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="touch" aria-labelledby="touch-heading" data-reveal>
+      <div class="shell">
+        <div class="column">
+          <h2 id="touch-heading" class="up"><span>{getInTouch.headingPre} </span><span class="mark"><em>{getInTouch.markEm}</em><Swoosh /></span></h2>
+          <p class="up">
+            {getInTouch.before} <a href={links[getInTouch.link]}>{getInTouch.linkLabel}</a>{getInTouch.after}
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  import { revealAfterPaint, revealWhenVisible } from '../scripts/reveal';
+
+  revealAfterPaint('.about-hero');
+  revealWhenVisible({ selector: '[data-reveal]:not(.about-hero)', threshold: 0.15 });
+</script>
+
+<style>
+  /* one measure for the whole page, so the mission and the sign-off sit on
+     the same left edge and read as one piece of writing */
+  .column { max-width: 40rem; margin-inline: auto; }
+
+  .about-hero { position: relative; isolation: isolate; overflow: hidden; padding: calc(var(--header-height) + clamp(4.25rem, 8vw, 7rem)) 0 clamp(4.25rem, 8vw, 7rem); color: white; text-align: center; background: radial-gradient(85% 100% at 50% -20%, #1b365e 0%, transparent 58%), linear-gradient(180deg, #0f172b 0%, #070d1a 100%); }
+  h1 { position: relative; z-index: 1; margin: 0; color: white; font-size: clamp(2.25rem, 5vw, 3.75rem); font-weight: 800; letter-spacing: -.032em; line-height: 1.08; }
+  .aurora { position: absolute; z-index: -3; inset: -25%; opacity: .3; pointer-events: none; background: radial-gradient(circle at 18% 30%, #076da8, transparent 28%), radial-gradient(circle at 82% 20%, #0f89bd, transparent 27%), radial-gradient(circle at 52% 88%, #153d73, transparent 32%); }
+
+  .mission { padding: clamp(3.5rem, 7vw, 5.75rem) 0 clamp(3.5rem, 7vw, 5.5rem); color: var(--text); background: linear-gradient(180deg, white 0%, #f2f5f9 100%); }
+  /* The sign-off turns dark. On a light ground it was one stray line trailing
+     off the bottom of the page; as a band it reads as the end of the piece,
+     and it returns the page to the ground it opened on. */
+  .touch { padding: clamp(3.25rem, 6.5vw, 5rem) 0 clamp(3.5rem, 7vw, 5.5rem); color: white; background: linear-gradient(180deg, #0f172b 0%, #070d1a 100%); }
+  .touch p { color: var(--text-muted-dark); }
+
+  h1 :global(em) { color: var(--cyan); font-style: normal; }
+  h2 :global(em) { font-style: normal; }
+  h2 { margin: 0 0 1.25rem; font-size: clamp(1.5rem, 2.6vw, 2.13rem); font-weight: 800; letter-spacing: -.026em; line-height: 1.18; }
+  p { margin: 0 0 1.4rem; color: var(--text-muted); font-size: clamp(1rem, 1.2vw, 1.09rem); line-height: 1.8; }
+  p:last-child { margin-bottom: 0; }
+
+  /* the pull-line: bigger, in ink, on its own air, with the brand underline */
+  .turn { margin: 2.25rem 0 2.4rem; color: var(--text); font-size: clamp(1.31rem, 2.4vw, 1.75rem); font-weight: 800; letter-spacing: -.022em; line-height: 1.35; }
+  .turn em { font-style: normal; }
+
+  .touch a { color: var(--cyan); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 2px; transition: color 200ms; }
+  .touch a:hover { color: white; }
+
+  .up { opacity: 0; transform: translateY(1.5rem); transition: opacity 800ms cubic-bezier(.22,1,.36,1), transform 800ms cubic-bezier(.22,1,.36,1); }
+  .about-hero.revealed .up, .mission.revealed .up, .touch.revealed .up { opacity: 1; transform: none; }
+  .mission .up:nth-child(2) { transition-delay: 80ms; }
+  .mission .up:nth-child(3) { transition-delay: 170ms; }
+  .mission .up:nth-child(4) { transition-delay: 260ms; }
+  .touch .up:nth-child(2) { transition-delay: 90ms; }
+
+  /* The Swoosh is absolutely positioned across the whole marked span and
+     drawn along its bottom edge, so it only reads correctly while that span
+     is one line. This sentence fits on one line down to 430px; below that it
+     wraps and the stroke sits under "way." while stretching the full width —
+     measured at 390px, a 309px overhang. The line is still large, bold and in
+     ink there, which carries the emphasis on its own.
+
+     The breakpoint is tied to the length of this sentence. If the copy ever
+     changes, re-measure it rather than assuming this number still holds. */
+  @media (max-width: 26.8rem) { .turn :global(.swoosh) { display: none; } }
+
+  @media (prefers-reduced-motion: reduce), (prefers-reduced-data: reduce) { .up { opacity: 1; transform: none; transition: none; } }
+</style>

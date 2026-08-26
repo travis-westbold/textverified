@@ -49,11 +49,11 @@ const { id, kicker, title, mark, lede, primaryLabel, primaryHref, secondaryLabel
 </section>
 
 <script>
+  import { revealAfterPaint } from '../../scripts/reveal';
+
   /* the hero is on screen at load, so it reveals immediately rather than
      waiting for the observer the sections below it use */
-  const reveal = () => document.querySelector('.products-hero')?.classList.add('revealed');
-  window.requestAnimationFrame(reveal);
-  window.setTimeout(reveal, 60);
+  revealAfterPaint('.products-hero');
 </script>
 
 <style>

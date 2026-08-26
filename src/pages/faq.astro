@@ -72,17 +72,8 @@ const categories = ORDER.map((name) => ({
 </BaseLayout>
 
 <script>
-  /* Same observer ProductSection carries, repeated for the one section on
-     this page that needs it. */
-  const targets = document.querySelectorAll('[data-reveal]:not(.products-hero)');
-  if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    targets.forEach((target) => target.classList.add('revealed'));
-  } else {
-    const observer = new IntersectionObserver((entries, obs) => entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('revealed');
-      obs.unobserve(entry.target);
-    }), { threshold: 0.05 });
-    targets.forEach((target) => observer.observe(target));
-  }
+  import { revealWhenVisible } from '../scripts/reveal';
+
+  /* Product pages use a higher threshold; FAQ content should appear sooner. */
+  revealWhenVisible({ selector: '[data-reveal]:not(.products-hero)', threshold: 0.05 });
 </script>

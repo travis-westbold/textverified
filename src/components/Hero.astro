@@ -49,6 +49,8 @@ const { hero } = page.data;
 </section>
 
 <script>
+  import { revealAfterPaint } from '../scripts/reveal';
+
   /* Ambient animations sleep while the hero is off-screen —
      [data-animation-state='paused'] is defined globally. */
   document.querySelectorAll<HTMLElement>('[data-animated-section]').forEach((section) => {
@@ -60,9 +62,7 @@ const { hero } = page.data;
 
   /* entrance choreography: rAF alone never fires in a backgrounded tab,
      which would leave the hero blank until focus — belt and braces */
-  const reveal = () => document.querySelectorAll('[data-reveal]').forEach((el) => el.classList.add('revealed'));
-  window.requestAnimationFrame(reveal);
-  window.setTimeout(reveal, 60);
+  revealAfterPaint('[data-reveal]');
 </script>
 
 <style>

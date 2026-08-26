@@ -20,7 +20,6 @@ and arranges components — put no copy in the page itself.
   <Header current="products" />   {/* omit `current` unless the page is under Products */}
   <main>
     …hero, then alternating sections…
-    <SignupCta {...signupCta} />  {/* the blue closing band — every page ends here */}
   </main>
   <Footer />
 </BaseLayout>
@@ -91,8 +90,6 @@ Four grounds. Sections alternate — **never two of the same ground in a row.**
 .deep  { color: white; background: linear-gradient(180deg, #0f172b 0%, #070d1a 100%); }
 .light { color: var(--text); background: linear-gradient(180deg, white 0%, #f2f5f9 100%); }
 ```
-
-Plus the blue CTA band, used once, to close: `linear-gradient(112deg, #3358ef, #2f7fe8 42%, #25a6f2)`.
 
 The products page is the reference rhythm: dark hero → light → dark → light →
 dark → light → deep → light → dark → blue CTA. `deep` is a darker beat used

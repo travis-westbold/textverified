@@ -433,4 +433,30 @@ const contactPage = defineCollection({
   }),
 });
 
-export const collections = { reviews, pricing, faqs, navigation, footer, home, products, verifications, automate, rentals, faqPage, faqPageCopy, contactPage };
+/* The about page. Its copy is verbatim from the live page; `emphasis` marks
+   the one line the layout pulls out, which is presentation, not content. */
+const aboutPage = defineCollection({
+  loader: glob({ pattern: 'about.yaml', base: './src/content/pages' }),
+  schema: z.object({
+    meta,
+    hero: z.object({ title: z.string().min(1), markEm: z.string().min(1) }),
+    mission: z.object({
+      headingPre: z.string().min(1),
+      markEm: z.string().min(1),
+      paragraphs: z.array(z.object({
+        text: z.string().min(1),
+        emphasis: z.boolean().default(false),
+      })).min(1),
+    }),
+    getInTouch: z.object({
+      headingPre: z.string().min(1),
+      markEm: z.string().min(1),
+      before: z.string().min(1),
+      linkLabel: z.string().min(1),
+      link: linkKey,
+      after: z.string(),
+    }),
+  }),
+});
+
+export const collections = { reviews, pricing, faqs, navigation, footer, home, products, verifications, automate, rentals, faqPage, faqPageCopy, contactPage, aboutPage };
