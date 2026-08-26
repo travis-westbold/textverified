@@ -406,7 +406,7 @@ export default config({
             title: fields.text({ label: 'Title' }),
             body: fields.text({ label: 'Body', multiline: true }),
             buttonLabel: fields.text({ label: 'Button label' }),
-            link: fields.text({ label: 'Link name (from links.json)' }),
+            link: linkField('Destination'),
           }, { label: 'Choice' }),
           { label: 'Choices', itemLabel: (item) => item.fields.buttonLabel.value },
         ),
