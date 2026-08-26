@@ -1,0 +1,76 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SignupCta from '../components/SignupCta.astro';
+import Swoosh from '../components/Swoosh.astro';
+import ContactChoices from '../components/contact/ContactChoices.astro';
+
+const page = await getEntry('contactPage', 'contact');
+if (!page) throw new Error('src/content/pages/contact.yaml is missing');
+const { meta, hero, choices, closing } = page.data;
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonical={meta.canonical}>
+  <Header current="contact" />
+  {/* the entrance animation starts each section hidden and only the observer
+      below brings it back — without scripting the choices would not be on the
+      page at all, and they are the page */}
+  <noscript><style>.up { opacity: 1 !important; transform: none !important; }</style></noscript>
+  <main>
+    {/* No buttons in the hero on purpose: the three choices below are the only
+        actions on this page, and a fourth call to action above them would be
+        one more thing to choose between. */}
+    <section class="contact-hero" aria-labelledby="contact-title" data-reveal>
+      <div class="aurora" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <span class="kicker up">{hero.kicker}</span>
+        <h1 id="contact-title" class="up">
+          {hero.title}<br />
+          <span class="mark"><em>{hero.markEm}</em><Swoosh /></span>
+        </h1>
+        <p class="hero-lede up">{hero.lede}</p>
+      </div>
+    </section>
+
+    <ContactChoices choices={choices} />
+
+    <SignupCta heading={closing.heading} body={closing.body} buttonLabel={closing.buttonLabel} />
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  /* the hero is on screen at load; the choices below it wait for the observer */
+  const hero = () => document.querySelector('.contact-hero')?.classList.add('revealed');
+  window.requestAnimationFrame(hero);
+  window.setTimeout(hero, 60);
+
+  const targets = document.querySelectorAll('[data-reveal]:not(.contact-hero)');
+  if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    targets.forEach((target) => target.classList.add('revealed'));
+  } else {
+    const observer = new IntersectionObserver((entries, obs) => entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('revealed');
+      obs.unobserve(entry.target);
+    }), { threshold: 0.05 });
+    targets.forEach((target) => observer.observe(target));
+  }
+</script>
+
+<style>
+  .contact-hero { position: relative; isolation: isolate; overflow: hidden; padding: calc(var(--header-height) + clamp(3.25rem, 6.5vw, 5.75rem)) 0 clamp(3.5rem, 7vw, 6rem); color: white; text-align: center; background: radial-gradient(85% 100% at 50% -20%, #1b365e 0%, transparent 58%), linear-gradient(180deg, #0f172b 0%, #070d1a 100%); }
+  .hero-inner { position: relative; z-index: 1; width: min(51rem, 90vw); margin-inline: auto; }
+  .kicker { display: inline-flex; align-items: center; padding: .4rem .9rem; color: #8fd8f5; background: rgb(17 177 234 / 10%); border: 1px solid rgb(17 177 234 / 30%); border-radius: 999px; font-size: .72rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+  h1 { margin: 1.5rem 0 0; font-size: clamp(2rem, 3.9vw, 3.25rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.12; }
+  h1 em { color: var(--cyan); font-style: normal; }
+  .hero-lede { max-width: 56ch; margin: 1.55rem auto 0; color: var(--text-muted-dark); font-size: clamp(1rem, 1.45vw, 1.15rem); line-height: 1.72; }
+  .aurora { position: absolute; z-index: -3; inset: -25%; opacity: .3; pointer-events: none; background: radial-gradient(circle at 18% 30%, #076da8, transparent 28%), radial-gradient(circle at 82% 20%, #0f89bd, transparent 27%), radial-gradient(circle at 52% 88%, #153d73, transparent 32%); }
+  .up { opacity: 0; transform: translateY(1.5rem); transition: opacity 800ms cubic-bezier(.22,1,.36,1), transform 800ms cubic-bezier(.22,1,.36,1); }
+  .contact-hero.revealed .up { opacity: 1; transform: none; }
+  .kicker.up { transition-delay: 50ms; } h1.up { transition-delay: 150ms; } .hero-lede.up { transition-delay: 280ms; }
+  @media (max-width: 700px) { .contact-hero { padding-top: calc(var(--header-height) + 3.25rem); } }
+  @media (prefers-reduced-motion: reduce) { .up { opacity: 1; transform: none; transition: none; } }
+</style>

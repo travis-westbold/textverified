@@ -409,4 +409,28 @@ const faqPageCopy = defineCollection({
   }),
 });
 
-export const collections = { reviews, pricing, faqs, navigation, footer, home, products, verifications, automate, rentals, faqPage, faqPageCopy };
+/* The contact page. Its three choices are the whole point of the page, so the
+   count is fixed at three: a fourth would need a layout decision, not a new
+   YAML entry. */
+const contactPage = defineCollection({
+  loader: glob({ pattern: 'contact.yaml', base: './src/content/pages' }),
+  schema: z.object({
+    meta,
+    hero: z.object({
+      kicker: z.string().min(1),
+      title: z.string().min(1),
+      markEm: z.string().min(1),
+      lede: z.string().min(1),
+    }),
+    choices: z.array(z.object({
+      icon: z.enum(['account', 'key', 'mail']),
+      title: z.string().min(1),
+      body: z.string().min(1),
+      buttonLabel: z.string().min(1),
+      link: linkKey,
+    })).length(3),
+    closing: ctaBand,
+  }),
+});
+
+export const collections = { reviews, pricing, faqs, navigation, footer, home, products, verifications, automate, rentals, faqPage, faqPageCopy, contactPage };
