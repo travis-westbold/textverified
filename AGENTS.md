@@ -35,11 +35,17 @@ git merge origin/main
 npm run build
 ```
 
-Push the branch and report its name, latest commit, build result, preview URL,
-and readiness. Merge to `main` only after explicit approval such as "ship it".
-Approved work may merge at the end of the day; unfinished work stays committed
-and pushed on its branch. Never push directly to `main` or force-push shared
-work. Delete a branch only after confirming its commit is on `origin/main`.
+Finish and verify work locally, then report the branch name, latest commit,
+build result, and readiness. Do not push, create or update a pull request, or
+publish a remote preview unless the user explicitly asks for that remote
+action (for example: "push it", "open a PR", or "publish a preview"). A link
+to an existing pull request is context, not permission to update it. When the
+user requests a shareable preview, explain that pushing is required and ask
+for approval if they have not already authorized it.
+
+Merge to `main` only after explicit approval such as "ship it". Never push
+directly to `main` or force-push shared work. Delete a branch only after
+confirming its commit is on `origin/main`.
 
 ## Stack and commands
 
@@ -59,6 +65,11 @@ part of an unrelated task.
 
 - Editable copy lives in `src/content/` and is validated by
   `src/content.config.ts`.
+- When a page introduces a per-item YAML collection of repeated editorial
+  copy that designers are expected to maintain (for example, a full FAQ),
+  register that collection in `keystatic.config.ts`, add it to the Keystatic
+  navigation, and verify its existing files load in `/keystatic`. Do not infer
+  that other entries in `src/content.config.ts` belong in the CMS.
 - Do not make UI labels, fixed demo text, layout-specific labels, or other
   UI implementation copy Keystatic-editable merely because it is text.
 - Outbound destinations live in `src/content/links.json`; their allowed keys

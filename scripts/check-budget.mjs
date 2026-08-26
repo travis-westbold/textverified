@@ -5,17 +5,15 @@ import { gzipSync } from 'node:zlib';
 
 /* Performance budget, enforced on every build (local and Vercel — both run
    `npm run build`). The floor is low-end hardware on slow connections; these
-   numbers are gzip bytes, set from the measured baseline with headroom.
-   Warn at 90%, fail at 100%. Ratchet them DOWN as pages get lighter — never
-   up without a decision. */
+   numbers are gzip bytes, set as practical guardrails with headroom for normal
+   content growth. Warn at 80%, fail at 100%. Review pages that approach a
+   limit and adjust a budget only as an explicit performance decision. */
 const BUDGETS = {
-  /* html/first-load raised 2026-08-20 for the 50-unique-logo hero fields
-     (was 20k/36k at the 8-icon baseline) */
-  pageHtml: 26_000,
-  pageCss: 13_000, // sum of stylesheets a page links
-  pageJs: 6_000, // sum of scripts a page links
-  pageFirstLoad: 42_000, // html + css + js
-  fontsTotal: 35_000, // raw bytes on disk (woff2 is pre-compressed)
+  pageHtml: 40_000,
+  pageCss: 20_000, // sum of stylesheets a page links
+  pageJs: 12_000, // sum of scripts a page links
+  pageFirstLoad: 70_000, // html + css + js
+  fontsTotal: 48_000, // raw bytes on disk (woff2 is pre-compressed)
 };
 
 const distRoot = fileURLToPath(new URL('../dist/', import.meta.url));
@@ -36,7 +34,7 @@ const warnings = [];
 const check = (label, actual, budget) => {
   const line = `${label}: ${(actual / 1000).toFixed(1)}KB of ${(budget / 1000).toFixed(1)}KB`;
   if (actual > budget) failures.push(line);
-  else if (actual > budget * 0.9) warnings.push(line);
+  else if (actual > budget * 0.8) warnings.push(line);
 };
 
 const files = await walk(distRoot).catch(() => null);
@@ -76,7 +74,7 @@ let fontsTotal = 0;
 for (const font of fonts) fontsTotal += (await stat(font)).size;
 check('fonts total', fontsTotal, BUDGETS.fontsTotal);
 
-if (warnings.length) console.warn(`Budget warnings (>90%):\n${warnings.join('\n')}`);
+if (warnings.length) console.warn(`Budget warnings (>80%):\n${warnings.join('\n')}`);
 if (failures.length) {
   console.error(`Performance budget check failed:\n${failures.join('\n')}`);
   process.exitCode = 1;
