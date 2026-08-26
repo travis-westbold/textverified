@@ -112,5 +112,5 @@ const { meta, hero, mission, getInTouch } = page.data;
      changes, re-measure it rather than assuming this number still holds. */
   @media (max-width: 26.8rem) { .turn :global(.swoosh) { display: none; } }
 
-  @media (prefers-reduced-motion: reduce) { .up { opacity: 1; transform: none; transition: none; } }
+  @media (prefers-reduced-motion: reduce), (prefers-reduced-data: reduce) { .up { opacity: 1; transform: none; transition: none; } }
 </style>
