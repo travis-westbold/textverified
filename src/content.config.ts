@@ -433,19 +433,6 @@ const contactPage = defineCollection({
   }),
 });
 
-/* The contact form page. Its field labels are not here — see the note at the
-   top of contact-form.yaml. */
-const contactFormPage = defineCollection({
-  loader: glob({ pattern: 'contact-form.yaml', base: './src/content/pages' }),
-  schema: z.object({
-    meta,
-    header: z.object({
-      title: z.string().min(1),
-      lede: z.string().min(1),
-    }),
-  }),
-});
-
 /* The about page. Its copy is verbatim from the live page; `emphasis` marks
    the one line the layout pulls out, which is presentation, not content. */
 const aboutPage = defineCollection({
@@ -472,4 +459,4 @@ const aboutPage = defineCollection({
   }),
 });
 
-export const collections = { reviews, pricing, faqs, navigation, footer, home, products, verifications, automate, rentals, faqPage, faqPageCopy, contactPage, contactFormPage, aboutPage };
+export const collections = { reviews, pricing, faqs, navigation, footer, home, products, verifications, automate, rentals, faqPage, faqPageCopy, contactPage, aboutPage };

@@ -33,7 +33,7 @@ export default config({
   ui: {
     brand: { name: 'Textverified' },
     navigation: {
-      Pages: ['home', 'products', 'faqPageCopy', 'contactPage', 'contactFormPage', 'aboutPage'],
+      Pages: ['home', 'products', 'faqPageCopy', 'contactPage', 'aboutPage']],
       Content: ['reviews', 'pricing', 'faqs', 'faqPage'],
       Site: ['navigation', 'footer', 'links'],
     },
@@ -415,24 +415,6 @@ export default config({
           body: fields.text({ label: 'Body', multiline: true }),
           buttonLabel: fields.text({ label: 'Button label' }),
         }, { label: 'Closing band' }),
-      },
-    }),
-    contactFormPage: singleton({
-      label: 'Contact form page',
-      /* Field labels and the Send button are not here: they are UI
-         implementation copy, and they post under names the backend expects. */
-      path: 'src/content/pages/contact-form',
-      format: { data: 'yaml' },
-      schema: {
-        meta: fields.object({
-          title: fields.text({ label: 'Meta title' }),
-          description: fields.text({ label: 'Meta description', multiline: true }),
-          canonical: fields.url({ label: 'Canonical URL' }),
-        }, { label: 'Page meta' }),
-        header: fields.object({
-          title: fields.text({ label: 'Headline' }),
-          lede: fields.text({ label: 'Lede', multiline: true }),
-        }, { label: 'Header' }),
       },
     }),
     aboutPage: singleton({
