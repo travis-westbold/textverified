@@ -1,5 +1,6 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
 import { LINK_KEYS } from './config/link-keys';
 
 /* destinations live in links.json; YAML references them by name */
@@ -98,7 +99,7 @@ const footer = defineCollection({
 const meta = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
-  canonical: z.string().url(),
+  canonical: z.url(),
   keywords: z.string().optional(),
 });
 /* `post` lets the emphasised word sit mid-phrase, e.g. SMS *and* Voice */
