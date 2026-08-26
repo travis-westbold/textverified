@@ -14,7 +14,6 @@ export const LINK_KEYS = [
   'signInSupport',
   'resetPassword',
   'contactForm',
-  'contactFormLive',
   'register',
   'account',
 
