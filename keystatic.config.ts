@@ -450,7 +450,7 @@ export default config({
           markEm: fields.text({ label: 'Heading — underlined word' }),
           before: fields.text({ label: 'Sentence before the link', multiline: true }),
           linkLabel: fields.text({ label: 'Link text' }),
-          link: fields.text({ label: 'Link name (from links.json)' }),
+          link: linkField('Destination'),
           after: fields.text({ label: 'Sentence after the link' }),
         }, { label: 'Get in touch' }),
       },

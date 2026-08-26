@@ -79,6 +79,8 @@ part of an unrelated task.
 - Outbound destinations live in `src/content/links.json`; their allowed keys
   live in `src/config/link-keys.ts`. Access them through
   `src/config/links.ts`, not hard-coded component URLs.
+- Keystatic fields that store link keys must use `linkField` so editors can
+  only select keys allowed by `src/config/link-keys.ts`; do not use free text.
 - Public pages are English-only and static-first.
 
 ### Components
