@@ -42,22 +42,11 @@ const { meta, hero, choices, closing } = page.data;
 </BaseLayout>
 
 <script>
-  /* the hero is on screen at load; the choices below it wait for the observer */
-  const hero = () => document.querySelector('.contact-hero')?.classList.add('revealed');
-  window.requestAnimationFrame(hero);
-  window.setTimeout(hero, 60);
+  import { revealAfterPaint, revealWhenVisible } from '../scripts/reveal';
 
-  const targets = document.querySelectorAll('[data-reveal]:not(.contact-hero)');
-  if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    targets.forEach((target) => target.classList.add('revealed'));
-  } else {
-    const observer = new IntersectionObserver((entries, obs) => entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('revealed');
-      obs.unobserve(entry.target);
-    }), { threshold: 0.05 });
-    targets.forEach((target) => observer.observe(target));
-  }
+  /* the hero is on screen at load; the choices below it wait for the observer */
+  revealAfterPaint('.contact-hero');
+  revealWhenVisible({ selector: '[data-reveal]:not(.contact-hero)', threshold: 0.05 });
 </script>
 
 <style>

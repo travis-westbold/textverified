@@ -5,11 +5,15 @@ if the default branch is renamed, use that name rather than assuming `master`.
 
 ## Git workflow
 
-Before editing:
+Before editing distinct work:
 
 1. Run `git status --short --branch`.
 2. Run `git fetch origin --prune`.
 3. Start a branch for the requested page, feature, or fix.
+
+Keep related review fixes and small follow-up changes on the current task
+branch. Do not create a new branch for each incremental request unless the
+user asks for separate work.
 
 If `main` is clean, update it before branching:
 

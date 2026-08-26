@@ -53,18 +53,10 @@ const {
 </section>
 
 <script>
+  import { revealWhenVisible } from '../../scripts/reveal';
+
   /* sections choreograph in as they arrive; reveal once and stop watching */
-  const targets = document.querySelectorAll('[data-reveal]');
-  if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    targets.forEach((target) => target.classList.add('revealed'));
-  } else {
-    const observer = new IntersectionObserver((entries, obs) => entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('revealed');
-      obs.unobserve(entry.target);
-    }), { threshold: 0.18 });
-    targets.forEach((target) => observer.observe(target));
-  }
+  revealWhenVisible({ selector: '[data-reveal]', threshold: 0.18 });
 </script>
 
 <style>
