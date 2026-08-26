@@ -33,7 +33,7 @@ export default config({
   ui: {
     brand: { name: 'Textverified' },
     navigation: {
-      Pages: ['home', 'products', 'faqPageCopy', 'contactPage', 'aboutPage']],
+      Pages: ['home', 'products', 'faqPageCopy', 'contactPage', 'aboutPage'],
       Content: ['reviews', 'pricing', 'faqs', 'faqPage'],
       Site: ['navigation', 'footer', 'links'],
     },
