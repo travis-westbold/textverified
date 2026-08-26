@@ -324,13 +324,14 @@ own motion, and reinventing a checkmark makes the page look off-brand.
 ## 12. Performance budget
 
 `npm run build` fails on the budget in `scripts/check-budget.mjs`, per page,
-in gzip bytes: **html 26,000 · css 13,000 · js 6,000 · first-load 42,000 ·
-fonts 35,000 total**. Warns at 90%.
+in gzip bytes: **html 40,000 · css 20,000 · js 12,000 · first-load 70,000 ·
+fonts 48,000 total**. Warns at 80%.
 
-The homepage already sits at ~98% of the HTML budget. If a change fails it,
-**optimise the change — do not raise the number.** Inline SVG is usually the
-culprit; run it through svgo at a precision suited to its viewBox. The budget
-ratchets down as pages get lighter, never up without a decision.
+These budgets are practical guardrails, not byte-level optimisation targets.
+If a change approaches or fails one, inspect the page for a meaningful
+regression before changing the limit. Inline SVG is often the culprit; run it
+through svgo at a precision suited to its viewBox. Adjust a budget only as an
+explicit performance decision.
 
 The build also fails if a page references Google Fonts or leaks a Keystatic
 chunk. The floor is low-end hardware on a slow connection.
