@@ -9,7 +9,9 @@
     "preview": "astro preview",
     "check": "npm run check:links && astro check",
     "check:links": "node scripts/check-links.mjs",
-    "check:budget": "node scripts/check-budget.mjs"
+    "check:budget": "node scripts/check-budget.mjs",
+    "sync:services": "node scripts/sync-services.mjs",
+    "sync:icons": "node scripts/sync-service-icons.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

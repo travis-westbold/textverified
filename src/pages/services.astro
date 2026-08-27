@@ -1,0 +1,89 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SignupCta from '../components/SignupCta.astro';
+import ProductHero from '../components/products/ProductHero.astro';
+import ServiceCatalog from '../components/services/ServiceCatalog.astro';
+import RateCard from '../components/services/RateCard.astro';
+import { links } from '../config/links';
+
+const page = await getEntry('servicesPage', 'services');
+if (!page) throw new Error('src/content/pages/services.yaml is missing');
+const { meta, hero, catalog, rates, signupCta } = page.data;
+
+/* Four rows at the widest grid. Enough that the catalogue reads as a
+   catalogue before anyone scrolls, small enough that the page's HTML stays
+   well inside its budget however far the real list grows. */
+const INITIAL_SERVICES = 48;
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  canonical={meta.canonical}
+>
+  <Header current="pricing" />
+  {/* The entrance animation starts every section at opacity 0 and the script
+      below reveals it. With scripting off nothing revealed it, so a page whose
+      whole point is that the catalogue is in the HTML rendered blank below the
+      hero. The rest of the site shares the pattern and would benefit from the
+      same two lines. */}
+  <noscript><style>.up { opacity: 1 !important; transform: none !important; }</style></noscript>
+  <main>
+    <ProductHero
+      id="services"
+      kicker={hero.kicker}
+      title={hero.title}
+      mark={hero.mark}
+      lede={hero.lede}
+      primaryLabel={hero.primaryCta}
+      primaryHref={links.register}
+      secondaryLabel={hero.secondaryCta}
+      secondaryHref={links.verifications}
+    />
+
+    <ServiceCatalog
+      kicker={catalog.kicker}
+      heading={catalog.heading}
+      lede={catalog.lede}
+      initial={INITIAL_SERVICES}
+    />
+
+    <RateCard
+      kicker={rates.kicker}
+      heading={rates.heading}
+      markEm={rates.markEm}
+      lede={rates.lede}
+      methods={rates.methods}
+      rentalHeading={rates.rentalHeading}
+      rentalLede={rates.rentalLede}
+    />
+
+    <SignupCta
+      heading={signupCta.heading}
+      body={signupCta.body}
+      buttonLabel={signupCta.buttonLabel}
+    />
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  /* The sections below the hero animate in on scroll. That observer lives in
+     ProductSection.astro, which this page does not use, so it is repeated
+     here for the two sections that need it — the same shape, and the same
+     escape hatch for reduced motion and for browsers without the API. */
+  const targets = document.querySelectorAll('[data-reveal]:not(.products-hero)');
+  if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    targets.forEach((target) => target.classList.add('revealed'));
+  } else {
+    const observer = new IntersectionObserver((entries, obs) => entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('revealed');
+      obs.unobserve(entry.target);
+    }), { threshold: 0.18 });
+    targets.forEach((target) => observer.observe(target));
+  }
+</script>

@@ -1,0 +1,1875 @@
+{
+ "generated": "2026-08-25",
+ "source": "scrape:/services/<slug>",
+ "rentalTiers": [
+  "1 Day",
+  "3 Day",
+  "7 Day",
+  "14 Day",
+  "30 Day",
+  "90 Day",
+  "1 Year"
+ ],
+ "services": [
+  {
+   "slug": "google",
+   "name": "Google",
+   "id": "trgt_01KZ9MM2MPACYHJ5Y4HSCS68JR",
+   "sms": 0.75,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    2.2,
+    2.4,
+    3.0,
+    3.6,
+    10.3,
+    32.4
+   ],
+   "featured": true
+  },
+  {
+   "slug": "craigslist",
+   "name": "Craigslist",
+   "id": "trgt_01KZ9MM2MPHA1TKSDQRK9V2KNV",
+   "sms": 0.25,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ],
+   "featured": true
+  },
+  {
+   "slug": "facebook",
+   "name": "Facebook",
+   "id": "trgt_01KZ9MM2MP27PJ6Z7TAG304V4E",
+   "sms": null,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    2.0,
+    2.6,
+    3.6,
+    5.4,
+    15.8,
+    58.8
+   ],
+   "featured": true
+  },
+  {
+   "slug": "yahoo",
+   "name": "Yahoo",
+   "id": "trgt_01KZ9MM2MQDXK4E0PA53X02MTP",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ],
+   "featured": true
+  },
+  {
+   "slug": "paypal",
+   "name": "PayPal",
+   "id": "trgt_01KZ9MM2MQM902M9QASSS23AGF",
+   "sms": null,
+   "voice": 2.5,
+   "rentals": [
+    1.9,
+    2.4,
+    3.0,
+    4.0,
+    4.8,
+    13.9,
+    48.0
+   ],
+   "featured": true
+  },
+  {
+   "slug": "uber",
+   "name": "Uber / \u4f18\u6b65",
+   "id": "trgt_01KZ9MM2MQ4Z14Z9PSG4N2K589",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    2.4,
+    2.8,
+    3.6,
+    4.3,
+    6.0,
+    17.4,
+    60.0
+   ],
+   "featured": true
+  },
+  {
+   "slug": "plentyoffish",
+   "name": "Plenty Of Fish",
+   "id": "trgt_01KZ9MM2MQCC37HKQJ38J8YNS3",
+   "sms": 0.75,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ],
+   "featured": true
+  },
+  {
+   "slug": "walmart",
+   "name": "Walmart",
+   "id": "trgt_01KZ9MM2MQDWBKYD0B6GH7HSHF",
+   "sms": 0.75,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    2.2,
+    2.4,
+    4.8,
+    8.6,
+    25.4,
+    93.6
+   ],
+   "featured": true
+  },
+  {
+   "slug": "match",
+   "name": "Match.com",
+   "id": "trgt_01KZ9MM2MP11F2AZVD8Y4PBFHJ",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    2.4,
+    2.8,
+    3.6,
+    4.3,
+    6.0,
+    17.4,
+    60.0
+   ],
+   "featured": true
+  },
+  {
+   "slug": "doordash",
+   "name": "DoorDash",
+   "id": "trgt_01KZ9MM2MPGWWQMEBT5J96Y620",
+   "sms": 0.35,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    2.0,
+    2.6,
+    3.6,
+    5.4,
+    15.8,
+    58.8
+   ],
+   "featured": true
+  },
+  {
+   "slug": "tinder",
+   "name": "Tinder",
+   "id": "trgt_01KZ9MM2MQCJRAACV8XNVNQT52",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ],
+   "featured": true
+  },
+  {
+   "slug": "telegram",
+   "name": "Telegram",
+   "id": "trgt_01KZ9MM2MQ8VX2N3ACXDNNR3RE",
+   "sms": 0.75,
+   "voice": 2.5,
+   "rentals": [
+    2.8,
+    3.0,
+    3.5,
+    4.6,
+    6.4,
+    18.2,
+    62.4
+   ],
+   "featured": true
+  },
+  {
+   "slug": "gmail",
+   "name": "Gmail",
+   "id": "trgt_01KZ9MM2MPR3FNZFX6CPA1G6JZ",
+   "sms": 0.75,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    2.2,
+    2.4,
+    3.0,
+    3.6,
+    10.3,
+    32.4
+   ],
+   "featured": true
+  },
+  {
+   "slug": "whatsapp",
+   "name": "WhatsApp",
+   "id": "trgt_01KZ9MM2MQXHCFQYEDDG2CZVVP",
+   "sms": 1.5,
+   "voice": 2.5,
+   "rentals": [
+    1.9,
+    2.4,
+    3.0,
+    4.0,
+    4.8,
+    13.9,
+    48.0
+   ],
+   "featured": true
+  },
+  {
+   "slug": "venmo",
+   "name": "Venmo",
+   "id": "trgt_01KZ9MM2MQF4ZFHJB0H9M6ACY8",
+   "sms": null,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ],
+   "featured": true
+  },
+  {
+   "slug": "googlevoice",
+   "name": "Google Voice",
+   "id": "trgt_01KZ9MM2B0B3KQT5QK7ESB3EDG",
+   "sms": 1.0,
+   "voice": 4.0,
+   "rentals": [
+    2.4,
+    2.8,
+    3.6,
+    4.3,
+    6.0,
+    17.4,
+    60.0
+   ],
+   "featured": true
+  },
+  {
+   "slug": "ebay",
+   "name": "eBay",
+   "id": "trgt_01KZ9MM2MPF93GFK4DFB24C5CW",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ],
+   "featured": true
+  },
+  {
+   "slug": "kakaotalk",
+   "name": "KakaoTalk",
+   "id": "trgt_01KZ9MM2MP29DQQK28SH575PVE",
+   "sms": 0.2,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ],
+   "featured": true
+  },
+  {
+   "slug": "creditkarma",
+   "name": "Credit Karma",
+   "id": "trgt_01KZ9MM2MP4GDP08YNBGAQCX32",
+   "sms": 0.75,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ],
+   "featured": true
+  },
+  {
+   "slug": "amazon",
+   "name": "Amazon",
+   "id": "trgt_01KZ9MM2MP8JN00GM4WFE1TFEB",
+   "sms": 0.75,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ],
+   "featured": true
+  },
+  {
+   "slug": "linkedin",
+   "name": "LinkedIn",
+   "id": "trgt_01KZ9MM2MPP3V6FBFFJXRN4H9H",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ],
+   "featured": true
+  },
+  {
+   "slug": "cashapp",
+   "name": "Cash App",
+   "id": "trgt_01KZ9MM2MPYRQHST828B0CGTFN",
+   "sms": 0.75,
+   "voice": 2.5,
+   "rentals": [
+    3.6,
+    4.0,
+    4.7,
+    6.0,
+    10.8,
+    31.9,
+    120.0
+   ],
+   "featured": true
+  },
+  {
+   "slug": "bumble",
+   "name": "Bumble",
+   "id": "trgt_01KZ9MM2MPTNYDXBB6TBH4HV7W",
+   "sms": 0.75,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ],
+   "featured": true
+  },
+  {
+   "slug": "poshmark",
+   "name": "Poshmark",
+   "id": "trgt_01KZ9MM2MQ3NBZ21K8FN0BHB5P",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    2.2,
+    2.4,
+    4.8,
+    8.6,
+    25.4,
+    93.6
+   ],
+   "featured": true
+  },
+  {
+   "slug": "swagbucks",
+   "name": "Swagbucks",
+   "id": "trgt_01KZ9MM2MQFZE0XFQZRDCGPAG3",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ],
+   "featured": true
+  },
+  {
+   "slug": "twitter",
+   "name": "Twitter",
+   "id": "trgt_01KZ9MM2MQPX1BQ2DA2YAHTW1P",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ],
+   "featured": true
+  },
+  {
+   "slug": "coinbase",
+   "name": "Coinbase",
+   "id": "trgt_01KZ9MM2MP4Z0GXH9JTBVX2KZQ",
+   "sms": 0.75,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ],
+   "featured": true
+  },
+  {
+   "slug": "lyft",
+   "name": "Lyft",
+   "id": "trgt_01KZ9MM2MP8JH09KEM72MF4BWG",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ],
+   "featured": true
+  },
+  {
+   "slug": "adidas",
+   "name": "Adidas",
+   "id": "trgt_01KZ9MM2MPG1KN720B3QFSBC4V",
+   "sms": 0.75,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "affirm",
+   "name": "Affirm",
+   "id": "trgt_01KZ9MM2MP22TCX6C7NE2CC5SC",
+   "sms": 1.0,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    2.2,
+    2.4,
+    4.8,
+    8.6,
+    25.4,
+    93.6
+   ]
+  },
+  {
+   "slug": "afterpay",
+   "name": "Afterpay",
+   "id": "trgt_01KZ9MM2MPGMQB78Z1NM7V5TB1",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "airbnb",
+   "name": "Airbnb",
+   "id": "trgt_01KZ9MM2MP19G3HKTHJH2GKW8V",
+   "sms": 0.25,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "alibaba",
+   "name": "Alibaba",
+   "id": "trgt_01KZ9MM2MP0E0C7SFYWJA3WW1Y",
+   "sms": 0.75,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "aliexpress",
+   "name": "Aliexpress",
+   "id": "trgt_01KZ9MM2MTSGPEKBB2GCPJCJ6E",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "alipay",
+   "name": "Alipay",
+   "id": "trgt_01KZ9MM2MQMHVQC3EMF1XAT02Z",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "aol",
+   "name": "Aol",
+   "id": "trgt_01KZ9MM2MP2WS0P8N041769JCV",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "apple",
+   "name": "Apple",
+   "id": "trgt_01KZ9MM2MPABNZ6V2MN7JZ77KF",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "badoo",
+   "name": "Badoo",
+   "id": "trgt_01KZ9MM2MPEJV34W78DR9QHYKY",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "baidu",
+   "name": "Baidu",
+   "id": "trgt_01KZ9MM2MP41HXJC3TNASVG031",
+   "sms": 0.75,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "bestbuy",
+   "name": "Best Buy",
+   "id": "trgt_01KZ9MM2MT237F75279RFKWJ9Y",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "betmgm",
+   "name": "BetMGM",
+   "id": "trgt_01KZ9MM2MSX6390NXR0BQQACWP",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "binance",
+   "name": "Binance",
+   "id": "trgt_01KZ9MM2MP9TR0AF6RM4S384XB",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "caviar",
+   "name": "Caviar",
+   "id": "trgt_01KZ9MM2MPKHAX3NGS53Q39WNE",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "chime",
+   "name": "Chime",
+   "id": "trgt_01KZ9MM2MPVYT359PHCND2K4V2",
+   "sms": 0.75,
+   "voice": 2.5,
+   "rentals": [
+    2.4,
+    2.8,
+    3.6,
+    4.3,
+    6.0,
+    17.4,
+    60.0
+   ]
+  },
+  {
+   "slug": "claude",
+   "name": "Claude",
+   "id": "trgt_01KZ9MM2MSFRF6XCBW0JX7XMTS",
+   "sms": 0.25,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "discord",
+   "name": "Discord",
+   "id": "trgt_01KZ9MM2MP8H1V9SF7JHC776DN",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "douyin",
+   "name": "Douyin",
+   "id": "trgt_01KZ9MM2MTJFESK3JPWN4C3AHH",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "draftkings",
+   "name": "DraftKings",
+   "id": "trgt_01KZ9MM2MT06V5N6BZV25M4CDM",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "etsy",
+   "name": "Etsy",
+   "id": "trgt_01KZ9MM2MR6VAS32EYH3MTFERH",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "eventbrite",
+   "name": "Eventbrite",
+   "id": "trgt_01KZ9MM2MTMEMDYBREZC9HSR75",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "expedia",
+   "name": "Expedia",
+   "id": "trgt_01KZ9MM2MVHD70X4B3FMG5HRW0",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "fanduel",
+   "name": "FanDuel",
+   "id": "trgt_01KZ9MM2MSAWBGKQVZZJPEWYF5",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "fiverr",
+   "name": "Fiverr",
+   "id": "trgt_01KZ9MM2MPGMT3W12VX61Q4AFW",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "gemini",
+   "name": "Gemini",
+   "id": "trgt_01KZ9MM2MPGHD0G2VFX6PTPYN0",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "gopuff",
+   "name": "Gopuff",
+   "id": "trgt_01KZ9MM2MPD8NJAQYHG9CRA6NS",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "grindr",
+   "name": "Grindr",
+   "id": "trgt_01KZ9MM2MP6P9F3GYT8DEFP0XW",
+   "sms": 0.15,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "grubhub",
+   "name": "GrubHub",
+   "id": "trgt_01KZ9MM2MR2FREY3P0HT3BX3F7",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "hinge",
+   "name": "Hinge",
+   "id": "trgt_01KZ9MM2MPWD67VARDR5GTHZ3M",
+   "sms": 0.25,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "homedepot",
+   "name": "Home Depot",
+   "id": "trgt_01KZ9MM2MVG4Y3ZF56E6VTYYSG",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "hotmail",
+   "name": "Hotmail",
+   "id": "trgt_01KZ9MM2MP35A3BX0HV0RYPAZ1",
+   "sms": 0.6,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "ibotta",
+   "name": "ibotta",
+   "id": "trgt_01KZ9MM2MPR0YTX3FYBFCKW4V2",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "icloud",
+   "name": "iCloud",
+   "id": "trgt_01KZ9MM2MP240NB44EEGB8CZXZ",
+   "sms": 1.0,
+   "voice": 2.5,
+   "rentals": null
+  },
+  {
+   "slug": "inboxdollars",
+   "name": "InboxDollars",
+   "id": "trgt_01KZ9MM2MPM28R056MZAFMV87E",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "indeed",
+   "name": "Indeed",
+   "id": "trgt_01KZ9MM2MPBWR51HEC3F2ZHPFZ",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "instacart",
+   "name": "Instacart",
+   "id": "trgt_01KZ9MM2MPQ29SYVY16S35CMC2",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "instagram",
+   "name": "Instagram",
+   "id": "trgt_01KZ9MM2MPJENT58KS4N1Z40CW",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "klarna",
+   "name": "Klarna",
+   "id": "trgt_01KZ9MM2MP3P5HZS2W7B038XV5",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "kraken",
+   "name": "Kraken",
+   "id": "trgt_01KZ9MM2MRV3MXMHZQHW1G2S27",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "line",
+   "name": "Line",
+   "id": "trgt_01KZ9MM2MPQ62DBM31P3K55D8K",
+   "sms": 0.75,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "lowes",
+   "name": "Lowes",
+   "id": "trgt_01KZ9MM2MTSCFKDSZC63MC77NY",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "mercari",
+   "name": "Mercari",
+   "id": "trgt_01KZ9MM2MPC1E5DDYDEMK76ACA",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "microsoft",
+   "name": "Microsoft",
+   "id": "trgt_01KZ9MM2MP3TWCBE8X0RHYTW9F",
+   "sms": 0.6,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "mint",
+   "name": "Mint",
+   "id": "trgt_01KZ9MM2MP1YAGCV9N321JYVXM",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "netflix",
+   "name": "Netflix",
+   "id": "trgt_01KZ9MM2MQTBP90YB1AVHMTXCY",
+   "sms": 0.75,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "nike",
+   "name": "Nike",
+   "id": "trgt_01KZ9MM2MQWE39HGVF3BXM5KSD",
+   "sms": 0.75,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "nordstrom",
+   "name": "Nordstrom",
+   "id": "trgt_01KZ9MM2MQN3TVHPJYSNPB8ZC6",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "offerup",
+   "name": "OfferUp",
+   "id": "trgt_01KZ9MM2MQDCMTBDX7EMQGCHMG",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "okcupid",
+   "name": "OkCupid",
+   "id": "trgt_01KZ9MM2MQ4V6GKTM0VAB4Z1SR",
+   "sms": 0.75,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "openai",
+   "name": "OpenAI / ChatGPT",
+   "id": "trgt_01KZ9MM2MRNZH7AQFN669SVXX2",
+   "sms": 0.25,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "postmates",
+   "name": "Postmates",
+   "id": "trgt_01KZ9MM2MQR857F8BRJS5F9WXW",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    2.4,
+    2.8,
+    3.6,
+    4.3,
+    6.0,
+    17.4,
+    60.0
+   ]
+  },
+  {
+   "slug": "protonmail",
+   "name": "ProtonMail",
+   "id": "trgt_01KZ9MM2MQPPQRZD7WJ39QNJ8J",
+   "sms": 0.75,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "reddit",
+   "name": "Reddit",
+   "id": "trgt_01KZ9MM2MT4X6WGMV0HXFM83TM",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "revolut",
+   "name": "Revolut",
+   "id": "trgt_01KZ9MM2MQ1TYH7GEHX19D9A75",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "robinhood",
+   "name": "Robinhood",
+   "id": "trgt_01KZ9MM2MQVQ906B68T7P3XSTX",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "roblox",
+   "name": "Roblox",
+   "id": "trgt_01KZ9MM2MSH930PEWKQAPXSVSE",
+   "sms": 0.25,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "samsclub",
+   "name": "SamsClub",
+   "id": "trgt_01KZ9MM2MS0PHHBET84AHTYBKD",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "seatgeek",
+   "name": "SeatGeek",
+   "id": "trgt_01KZ9MM2MTP5EQ7DH9T3PBBYN0",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "sephora",
+   "name": "Sephora",
+   "id": "trgt_01KZ9MM2MT6RAZ2C7X4M42MW21",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "shein",
+   "name": "SHEIN",
+   "id": "trgt_01KZ9MM2MTYRTD2VMJSPS0NB9V",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "signal",
+   "name": "Signal",
+   "id": "trgt_01KZ9MM2MQ6ZBD2HYAJZSB75PV",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "skype",
+   "name": "Skype",
+   "id": "trgt_01KZ9MM2MQPJZ4DBN9M1GA059C",
+   "sms": 0.6,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "snapchat",
+   "name": "Snapchat",
+   "id": "trgt_01KZ9MM2MQ5HGNEHJMYT1C88FN",
+   "sms": null,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "sofi",
+   "name": "SoFI",
+   "id": "trgt_01KZ9MM2MQ4DCWE416JVBJH4C4",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "spotify",
+   "name": "Spotify",
+   "id": "trgt_01KZ9MM2MQTEG3FD2T0H11EMN3",
+   "sms": 1.0,
+   "voice": 2.5,
+   "rentals": null
+  },
+  {
+   "slug": "square",
+   "name": "Square",
+   "id": "trgt_01KZ9MM2MSX0YGRA1MK1QPHG90",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "steam",
+   "name": "Steam",
+   "id": "trgt_01KZ9MM2MQ76QJ15FR1BBE9FA3",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "stripe",
+   "name": "Stripe",
+   "id": "trgt_01KZ9MM2MQ63XR2BAQF9S6C8N2",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "target",
+   "name": "Target",
+   "id": "trgt_01KZ9MM2MQJVRGPTW9NSAPWEP2",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "temu",
+   "name": "Temu",
+   "id": "trgt_01KZ9MM2MSRSEDKKAFA7YJDXQQ",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "tiktok",
+   "name": "TikTok",
+   "id": "trgt_01KZ9MM2MQFG5JDZY53K1YYD1B",
+   "sms": 0.75,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "tripadvisor",
+   "name": "Tripadvisor",
+   "id": "trgt_01KZ9MM2MS2YNGFK5ETQBFGVHF",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "twitch",
+   "name": "Twitch",
+   "id": "trgt_01KZ9MM2MQSTBQD2W9FCPBXZ05",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "ubereats",
+   "name": "UberEats",
+   "id": "trgt_01KZ9MM2MQHC921JYX3DKKMDXH",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    2.4,
+    2.8,
+    3.6,
+    4.3,
+    6.0,
+    17.4,
+    60.0
+   ]
+  },
+  {
+   "slug": "ulta",
+   "name": "Ulta",
+   "id": "trgt_01KZ9MM2MWHZSDAH5BBCW3H2MJ",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "upwork",
+   "name": "Upwork",
+   "id": "trgt_01KZ9MM2MQ18GXHCXK5JD9XTSN",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "verizon",
+   "name": "Verizon",
+   "id": "trgt_01KZ9MM2MTSVA1F31PEFRBKJF3",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "viber",
+   "name": "Viber",
+   "id": "trgt_01KZ9MM2MQSSQGNZMPRH8FWJYF",
+   "sms": 0.25,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "vrbo",
+   "name": "Vrbo",
+   "id": "trgt_01KZ9MM2MS20QM6P812AGW0KG8",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "wechat",
+   "name": "WeChat - Receive Only",
+   "id": "trgt_01KZ9MM2MQEXNHZDX5SZGX9FWM",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "weibo",
+   "name": "Weibo",
+   "id": "trgt_01KZ9MM2MQ8AN0FQQDKAKY38DX",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "wise",
+   "name": "Wise",
+   "id": "trgt_01KZ9MM2MSD8FKZ2WB4QZ2E08G",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "wish",
+   "name": "Wish",
+   "id": "trgt_01KZ9MM2MSZMTSG3GAT50S9QPA",
+   "sms": 1.0,
+   "voice": 2.5,
+   "rentals": null
+  },
+  {
+   "slug": "x",
+   "name": "X",
+   "id": "trgt_01KZ9MM2MTAMRDGMSAXT7W2H0V",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "youtube",
+   "name": "Youtube",
+   "id": "trgt_01KZ9MM2MQJBASR2RZFVJFX82T",
+   "sms": 0.75,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    2.2,
+    2.4,
+    3.0,
+    3.6,
+    10.3,
+    32.4
+   ]
+  },
+  {
+   "slug": "zelle",
+   "name": "Zelle",
+   "id": "trgt_01KZ9MM2MQ6H71WSCCQ51129A4",
+   "sms": 0.5,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  },
+  {
+   "slug": "zoosk",
+   "name": "Zoosk",
+   "id": "trgt_01KZ9MM2MQDZBNZPPEDKKS0HA8",
+   "sms": 0.75,
+   "voice": 2.5,
+   "rentals": [
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    3.6,
+    10.4,
+    36.0
+   ]
+  }
+ ]
+}

@@ -1,0 +1,129 @@
+---
+/* The pricing model in one screen: what the three ways to pay cost, and the
+   rental rate card underneath them.
+
+   Every number here is derived from src/data/services.json rather than typed
+   into the YAML beside it. A price that lives in copy goes stale the first
+   time the catalogue moves and nobody notices; a price that is computed goes
+   stale only when the snapshot does, and the catalogue above it moves at the
+   same moment. */
+import Swoosh from '../Swoosh.astro';
+import { money, rentalTiers, services, standardRentalCard } from '../../data/catalogue';
+
+interface Method { icon: 'message' | 'phone' | 'clock'; title: string; body: string }
+interface Props {
+  kicker: string;
+  heading: string;
+  markEm: string;
+  lede: string;
+  methods: Method[];
+  rentalHeading: string;
+  rentalLede: string;
+}
+const { kicker, heading, markEm, lede, methods, rentalHeading, rentalLede } = Astro.props;
+
+const floor = (values: (number | null)[]) => {
+  const priced = values.filter((value): value is number => value !== null);
+  return priced.length ? Math.min(...priced) : null;
+};
+
+/* "from" is the honest word for all three: SMS runs $0.15–$1.50 by service,
+   voice is one price with a single exception, and a rental's floor is its
+   shortest term. */
+const entryPrice = [
+  floor(services.map((service) => service.sms)),
+  floor(services.map((service) => service.voice)),
+  floor(services.flatMap((service) => service.rentals ?? [])),
+];
+
+const ICONS: Record<Method['icon'], string[]> = {
+  message: ['M4 5.5h16v11H9l-5 4v-4H4z'],
+  phone: ['M6.5 3.5 9 8l-2 2a12 12 0 0 0 5 5l2-2 4.5 2.5v3A2 2 0 0 1 16.4 20 15 15 0 0 1 4 7.6a2 2 0 0 1 1.5-2.1z'],
+  clock: ['M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17z', 'M12 7.5V12l3 2'],
+};
+
+const share = Math.round(standardRentalCard.share * 100);
+---
+
+<section class="rates" aria-labelledby="rates-heading" data-reveal>
+  <div class="shell">
+    <header class="head up">
+      <span class="kicker">{kicker}</span>
+      <h2 id="rates-heading"><span>{heading} </span><span class="mark"><em>{markEm}</em><Swoosh /></span></h2>
+      <p>{lede}</p>
+    </header>
+
+    <div class="methods">
+      {methods.map((method, index) => (
+        <article class="method up">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">{ICONS[method.icon].map((d) => <path d={d} />)}</svg>
+          </span>
+          <strong>{method.title}</strong>
+          {entryPrice[index] !== null && (
+            <p class="price"><span>from</span> {money(entryPrice[index]!)}</p>
+          )}
+          <p class="body">{method.body}</p>
+        </article>
+      ))}
+    </div>
+
+    <div class="ratecard up">
+      <div class="ratehead">
+        <strong>{rentalHeading}</strong>
+        <p>{rentalLede}</p>
+      </div>
+      {/* a wrapping grid rather than a seven-column table: the same pairs, but
+          it reflows on a phone instead of needing a sideways scroll */}
+      <dl class="tiers">
+        {rentalTiers.map((tier, index) => (
+          <div class="tier">
+            <dt>{tier}</dt>
+            <dd>{money(standardRentalCard.prices[index])}</dd>
+          </div>
+        ))}
+      </dl>
+      <p class="note">Standard rate for {share}% of the services listed · one charge for the whole term</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* dark beat between the white catalogue above and the blue CTA below */
+  .rates { padding: clamp(3.75rem, 7.5vw, 6.25rem) 0; color: white; background: linear-gradient(180deg, #0f172b 0%, #070d1a 100%); }
+  .head { max-width: 44rem; margin: 0 auto clamp(2.1rem, 4.5vw, 3.25rem); text-align: center; }
+  .kicker { display: inline-flex; align-items: center; padding: .38rem .88rem; color: #8fd8f5; background: rgb(17 177 234 / 10%); border: 1px solid rgb(17 177 234 / 30%); border-radius: 999px; font-size: .72rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+  h2 { margin: 1rem 0 0; font-size: clamp(1.63rem, 3vw, 2.5rem); font-weight: 800; letter-spacing: -.028em; line-height: 1.14; }
+  .mark em { color: #6fd0ff; font-style: normal; }
+  .head p { margin: .95rem 0 0; color: var(--text-muted-dark); font-size: clamp(.94rem, 1.15vw, 1.06rem); line-height: 1.7; }
+
+  .methods { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(.88rem, 1.8vw, 1.38rem); }
+  /* white cards on a dark ground must re-declare their own colour, or the
+     section's white text cascades in and the titles disappear */
+  .method { padding: 1.5rem; color: var(--text); background: white; border-radius: 1.13rem; box-shadow: 0 1px 2px rgb(15 23 43 / 5%), 0 1.13rem 2.5rem -1.88rem rgb(0 0 0 / 60%); }
+  .icon { display: grid; place-items: center; width: 2.38rem; height: 2.38rem; margin-bottom: .88rem; color: var(--brand); background: rgb(0 105 168 / 9%); border: 1px solid rgb(0 105 168 / 22%); border-radius: .75rem; }
+  .icon svg { width: 1.15rem; height: 1.15rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .method strong { display: block; font-size: .97rem; font-weight: 800; }
+  .price { margin: .35rem 0 0; font-size: 1.63rem; font-weight: 800; letter-spacing: -.02em; }
+  .price span { color: var(--text-muted-card); font-size: .74rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+  .body { margin: .6rem 0 0; color: var(--text-muted-card); font-size: .84rem; line-height: 1.6; }
+
+  .ratecard { margin-top: clamp(1.25rem, 2.5vw, 2rem); padding: clamp(1.38rem, 2.6vw, 2rem); background: rgb(255 255 255 / 4%); border: 1px solid rgb(255 255 255 / 12%); border-radius: 1.13rem; }
+  .ratehead { max-width: 40rem; }
+  .ratehead strong { display: block; font-size: .97rem; font-weight: 800; }
+  .ratehead p { margin: .45rem 0 0; color: var(--text-muted-dark); font-size: .84rem; line-height: 1.6; }
+  .tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(6.25rem, 1fr)); gap: .5rem; margin: 1.25rem 0 0; }
+  .tier { padding: .8rem .5rem; text-align: center; background: rgb(255 255 255 / 5%); border: 1px solid rgb(255 255 255 / 10%); border-radius: .75rem; }
+  .tier dt { color: var(--text-muted-dark); font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  .tier dd { margin: .3rem 0 0; font-size: 1.06rem; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -.015em; }
+  .note { margin: 1rem 0 0; color: #8496ae; font-size: .78rem; font-weight: 600; }
+
+  .up { opacity: 0; transform: translateY(1.5rem); transition: opacity 800ms cubic-bezier(.22,1,.36,1), transform 800ms cubic-bezier(.22,1,.36,1); }
+  .rates.revealed .up { opacity: 1; transform: none; }
+  .method.up:nth-child(2) { transition-delay: 90ms; }
+  .method.up:nth-child(3) { transition-delay: 180ms; }
+  .ratecard.up { transition-delay: 240ms; }
+
+  @media (max-width: 880px) { .methods { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: reduce) { .up { opacity: 1; transform: none; transition: none; } }
+</style>

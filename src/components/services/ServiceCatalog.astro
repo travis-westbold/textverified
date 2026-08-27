@@ -1,0 +1,340 @@
+---
+/* The service catalogue, and the reason this page exists.
+
+   The old page kept the whole list behind a "Find a service" button, and the
+   list only arrived once the Blazor circuit connected — so the page a
+   visitor or a crawler first saw was a headline, four logos and an empty
+   dialog.
+
+   Here the first screen of services is real HTML with real prices, built at
+   build time. The list is a popular subset, not the whole catalogue — see
+   the note in src/data/catalogue.ts — and it is still bigger than a page's
+   HTML budget allows, so the remainder lives in /service-index.json and is
+   fetched the first time someone uses the search box. Nothing blocks the
+   first paint, and with JavaScript off the page is still a browsable priced
+   list.
+
+   Prices come from src/data/services.json via src/data/services.ts. */
+import { links } from '../../config/links';
+import { hasIcon, iconPath, money, services, type Service } from '../../data/catalogue';
+
+interface Props {
+  kicker: string;
+  heading: string;
+  lede: string;
+  /** how many services render as HTML; the rest arrive with the index */
+  initial: number;
+}
+const { kicker, heading, lede, initial } = Astro.props;
+const shown = services.slice(0, initial);
+
+/* The service's own icon, the same artwork the app serves in its picker, or
+   the initial when there is no file for it. `npm run sync:icons` writes them.
+
+   They are decorative here: the service's name is right beside the tile, so
+   an alt text would only make a screen reader say it twice. */
+
+const floor = (values: (number | null)[]) => {
+  const priced = values.filter((value): value is number => value !== null);
+  return priced.length ? Math.min(...priced) : null;
+};
+
+/* What someone scanning for a price wants: the headline method and what it
+   costs, then the rental floor if the service rents at all. Kept in step with
+   the same line built in the browser, in the script below. */
+const summary = (service: Service) => {
+  const method = service.sms !== null
+    ? `SMS ${money(service.sms)}`
+    : service.voice !== null ? `Voice ${money(service.voice)}` : 'Unavailable';
+  const rent = service.rentals?.length ? floor(service.rentals) : null;
+  return rent === null ? method : `${method} · rent from ${money(rent)}`;
+};
+
+/* Search has to match what the card says, not the slug behind it: "google
+   voice" must find Google Voice, whose slug is googlevoice. Both sides get
+   stripped to letters and digits, so spacing and punctuation stop mattering,
+   and the slug rides along only when it differs from the name. */
+const searchable = (service: Service) => {
+  const name = service.name.toLowerCase().replace(/[^a-z0-9]+/g, '');
+  return name === service.slug ? name : `${name} ${service.slug}`;
+};
+
+/* One letter per filter, so filtering is a substring test on a short
+   attribute rather than three separate ones. */
+const methods = (service: Service) =>
+  `${service.sms !== null ? 's' : ''}${service.voice !== null ? 'v' : ''}${service.rentals?.length ? 'r' : ''}`;
+
+const FILTERS = [
+  { key: 'all', label: 'All' },
+  { key: 's', label: 'SMS' },
+  { key: 'v', label: 'Voice' },
+  { key: 'r', label: 'Rentals' },
+];
+---
+
+<section class="catalog" id="catalog" aria-labelledby="catalog-heading" data-reveal>
+  <div class="shell">
+    <header class="head up">
+      <span class="kicker">{kicker}</span>
+      <h2 id="catalog-heading">{heading}</h2>
+      <p>{lede}</p>
+    </header>
+
+    <service-catalog class="up" data-initial={initial} data-total={services.length} data-index="/service-index.json">
+      <div class="tools">
+        <div class="field">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+          <input type="search" id="catalog-search" autocomplete="off" placeholder="Search these services…" aria-label="Search services by name" />
+        </div>
+        <div class="chips" role="group" aria-label="Filter by verification method">
+          {FILTERS.map((filter, index) => (
+            <button type="button" data-filter={filter.key} aria-pressed={index === 0 ? 'true' : 'false'}>{filter.label}</button>
+          ))}
+        </div>
+      </div>
+
+      <p class="count" role="status">{services.length} shown</p>
+
+      <ul class="grid" role="list">
+        {shown.map((service) => (
+          <li class="svc" data-s={searchable(service)} data-m={methods(service)}>
+            <span class:list={['tile', { blank: !hasIcon(service.slug) }]} aria-hidden="true">
+              {hasIcon(service.slug)
+                ? <img src={iconPath(service.slug)} width="36" height="36" alt="" loading="lazy" decoding="async" />
+                : <b>{service.name.slice(0, 1)}</b>}
+            </span>
+            <span class="txt">
+              <b>{service.name}</b>
+              <span class="pr">{summary(service)}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      {/* every card the index adds is stamped from this, so the appended
+          markup cannot drift from the markup rendered above */}
+      <template class="card">
+        <li class="svc">
+          <span class="tile blank" aria-hidden="true"><b></b></span>
+          <span class="txt"><b></b><span class="pr"></span></span>
+        </li>
+      </template>
+
+      <p class="empty" hidden>Nothing on this list matches that. We verify many more services than we show here — <a href={links.contact}>ask us about yours</a>.</p>
+
+      <div class="more">
+        <button type="button" class="button button-outline">Show all {services.length} <span aria-hidden="true">↓</span></button>
+      </div>
+    </service-catalog>
+  </div>
+</section>
+
+<script>
+  /* All the state lives on the element and the only DOM it touches is its own
+     children, so the page never grows a global search controller. */
+  interface Row { card: HTMLLIElement; name: string; methods: string }
+  interface IndexEntry { n: string; q: string; m: string; s: number | null; v: number | null; r: number | null; g?: string }
+
+  const money = (value: number) => `$${value.toFixed(2)}`;
+
+  class ServiceCatalog extends HTMLElement {
+    connectedCallback() {
+      const input = this.querySelector<HTMLInputElement>('input[type="search"]')!;
+      const chips = [...this.querySelectorAll<HTMLButtonElement>('.chips button')];
+      const grid = this.querySelector<HTMLUListElement>('.grid')!;
+      const template = this.querySelector<HTMLTemplateElement>('template.card')!;
+      const count = this.querySelector<HTMLParagraphElement>('.count')!;
+      const empty = this.querySelector<HTMLParagraphElement>('.empty')!;
+      const more = this.querySelector<HTMLDivElement>('.more')!;
+
+      const initial = Number(this.dataset.initial ?? 0);
+      const total = Number(this.dataset.total ?? 0);
+      const indexUrl = this.dataset.index!;
+
+      /* Read the searchable text once. Re-reading a data attribute per
+         keystroke across a few hundred cards is the one thing here that could
+         feel slow on a cheap phone. */
+      const rows: Row[] = [...this.querySelectorAll<HTMLLIElement>('.svc')].map((card) => ({
+        card,
+        name: (card.dataset.s ?? '').toLowerCase(),
+        methods: card.dataset.m ?? '',
+      }));
+
+      let filter = 'all';
+      let expanded = false;
+      let indexState: 'idle' | 'loading' | 'ready' | 'failed' = rows.length >= total ? 'ready' : 'idle';
+
+      const apply = () => {
+        const query = input.value.toLowerCase().replace(/[^a-z0-9]+/g, '');
+        /* A search must reach every service on the page, not just the cards
+           on screen, so any query expands the list for as long as it lasts. */
+        const showAll = expanded || query !== '';
+        let matched = 0;
+
+        for (const row of rows) {
+          const matches = (query === '' || row.name.includes(query))
+            && (filter === 'all' || row.methods.includes(filter));
+          row.card.hidden = !(matches && (showAll || matched < initial));
+          if (matches) matched += 1;
+        }
+
+        /* Until the index lands there is nothing to count against, so the
+           page keeps quoting the full list size rather than the number of
+           cards that happen to be in the DOM. */
+        const untouched = query === '' && filter === 'all';
+        count.textContent = indexState !== 'ready' && untouched
+          ? `${total} shown`
+          : matched === 1 ? '1 match' : `${matched} matches`;
+
+        empty.hidden = matched > 0;
+        more.hidden = showAll || (indexState === 'ready' && matched <= initial);
+      };
+
+      const stamp = (entry: IndexEntry) => {
+        const card = template.content.firstElementChild!.cloneNode(true) as HTMLLIElement;
+        card.dataset.s = entry.q;
+        card.dataset.m = entry.m;
+        const tile = card.querySelector('.tile')!;
+        if (entry.g) {
+          /* same markup the build emits, so an appended card is
+             indistinguishable from one that was there from the start */
+          const icon = document.createElement('img');
+          icon.src = `/service-icons/${entry.g}.webp`;
+          icon.width = 36;
+          icon.height = 36;
+          icon.alt = '';
+          icon.loading = 'lazy';
+          icon.decoding = 'async';
+          tile.replaceChildren(icon);
+          tile.classList.remove('blank');
+        } else {
+          tile.querySelector('b')!.textContent = entry.n.slice(0, 1);
+        }
+        card.querySelector('.txt b')!.textContent = entry.n;
+        const method = entry.s !== null ? `SMS ${money(entry.s)}`
+          : entry.v !== null ? `Voice ${money(entry.v)}` : 'Unavailable';
+        card.querySelector('.pr')!.textContent = entry.r === null ? method : `${method} · rent from ${money(entry.r)}`;
+        return card;
+      };
+
+      const loadIndex = async () => {
+        if (indexState !== 'idle') return;
+        indexState = 'loading';
+        try {
+          const response = await fetch(indexUrl);
+          if (!response.ok) throw new Error(String(response.status));
+          const entries: IndexEntry[] = await response.json();
+          /* The index repeats the services already rendered above, in the
+             same order, so only the tail is appended — the cards built at
+             build time keep their brand marks. */
+          const fragment = document.createDocumentFragment();
+          for (const entry of entries.slice(rows.length)) {
+            const card = stamp(entry);
+            card.hidden = true;
+            fragment.append(card);
+            rows.push({ card, name: entry.q.toLowerCase(), methods: entry.m });
+          }
+          grid.append(fragment);
+          indexState = 'ready';
+        } catch {
+          /* Leave what was rendered at build time in place and searchable —
+             a failed fetch should cost the visitor the tail of the list, not
+             the page. */
+          indexState = 'failed';
+        }
+        apply();
+      };
+
+      input.addEventListener('focus', loadIndex, { once: true });
+      input.addEventListener('input', () => { loadIndex(); apply(); });
+      /* a search field's own clear button fires "search", not "input" */
+      input.addEventListener('search', apply);
+
+      for (const chip of chips) {
+        chip.addEventListener('click', () => {
+          filter = chip.dataset.filter ?? 'all';
+          for (const other of chips) other.setAttribute('aria-pressed', String(other === chip));
+          loadIndex();
+          apply();
+        });
+      }
+
+      more.querySelector('button')!.addEventListener('click', () => {
+        expanded = true;
+        loadIndex();
+        apply();
+        /* land where the list continues rather than back at the top */
+        rows[initial]?.card.scrollIntoView({ block: 'nearest' });
+      });
+
+      apply();
+    }
+  }
+
+  customElements.define('service-catalog', ServiceCatalog);
+</script>
+
+<style>
+  .catalog { padding: clamp(3.75rem, 7.5vw, 6.25rem) 0; color: var(--text); background: linear-gradient(180deg, white 0%, #f2f5f9 100%); }
+  .head { max-width: 44rem; margin: 0 auto clamp(1.9rem, 4vw, 2.75rem); text-align: center; }
+  .kicker { display: inline-flex; align-items: center; padding: .38rem .88rem; color: var(--brand); background: rgb(0 105 168 / 8%); border: 1px solid rgb(0 105 168 / 25%); border-radius: 999px; font-size: .72rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+  h2 { margin: 1rem 0 0; font-size: clamp(1.63rem, 3vw, 2.5rem); font-weight: 800; letter-spacing: -.028em; line-height: 1.14; }
+  .head p { margin: .95rem 0 0; color: var(--text-muted); font-size: clamp(.94rem, 1.15vw, 1.06rem); line-height: 1.7; }
+
+  service-catalog { display: block; }
+  .tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .75rem 1rem; }
+  .field { position: relative; flex: 1 1 20rem; max-width: 26rem; }
+  .field svg { position: absolute; top: 50%; left: 1rem; width: 1.05rem; height: 1.05rem; transform: translateY(-50%); fill: none; stroke: #8496ae; stroke-width: 2; stroke-linecap: round; pointer-events: none; }
+  .field input { width: 100%; padding: .85rem 1rem .85rem 2.65rem; color: var(--text); font: inherit; font-size: .94rem; background: white; border: 1px solid var(--border); border-radius: 999px; box-shadow: 0 1px 2px rgb(15 23 43 / 5%); transition: border-color 200ms, box-shadow 200ms; }
+  .field input::placeholder { color: #8496ae; }
+  .field input:focus { border-color: var(--border-blue); box-shadow: 0 0 0 4px rgb(0 105 168 / 10%); outline: none; }
+  .field input::-webkit-search-cancel-button { cursor: pointer; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+  .chips button { padding: .55rem .95rem; color: var(--text-muted-card); font: inherit; font-size: .82rem; font-weight: 700; background: white; border: 1px solid var(--border); border-radius: 999px; cursor: pointer; transition: color 200ms, background 200ms, border-color 200ms; }
+  .chips button:hover { color: var(--brand); border-color: var(--border-blue); }
+  .chips button[aria-pressed='true'] { color: white; background: var(--brand); border-color: var(--brand); }
+
+  .count { margin: 1.25rem 0 .9rem; color: var(--text-muted-card); font-size: .8rem; font-weight: 700; letter-spacing: .04em; text-align: center; }
+
+  /* filtering is the one thing on this page that changes how tall the list is;
+     a floor keeps a two-result search from snapping the footer up the screen
+     mid-keystroke */
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); align-content: start; gap: .6rem; min-height: 17rem; margin: 0; padding: 0; list-style: none; }
+  /* an author `display` beats the UA's `[hidden] { display: none }`, so a
+     hidden card keeps rendering unless this says otherwise — without it the
+     whole catalogue lands on the page the moment the index arrives */
+  .svc[hidden] { display: none; }
+  .svc { display: flex; align-items: center; gap: .7rem; padding: .7rem .8rem; background: white; border: 1px solid rgb(15 23 43 / 9%); border-radius: .88rem; box-shadow: 0 1px 2px rgb(15 23 43 / 4%); transition: border-color 250ms, transform 250ms cubic-bezier(.22,1,.36,1), box-shadow 250ms cubic-bezier(.22,1,.36,1); }
+  .svc:hover { border-color: rgb(0 105 168 / 32%); transform: translateY(-2px); box-shadow: 0 1px 2px rgb(15 23 43 / 5%), 0 .9rem 1.6rem -1.1rem rgb(15 23 43 / 45%); }
+  /* Most service icons are full-bleed coloured squares and a few are bare
+     marks on transparent, so the tile is a plain white chip with a hairline:
+     it frames the first kind and gives the second something to sit on,
+     without tinting either. */
+  .tile { display: grid; flex: 0 0 auto; place-items: center; overflow: hidden; width: 2.25rem; height: 2.25rem; background: white; border: 1px solid rgb(15 23 43 / 10%); border-radius: .63rem; }
+  .tile img { width: 100%; height: 100%; object-fit: contain; }
+  /* the fallback initial keeps the old tinted treatment, so a service with no
+     icon reads as deliberate rather than as an image that failed to load */
+  .tile.blank { color: var(--brand); background: rgb(0 105 168 / 9%); border-color: rgb(0 105 168 / 20%); }
+  .tile b { font-size: .94rem; font-weight: 800; }
+  /* the name and the price share one column and must not push the tile
+     around, so the text block shrinks and truncates instead */
+  .txt { min-width: 0; }
+  .txt b { display: block; overflow: hidden; font-size: .88rem; font-weight: 700; white-space: nowrap; text-overflow: ellipsis; }
+  .pr { display: block; margin-top: .12rem; color: var(--text-muted-card); font-size: .74rem; font-weight: 600; }
+
+  .empty { margin: 0; padding: 2.5rem 1rem; color: var(--text-muted); font-size: .94rem; text-align: center; }
+  .empty a { color: var(--brand); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+  .more { margin-top: 1.5rem; text-align: center; }
+
+  .up { opacity: 0; transform: translateY(1.5rem); transition: opacity 800ms cubic-bezier(.22,1,.36,1), transform 800ms cubic-bezier(.22,1,.36,1); }
+  .catalog.revealed .up { opacity: 1; transform: none; }
+  service-catalog.up { transition-delay: 120ms; }
+
+  @media (max-width: 1100px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 820px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  /* stacked, the flex basis would be read as a height and leave the field
+     20rem tall with its icon stranded in the middle of the gap */
+  @media (max-width: 460px) { .grid { grid-template-columns: 1fr; } .tools { flex-direction: column; align-items: stretch; } .field { flex: 0 0 auto; max-width: none; } .chips { justify-content: center; } }
+  @media (prefers-reduced-motion: reduce) { .up { opacity: 1; transform: none; transition: none; } .svc { transition: none; } }
+</style>

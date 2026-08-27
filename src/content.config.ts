@@ -460,4 +460,42 @@ const aboutPage = defineCollection({
   }),
 });
 
-export const collections = { reviews, pricing, faqs, navigation, footer, home, products, verifications, automate, rentals, faqPage, faqPageCopy, contactPage, aboutPage };
+/* The pricing page. Its service list is not here: that is machine-synced data
+   in src/data/catalogue.json, not copy anyone edits by hand. */
+const servicesPage = defineCollection({
+  loader: glob({ pattern: 'services.yaml', base: './src/content/pages' }),
+  schema: z.object({
+    meta,
+    hero: z.object({
+      kicker: z.string().min(1),
+      title: z.string().min(1),
+      mark,
+      lede: z.string().min(1),
+      primaryCta: z.string().min(1),
+      secondaryCta: z.string().min(1),
+    }),
+    catalog: z.object({
+      kicker: z.string().min(1),
+      heading: z.string().min(1),
+      lede: z.string().min(1),
+    }),
+    rates: z.object({
+      kicker: z.string().min(1),
+      heading: z.string().min(1),
+      markEm: z.string().min(1),
+      lede: z.string().min(1),
+      /* one card per way to pay; the prices beside them come from the
+         catalogue data, not from here */
+      methods: z.array(z.object({
+        icon: z.enum(['message', 'phone', 'clock']),
+        title: z.string().min(1),
+        body: z.string().min(1),
+      })).length(3),
+      rentalHeading: z.string().min(1),
+      rentalLede: z.string().min(1),
+    }),
+    signupCta: ctaBand,
+  }),
+});
+
+export const collections = { reviews, pricing, faqs, navigation, footer, home, products, verifications, automate, rentals, faqPage, faqPageCopy, contactPage, aboutPage, servicesPage };
