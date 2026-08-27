@@ -1,0 +1,56 @@
+meta:
+  title: Pricing | Textverified
+  description: >-
+    See what our most popular services cost to verify. Compare SMS, voice and
+    rental pricing, and pay only for the verification you need.
+  canonical: https://www.textverified.com/services
+hero:
+  kicker: Pricing
+  title: Popular services, and
+  mark: { em: what they cost. }
+  lede: >-
+    See the real price before you sign up. No plans, no monthly minimum —
+    you buy credits and spend them on the verifications you actually run.
+  primaryCta: Sign up for Textverified
+  secondaryCta: How verifications work
+catalog:
+  kicker: Popular services
+  heading: Some of our most popular services.
+  lede: >-
+    A selection of what we verify, with current prices. Search by name, or
+    filter by the way you want to verify. We support many more than we list
+    here — if you don't see yours, ask us.
+rates:
+  kicker: How pricing works
+  heading: Three ways to pay,
+  markEm: no subscription.
+  lede: >-
+    Every price on this page is per use. Credits never expire, and a
+    verification that never arrives is refunded automatically.
+  methods:
+    - icon: message
+      title: SMS verification
+      body: >-
+        A private non-VoIP US number that receives one code, for one service,
+        once. The cheapest way in, and the one most people want.
+    - icon: phone
+      title: Voice verification
+      body: >-
+        For the services that insist on calling instead of texting. Same
+        number quality and the same refund guarantee, at one price across
+        almost all of them.
+    - icon: clock
+      title: Number rental
+      body: >-
+        Keep a line for a day, a month or a year and verify the same service
+        as many times as you need. Renew it or let it expire.
+  rentalHeading: Rental rates
+  rentalLede: >-
+    The standard rate card, charged once for the whole term. A handful of
+    services price above it — the list above always shows the real number.
+signupCta:
+  heading: Ready to verify?
+  body: >-
+    Create an account, add credits, and run your first verification in under
+    a minute. No subscription and no minimum spend.
+  buttonLabel: Get started free

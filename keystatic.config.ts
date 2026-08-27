@@ -33,7 +33,7 @@ export default config({
   ui: {
     brand: { name: 'Textverified' },
     navigation: {
-      Pages: ['home', 'products', 'faqPageCopy', 'contactPage', 'aboutPage'],
+      Pages: ['home', 'products', 'servicesPage', 'faqPageCopy', 'contactPage', 'aboutPage'],
       Content: ['reviews', 'pricing', 'faqs', 'faqPage'],
       Site: ['navigation', 'footer', 'links'],
     },
@@ -411,6 +411,68 @@ export default config({
           { label: 'Choices', itemLabel: (item) => item.fields.buttonLabel.value },
         ),
         closing: fields.object({
+          heading: fields.text({ label: 'Heading' }),
+          body: fields.text({ label: 'Body', multiline: true }),
+          buttonLabel: fields.text({ label: 'Button label' }),
+        }, { label: 'Closing band' }),
+      },
+    }),
+    servicesPage: singleton({
+      label: 'Pricing page',
+      path: 'src/content/pages/services',
+      format: { data: 'yaml' },
+      schema: {
+        meta: fields.object({
+          title: fields.text({ label: 'Meta title' }),
+          description: fields.text({ label: 'Meta description', multiline: true }),
+          canonical: fields.url({ label: 'Canonical URL' }),
+        }, { label: 'Page meta' }),
+        hero: fields.object({
+          kicker: fields.text({ label: 'Kicker' }),
+          title: fields.text({ label: 'Headline (before underline)' }),
+          mark: fields.object({
+            em: fields.text({ label: 'Underlined phrase' }),
+          }, { label: 'Underlined phrase' }),
+          lede: fields.text({ label: 'Lede', multiline: true }),
+          primaryCta: fields.text({ label: 'Primary button' }),
+          secondaryCta: fields.text({ label: 'Secondary button' }),
+        }, { label: 'Hero' }),
+        /* Copy only. The service names, prices and rental tiers below it come
+           from src/data/catalogue.json via `npm run sync:services`, so there
+           is nothing here to edit them with — an editor changing a price by
+           hand would be overwritten by the next sync. */
+        catalog: fields.object({
+          kicker: fields.text({ label: 'Kicker' }),
+          heading: fields.text({ label: 'Heading' }),
+          lede: fields.text({ label: 'Lede', multiline: true }),
+        }, { label: 'Service list — copy' }),
+        rates: fields.object({
+          kicker: fields.text({ label: 'Kicker' }),
+          heading: fields.text({ label: 'Heading (before underline)' }),
+          markEm: fields.text({ label: 'Heading — underlined phrase' }),
+          lede: fields.text({ label: 'Lede', multiline: true }),
+          /* Exactly three, and the icon set is fixed: the schema requires one
+             card per way to pay, so this is not an add/remove list. */
+          methods: fields.array(
+            fields.object({
+              icon: fields.select({
+                label: 'Icon',
+                options: [
+                  { label: 'Message', value: 'message' },
+                  { label: 'Phone', value: 'phone' },
+                  { label: 'Clock', value: 'clock' },
+                ],
+                defaultValue: 'message',
+              }),
+              title: fields.text({ label: 'Title' }),
+              body: fields.text({ label: 'Body', multiline: true }),
+            }, { label: 'Way to pay' }),
+            { label: 'Ways to pay', itemLabel: (item) => item.fields.title.value },
+          ),
+          rentalHeading: fields.text({ label: 'Rental table heading' }),
+          rentalLede: fields.text({ label: 'Rental table lede', multiline: true }),
+        }, { label: 'How pricing works' }),
+        signupCta: fields.object({
           heading: fields.text({ label: 'Heading' }),
           body: fields.text({ label: 'Body', multiline: true }),
           buttonLabel: fields.text({ label: 'Button label' }),

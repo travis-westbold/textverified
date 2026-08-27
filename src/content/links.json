@@ -14,7 +14,7 @@
   "register": "https://www.textverified.com/register",
   "account": "https://www.textverified.com/app/account",
 
-  "pricing": "https://www.textverified.com/services",
+  "pricing": "/services",
 
   "products": "https://www.textverified.com/products",
   "sms": "/verifications",
